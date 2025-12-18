@@ -32,7 +32,7 @@ window.App.AccessReview = () => {
     };
 
     return (
-        <div className="bg-background-light dark:bg-background-dark min-h-screen text-text-primary-light dark:text-text-primary-dark pb-32">
+        <div className="bg-background-light dark:bg-background-dark min-h-[100dvh] text-text-primary-light dark:text-text-primary-dark pb-32">
             <Header title="Access Review" showBack onBack={() => navigate('/')} />
 
             <main className="px-4 py-6 space-y-6">

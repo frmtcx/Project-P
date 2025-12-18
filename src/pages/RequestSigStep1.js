@@ -24,29 +24,32 @@ window.App.RequestSigStep1 = () => {
     if (!doc) return <div>Document not found. Redirecting...</div>;
 
     return (
-        <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col">
-            <Header title="Request Signature" showBack onBack={() => navigate(-1)} />
+        <div className="flex flex-col h-[100dvh] bg-white relative">
+            <header className="flex items-center gap-3 p-4 border-b border-gray-100 dark:border-gray-800">
+                <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400">
+                    <span className="material-icons-round">arrow_back</span>
+                </button>
+                <h1 className="font-bold text-lg text-gray-900 dark:text-white">Request Signature</h1>
+            </header>
 
-            <div className="flex-1 p-5">
-                <div className="mb-2">
-                    <span className="text-xs font-bold text-primary uppercase tracking-wider">Step 1 of 3</span>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-1">Confirm Document</h2>
+            <div className="flex-1 overflow-y-auto p-5 pb-32">
+                <div className="mb-6">
+                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                        Document Name
+                    </label>
+                    <input
+                        type="text"
+                        value={docName}
+                        onChange={(e) => setDocName(e.target.value)}
+                        className="w-full rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark p-3 text-sm focus:ring-primary focus:border-primary font-medium"
+                        placeholder="e.g. NDA for Project X"
+                    />
                 </div>
 
-                <div className="bg-white dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 mt-6">
-                    <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${doc.type === 'pdf' ? 'bg-red-50 text-primary' : 'bg-blue-50 text-blue-600'}`}>
-                            <span className="material-icons-round text-2xl">{doc.type === 'pdf' ? 'picture_as_pdf' : 'description'}</span>
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-gray-900 dark:text-white">{doc.name}</h3>
-                            <p className="text-xs text-gray-500">2.4 MB • Updated {doc.updated}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-6">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message to recipients (optional)</label>
+                <div className="mb-6">
+                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                        Message (Optional)
+                    </label>
                     <textarea
                         className="w-full rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark p-3 text-sm focus:ring-primary focus:border-primary"
                         rows="4"
@@ -55,7 +58,7 @@ window.App.RequestSigStep1 = () => {
                 </div>
             </div>
 
-            <div className="p-5 bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800">
+            <div className="p-5 pb-8 bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800 absolute bottom-0 left-0 right-0 z-10">
                 <button
                     onClick={() => navigate('/request-signature-2', { state: { docId } })}
                     className="w-full bg-primary text-white font-bold py-3.5 rounded-xl shadow-lg shadow-primary/30 active:scale-[0.98] transition-transform"

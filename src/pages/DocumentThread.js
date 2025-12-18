@@ -262,7 +262,7 @@ window.App.DocumentThread = () => {
             </main>
 
             {/* Footer Input - Only show if chat enabled */}
-            <footer className="bg-white dark:bg-surface-dark p-3 border-t border-gray-100 dark:border-gray-800 sticky bottom-0 z-10 w-full max-w-md mx-auto">
+            <footer className="bg-white dark:bg-surface-dark p-3 pb-8 border-t border-gray-100 dark:border-gray-800 sticky bottom-0 z-10 w-full max-w-md mx-auto">
                 {!thread.enableChat ? (
                     <div className="flex items-center justify-center py-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-dashed border-gray-200 dark:border-gray-700">
                         <span className="material-icons-round text-gray-400 text-sm mr-2">lock</span>

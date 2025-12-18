@@ -38,16 +38,16 @@ window.App.RequestSigStep2 = () => {
     const isSelfSelected = selected.find(s => s.userId === currentUser.id);
 
     return (
-        <div className="bg-background-light dark:bg-background-dark h-screen flex flex-col overflow-hidden">
+        <div className="flex flex-col h-[100dvh] bg-white relative">
             <Header title="Add Recipients" showBack onBack={() => navigate(-1)} />
 
-            <div className="flex-1 p-5 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto p-5 pb-32">
                 <div className="mb-4">
                     <span className="text-xs font-bold text-primary uppercase tracking-wider">Step 2 of 3</span>
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-1">Who needs to sign?</h2>
                 </div>
 
-                <div className="space-y-3 pb-20">
+                <div className="space-y-3">
                     {/* Add Myself Option */}
                     <div className={`bg-white dark:bg-surface-dark rounded-xl p-3 border transition-all ${isSelfSelected ? 'border-primary ring-1 ring-primary' : 'border-gray-100 dark:border-gray-800'}`}>
                         <div className="flex items-center gap-3" onClick={() => toggleUser(currentUser.id)}>
@@ -106,13 +106,13 @@ window.App.RequestSigStep2 = () => {
                 </div>
             </div>
 
-            <div className="p-5 bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800 shrink-0 z-10">
+            <div className="p-5 pb-8 bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800 absolute bottom-0 left-0 right-0 z-10">
                 <button
                     onClick={() => navigate('/request-signature-3', { state: { docId, participants: selected } })}
                     disabled={selected.length === 0}
                     className="w-full bg-primary text-white font-bold py-3.5 rounded-xl shadow-lg shadow-primary/30 active:scale-[0.98] transition-transform disabled:opacity-50 disabled:shadow-none"
                 >
-                    Next: Review
+                    Next: Review ({selected.length})
                 </button>
             </div>
         </div>

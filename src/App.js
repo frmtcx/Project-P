@@ -16,7 +16,6 @@ const AppContent = () => {
 
     return (
         <div className="max-w-md mx-auto bg-white min-h-[100dvh] shadow-2xl overflow-hidden relative font-sans">
-            <window.App.StatusBar theme={isLightStatusBar ? 'light' : 'dark'} />
             <Routes>
                 <Route path="/" element={<WorkspaceHome />} />
                 <Route path="/documents-list" element={<DocumentsList />} />

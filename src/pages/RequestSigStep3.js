@@ -21,10 +21,10 @@ window.App.RequestSigStep3 = () => {
     };
 
     return (
-        <div className="bg-background-light dark:bg-background-dark h-screen flex flex-col overflow-hidden">
+        <div className="flex flex-col h-[100dvh] bg-white relative">
             <Header title="Review Request" showBack onBack={() => navigate(-1)} />
 
-            <div className="flex-1 p-5 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto p-5 pb-32">
                 <div className="mb-6">
                     <span className="text-xs font-bold text-primary uppercase tracking-wider">Step 3 of 3</span>
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-1">Ready to send?</h2>
@@ -65,7 +65,7 @@ window.App.RequestSigStep3 = () => {
                         })}
                     </div>
                 </div>
-                <div className="bg-white dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                <div className="bg-white dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center justify-between mt-6">
                     <div>
                         <h3 className="text-sm font-bold text-gray-900">Enable Comments</h3>
                         <p className="text-xs text-gray-500">Allow participants to chat in the thread</p>
@@ -77,7 +77,7 @@ window.App.RequestSigStep3 = () => {
                 </div>
             </div>
 
-            <div className="p-5 bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800">
+            <div className="p-5 pb-8 bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800 absolute bottom-0 left-0 right-0 z-10">
                 <button
                     onClick={handleSubmit}
                     className="w-full bg-primary text-white font-bold py-3.5 rounded-xl shadow-lg shadow-primary/30 active:scale-[0.98] transition-transform"
