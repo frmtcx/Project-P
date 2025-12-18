@@ -48,8 +48,8 @@ window.App.RequestSigStep2 = () => {
                             </div>
                             <img src={currentUser.avatar} className="w-10 h-10 rounded-full bg-gray-100" />
                             <div className="flex-1">
-                                <h3 className="font-bold text-sm text-gray-900 dark:text-white">Me (Frans)</h3>
-                                <p className="text-xs text-gray-500">Sign this document myself</p>
+                                <h3 className="font-bold text-sm text-gray-900 dark:text-white">Me (Sign Myself)</h3>
+                                <p className="text-xs text-gray-500">I need to sign this document</p>
                             </div>
                         </div>
                     </div>
