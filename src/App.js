@@ -2,8 +2,6 @@ const { createRoot } = ReactDOM;
 const { MemoryRouter, Routes, Route } = ReactRouterDOM;
 const { useState, useEffect } = React;
 
-console.log("Loading App.js. window.App:", window.App, "ID:", window.App?._id);
-
 const MainApp = () => {
     const [isReady, setIsReady] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
@@ -23,14 +21,9 @@ const MainApp = () => {
                 setIsReady(true);
             } else {
                 if (retryCount < 150) { // 15 seconds timeout
-                    if (retryCount % 10 === 0) {
-                        console.log(`Waiting for components... (Attempt ${retryCount}/150)`);
-                        console.log("Available components:", Object.keys(window.App), "App ID:", window.App?._id);
-                    }
                     setTimeout(() => setRetryCount(c => c + 1), 100);
                 } else {
                     console.error("Timeout waiting for components:", missing);
-                    console.error("Available components:", Object.keys(window.App));
                     // Force render to show error via getComponent
                     setIsReady(true);
                 }
