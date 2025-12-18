@@ -18,6 +18,9 @@ window.App.AccessReview = () => {
     };
 
     return (
+        <div className="bg-background-light dark:bg-background-dark min-h-screen text-text-primary-light dark:text-text-primary-dark pb-24">
+            <Header title="Access Review" showBack onBack={() => navigate('/')} />
+            <nav className="flex items-center gap-6 px-6 border-b border-border-light dark:border-border-dark overflow-x-auto no-scrollbar">
                 <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Chat</button>
                 <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Action Inbox</button>
                 <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Documents</button>
