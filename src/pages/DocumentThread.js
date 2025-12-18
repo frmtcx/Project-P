@@ -54,6 +54,36 @@ window.App.DocumentThread = () => {
                         </div>
                     </div>
 
+                    {/* Chat Message from Former Member */}
+                    <div className="flex flex-col items-start gap-1">
+                        <div className="flex items-center gap-2 mb-0.5">
+                            <span className="text-xs font-bold text-gray-500">Former Member (Alice)</span>
+                            <span className="text-[10px] text-gray-400">10:02 AM</span>
+                        </div>
+                        <div className="flex items-end gap-2 max-w-[85%]">
+                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-500"><span className="material-icons-round text-sm">person_off</span></div>
+                            <div className="bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark px-4 py-2.5 rounded-2xl rounded-tl-sm shadow-sm"><p className="text-sm">I'll review this before I leave today.</p></div>
+                        </div>
+                    </div>
+
+                    {/* System Event: Offboarding */}
+                    <div className="flex flex-col items-center gap-1 opacity-70">
+                        <div className="h-6 w-px bg-border-light dark:border-border-dark mb-1"></div>
+                        <div className="flex items-center gap-2 bg-red-50 dark:bg-red-900/20 px-3 py-1 rounded-full border border-red-100 dark:border-red-800">
+                            <span className="material-icons-round text-sm text-red-500">person_remove</span>
+                            <span className="text-xs font-medium text-red-600 dark:text-red-400">Alice was offboarded by Admin</span>
+                        </div>
+                    </div>
+
+                    {/* System Event: Reassignment */}
+                    <div className="flex flex-col items-center gap-1 opacity-70">
+                        <div className="h-6 w-px bg-border-light dark:border-border-dark mb-1"></div>
+                        <div className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-full border border-blue-100 dark:border-blue-800">
+                            <span className="material-icons-round text-sm text-blue-500">assignment_ind</span>
+                            <span className="text-xs font-medium text-blue-600 dark:text-blue-400">Task reassigned to Charlie Workman</span>
+                        </div>
+                    </div>
+
                     {/* Chat Message */}
                     <div className="flex flex-col items-end gap-1">
                         <div className="flex items-end gap-2 max-w-[85%]">

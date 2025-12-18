@@ -18,13 +18,30 @@ window.App.AdminMembers = () => {
                 <section>
                     <div className="flex justify-between items-center mb-3"><h2 className="text-xs font-bold text-text-secondary-light uppercase tracking-wider">Members List (124)</h2></div>
                     <div className="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-card divide-y divide-border-light overflow-hidden">
-                        <div className="flex items-center gap-3 p-4 active:bg-gray-50 transition cursor-pointer" onClick={() => navigate('/offboard-user')}>
-                            <img className="w-12 h-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs7ssWBwQRDGyXjeaRa99oLg5pZBQUVaUqra1h9ushPyeuasKyzbSJXDyK3cYic97VjCYMZPAN0-DWQ3QA_O1y1si3xuAaOLCOW9Ks-X3S4TR6irPGNMSEe3SmU91cABUh_6VxhM1Ab3BfdXnqD4T8Ye1OZV-vWV3T4cpax51BSkYZy0EBpPDJ68FZ6r6YVAYWMQrU54bPoW5rVTab0lZ93pO-TPNVVQwcq8RQjzXzcWHFbEHW6-Ga1VbQaGr_vpJkp-HEI4i1Y84" />
-                            <div className="flex-1 min-w-0 flex flex-col justify-center">
-                                <div className="flex justify-between items-start mb-0.5"><h3 className="font-semibold text-sm truncate">Alice (To Offboard)</h3><span className="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">Active</span></div>
-                                <p className="text-xs text-text-secondary-light truncate mb-1">Senior Product Designer</p>
+                        <div className="p-4 flex items-center justify-between group cursor-pointer hover:bg-gray-50 transition" onClick={() => navigate('/offboard-user')}>
+                            <div className="flex items-center gap-3">
+                                <div className="relative">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMdePd5DX-qMRDtoSEk0ZyMn61vtWyg7QkKAxOCUkzwSTEKJtODOq_92-k8i7_xhxL9prFNNz7a2GpMLU7C9PfO51kK4_REPs-oY6D22t44q0_mJwTk_ryXSVrYI93c29aZZA2Bc8oLu5JE_R6QDY0bAuwuitz9lVciwk0bN4K47GZp4KHufh3Q0n9BJ7dFCGb-bGnR8aMLHYpBO-HbMfDEYEHHHp0VX3c1yXdtioA59AZ6x_2e6fUl0STElWLZOiR7xv7Q7DZpIM" className="w-10 h-10 rounded-full object-cover" />
+                                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-sm">Alice Smith</h3>
+                                    <p className="text-xs text-text-secondary-light">Product Designer • <span className="text-green-600">Active 2m ago</span></p>
+                                </div>
                             </div>
-                            <div className="flex flex-col items-end pl-2"><button className="bg-white border border-gray-200 text-primary text-xs font-medium px-3 py-1.5 rounded-lg shadow-sm hover:bg-red-50 transition">Manage</button></div>
+                            <span className="material-icons-round text-gray-400">chevron_right</span>
+                        </div>
+                        <div className="p-4 flex items-center justify-between group cursor-pointer hover:bg-gray-50 transition">
+                            <div className="flex items-center gap-3">
+                                <div className="relative">
+                                    <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold">CW</div>
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-sm">Charlie Workman</h3>
+                                    <p className="text-xs text-text-secondary-light">Engineering Lead • <span className="text-gray-500">Active 1d ago</span></p>
+                                </div>
+                            </div>
+                            <span className="material-icons-round text-gray-400">chevron_right</span>
                         </div>
                     </div>
                 </section>
