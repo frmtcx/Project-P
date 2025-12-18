@@ -98,7 +98,7 @@ window.App.state = {
         'thread_1': {
             id: 'thread_1',
             docId: 'doc_1',
-            type: 'document', // 'document' | 'discussion'
+            type: 'document',
             title: "Employment Contract v3",
             workspaceId: 'company_a',
             status: 'in_review',
@@ -116,27 +116,47 @@ window.App.state = {
             lastActivity: "10:15 AM"
         },
 
-        // 2. [Normal Chat] General Discussion
-        'thread_2': {
-            id: 'thread_2',
-            type: 'discussion',
-            title: "Team Lunch Planning",
+        // 2. [Normal Chat] "Lunch" Mention Context
+        'thread_lunch': {
+            id: 'thread_lunch',
             workspaceId: 'company_a',
-            status: 'active',
+            type: 'discussion',
+            title: 'Team Lunch Planning',
             participants: [
                 { userId: 'frans', role: 'member' },
                 { userId: 'bob', role: 'member' },
                 { userId: 'charlie', role: 'member' }
             ],
+            status: 'active',
             events: [
-                { type: 'message', userId: 'charlie', text: "Are we going to that taco place?", time: "11:30 AM" },
-                { type: 'message', userId: 'frans', text: "Yes, leaving in 5!", time: "11:32 AM" }
+                { userId: 'bob', text: 'Pizza again?', time: '15 mins ago' },
+                { userId: 'charlie', text: 'I am down for whatever.', time: '12 mins ago' },
+                { userId: 'bob', text: '@Frans are you driving or should we order an Uber?', time: '10 mins ago' }
             ],
             messages: [],
-            lastActivity: "11:32 AM"
+            lastActivity: '10 mins ago'
         },
 
-        // 3. [Doc Chat] Completed with Deactivated User
+        // 3. [Normal Chat] "Design" Mention Context
+        'thread_design': {
+            id: 'thread_design',
+            workspaceId: 'company_a',
+            type: 'discussion',
+            title: 'Design Handoff',
+            participants: [
+                { userId: 'frans', role: 'member' },
+                { userId: 'dave', role: 'member' } // Dave is external/multi-workspace
+            ],
+            status: 'active',
+            events: [
+                { userId: 'dave', text: 'Just pushed the latest figma links.', time: '2 hours ago' },
+                { userId: 'dave', text: '@Frans I\'ve uploaded the new assets. Please check specifically the \'Mobile_Home_v2\' artboards.', time: '2 hours ago' }
+            ],
+            messages: [],
+            lastActivity: '2 hours ago'
+        },
+
+        // 4. [Doc Chat] Completed with Deactivated User
         'thread_3': {
             id: 'thread_3',
             docId: 'doc_3',
@@ -146,7 +166,7 @@ window.App.state = {
             status: 'completed',
             participants: [
                 { userId: 'frans', role: 'viewer' },
-                { userId: 'sarah', role: 'signer', status: 'completed' } // Sarah is deactivated
+                { userId: 'sarah', role: 'signer', status: 'completed' }
             ],
             events: [
                 { type: 'message', userId: 'sarah', text: "I've reviewed the terms, they look standard.", time: "3 days ago" },
@@ -156,27 +176,7 @@ window.App.state = {
             lastActivity: "Yesterday"
         },
 
-        // NEW: [Normal Chat] Company A Announcement
-        'thread_a_general': {
-            id: 'thread_a_general',
-            type: 'discussion',
-            title: "General Announcements",
-            workspaceId: 'company_a',
-            status: 'active',
-            participants: [
-                { userId: 'frans', role: 'member' },
-                { userId: 'alice', role: 'member' },
-                { userId: 'bob', role: 'member' },
-                { userId: 'charlie', role: 'member' }
-            ],
-            events: [
-                { type: 'message', userId: 'alice', text: "Welcome to the team everyone!", time: "Last Week" }
-            ],
-            messages: [],
-            lastActivity: "Last Week"
-        },
-
-        // NEW: [Reassigned Task] Legacy Audit
+        // 5. [Reassigned Task] Legacy Audit
         'thread_reassigned': {
             id: 'thread_reassigned',
             docId: 'doc_2',
@@ -200,7 +200,7 @@ window.App.state = {
 
         // --- COMPANY B THREADS ---
 
-        // 4. [Doc Chat] Active
+        // 6. [Doc Chat] Project Proposal
         'thread_4': {
             id: 'thread_4',
             docId: 'doc_7',
@@ -219,44 +219,7 @@ window.App.state = {
             lastActivity: "1 day ago"
         },
 
-        // 5. [Normal Chat] Design Sync
-        'thread_5': {
-            id: 'thread_5',
-            type: 'discussion',
-            title: "Design Handoff",
-            workspaceId: 'company_b',
-            status: 'active',
-            participants: [
-                { userId: 'frans', role: 'member' },
-                { userId: 'eve', role: 'member' }
-            ],
-            events: [
-                { type: 'message', userId: 'eve', text: "I've uploaded the new assets.", time: "2 hours ago" }
-            ],
-            messages: [],
-            lastActivity: "2 hours ago"
-        },
-
-        // NEW: [Normal Chat] Company B Coffee
-        'thread_b_coffee': {
-            id: 'thread_b_coffee',
-            type: 'discussion',
-            title: "Coffee Break ☕️",
-            workspaceId: 'company_b',
-            status: 'active',
-            participants: [
-                { userId: 'frans', role: 'member' },
-                { userId: 'dave', role: 'member' },
-                { userId: 'eve', role: 'member' }
-            ],
-            events: [
-                { type: 'message', userId: 'dave', text: "Anyone up for a latte?", time: "10:00 AM" }
-            ],
-            messages: [],
-            lastActivity: "10:00 AM"
-        },
-
-        // NEW: [Doc Chat] Company B Review
+        // 7. [Doc Chat] Invoice Review (Action Item)
         'thread_b_review': {
             id: 'thread_b_review',
             docId: 'doc_6',
@@ -266,10 +229,11 @@ window.App.state = {
             status: 'in_review',
             participants: [
                 { userId: 'frans', role: 'reviewer', status: 'pending' },
-                { userId: 'dave', role: 'viewer' }
+                { userId: 'eve', role: 'viewer' } // Changed from Dave to Eve for variety
             ],
             events: [
-                { type: 'message', userId: 'dave', text: "Please review the hours for December.", time: "5 hours ago" }
+                { type: 'message', userId: 'eve', text: "Please review the hours for December.", time: "5 hours ago" },
+                { type: 'system', text: "Review requested", time: "5 hours ago" }
             ],
             messages: [],
             lastActivity: "5 hours ago"
@@ -277,47 +241,10 @@ window.App.state = {
 
         // --- PERSONAL THREADS ---
 
-        // 6. [Normal Chat] Family Group
-        'thread_6': {
-            id: 'thread_6',
-            type: 'discussion',
-            title: "Family Group",
-            workspaceId: 'personal',
-            status: 'active',
-            participants: [
-                { userId: 'frans', role: 'member' },
-                { userId: 'mom', role: 'member' }
-            ],
-            events: [
-                { type: 'message', userId: 'mom', text: "Don't forget dinner tonight!", time: "9:00 AM" }
-            ],
-            messages: [],
-            lastActivity: "9:00 AM"
-        },
-
-        // 7. [Doc Chat] Old Rental
-        'thread_7': {
-            id: 'thread_7',
-            docId: 'doc_5',
-            type: 'document',
-            title: "House Rental Agreement",
-            workspaceId: 'personal',
-            status: 'completed',
-            participants: [
-                { userId: 'frans', role: 'signer', status: 'completed' },
-                { userId: 'mom', role: 'viewer', status: 'completed' }
-            ],
-            events: [
-                { type: 'system', text: "Document signed successfully", time: "2 weeks ago" }
-            ],
-            messages: [],
-            lastActivity: "2 weeks ago"
-        },
-
-        // NEW: [Doc Chat] Personal Lease Renewal
+        // 8. [Doc Chat] Lease (Action Item)
         'thread_personal_sign': {
             id: 'thread_personal_sign',
-            docId: 'doc_5', // Reusing doc just for demo
+            docId: 'doc_5',
             type: 'document',
             title: "Lease Renewal 2025",
             workspaceId: 'personal',
@@ -336,20 +263,16 @@ window.App.state = {
 
     // Inbox: Derived from threads, but stored for easy access in prototype
     inbox: [
+        // Tasks linked to specific threads above
         { id: 'task_1', threadId: 'thread_1', userId: 'bob', type: 'to_review', status: 'pending', title: "Review: Employment Contract v3", time: "10:00 AM" },
-        { id: 'task_2', threadId: 'thread_1', userId: 'alice', type: 'to_sign', status: 'pending', title: "Sign: Employment Contract v3", time: "10:00 AM" },
-        { id: 'task_3', threadId: 'thread_4', userId: 'dave', type: 'to_sign', status: 'pending', title: "Sign: Project Proposal", time: "1 day ago" },
-        // NEW Inbox Items
         { id: 'task_reassigned', threadId: 'thread_reassigned', userId: 'frans', type: 'to_review', status: 'pending', title: "Review: Q4 Financial Report", time: "Yesterday" },
         { id: 'task_b_review', threadId: 'thread_b_review', userId: 'frans', type: 'to_review', status: 'pending', title: "Review: Consulting Invoice Dec", time: "5 hours ago" },
         { id: 'task_personal_sign', threadId: 'thread_personal_sign', userId: 'frans', type: 'to_sign', status: 'pending', title: "Sign: Lease Renewal 2025", time: "1 hour ago" },
-        { id: 'task_b_review', threadId: 'thread_b_review', userId: 'frans', type: 'to_review', status: 'pending', title: "Review: Consulting Invoice Dec", time: "5 hours ago" },
-        { id: 'task_personal_sign', threadId: 'thread_personal_sign', userId: 'frans', type: 'to_sign', status: 'pending', title: "Sign: Lease Renewal 2025", time: "1 hour ago" },
 
-        // MENTIONS
+        // MENTIONS linked to specific threads above
         {
             id: 'mention_1',
-            threadId: 'thread_5',
+            threadId: 'thread_design',
             userId: 'frans',
             type: 'mention',
             status: 'pending',
@@ -359,7 +282,7 @@ window.App.state = {
         },
         {
             id: 'mention_2',
-            threadId: 'thread_2',
+            threadId: 'thread_lunch',
             userId: 'frans',
             type: 'mention',
             status: 'pending',
