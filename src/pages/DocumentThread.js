@@ -217,7 +217,7 @@ window.App.DocumentThread = () => {
                                             </button>
 
                                             {/* Timestamp inside card (bottom right) */}
-                                            <div className={`text-[10px] text-right mt-1 font-medium text-${cardColor}-300 dark:text-${cardColor}-700`}>
+                                            <div className="text-[10px] text-right mt-1 font-medium text-gray-400">
                                                 {event.time}
                                             </div>
                                         </div>
