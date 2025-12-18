@@ -17,7 +17,7 @@ window.App.RequestSigStep3 = () => {
         const threadId = window.App.state.createSigningRequest(docId, participants, enableChat);
 
         // Navigate to success, passing threadId to link to it
-        navigate('/send-success', { state: { threadId } });
+        navigate('/send-success', { state: { threadId }, replace: true });
     };
 
     return (

@@ -89,46 +89,76 @@ window.App.state = {
 
     // Threads: The core of the chat + workflow
     threads: {
-        // Company A: Active Thread
+        // --- COMPANY A THREADS ---
+
+        // 1. [Doc Chat] Active Signing Flow
         'thread_1': {
             id: 'thread_1',
             docId: 'doc_1',
+            type: 'document', // 'document' | 'discussion'
             title: "Employment Contract v3",
             workspaceId: 'company_a',
             status: 'in_review',
             participants: [
                 { userId: 'frans', role: 'viewer' },
                 { userId: 'bob', role: 'reviewer', status: 'pending' },
-                { userId: 'alice', role: 'signer', status: 'pending' } // Alice needs to sign
+                { userId: 'alice', role: 'signer', status: 'pending' }
             ],
             events: [
                 { type: 'system', text: "Signing request created by Frans", time: "10:00 AM" },
-                { type: 'system', text: "Participants added: Alice (Signer), Bob (Reviewer)", time: "10:00 AM" },
                 { type: 'message', userId: 'frans', text: "Hi Bob, can you please review the indemnity clause?", time: "10:05 AM", reactions: { '👍': 1 } },
                 { type: 'message', userId: 'bob', text: "Sure Frans, taking a look now.", time: "10:15 AM", replyTo: "Hi Bob, can you please review the indemnity clause?" }
             ],
-            messages: []
+            messages: [],
+            lastActivity: "10:15 AM"
         },
-        // Personal: Old Thread
-        'thread_3': {
-            id: 'thread_3',
-            docId: 'doc_5',
-            title: "House Rental Agreement",
-            workspaceId: 'personal',
-            status: 'completed',
+
+        // 2. [Normal Chat] General Discussion
+        'thread_2': {
+            id: 'thread_2',
+            type: 'discussion',
+            title: "Team Lunch Planning",
+            workspaceId: 'company_a',
+            status: 'active',
             participants: [
-                { userId: 'frans', role: 'signer', status: 'completed' },
-                { userId: 'mom', role: 'viewer', status: 'completed' }
+                { userId: 'frans', role: 'member' },
+                { userId: 'bob', role: 'member' },
+                { userId: 'charlie', role: 'member' }
             ],
             events: [
-                { type: 'system', text: "Document signed successfully", time: "2 weeks ago" }
+                { type: 'message', userId: 'charlie', text: "Are we going to that taco place?", time: "11:30 AM" }
             ],
-            messages: []
+            messages: [],
+            lastActivity: "11:30 AM"
         },
-        // Company B: Active Thread
+
+        // 3. [Doc Chat] Completed with Deactivated User
+        'thread_3': {
+            id: 'thread_3',
+            docId: 'doc_3',
+            type: 'document',
+            title: "NDA External Vendor",
+            workspaceId: 'company_a',
+            status: 'completed',
+            participants: [
+                { userId: 'frans', role: 'viewer' },
+                { userId: 'sarah', role: 'signer', status: 'completed' } // Sarah is deactivated
+            ],
+            events: [
+                { type: 'message', userId: 'sarah', text: "I've reviewed the terms, they look standard.", time: "3 days ago" },
+                { type: 'system', text: "Sarah Jenkins offboarded from workspace", time: "Yesterday" }
+            ],
+            messages: [],
+            lastActivity: "Yesterday"
+        },
+
+        // --- COMPANY B THREADS ---
+
+        // 4. [Doc Chat] Active
         'thread_4': {
             id: 'thread_4',
             docId: 'doc_7',
+            type: 'document',
             title: "Project Proposal Draft",
             workspaceId: 'company_b',
             status: 'draft',
@@ -139,26 +169,65 @@ window.App.state = {
             events: [
                 { type: 'system', text: "Draft created", time: "1 day ago" }
             ],
-            messages: []
+            messages: [],
+            lastActivity: "1 day ago"
         },
-        // Company A: Deactivated User History
-        'thread_2': {
-            id: 'thread_2',
-            docId: 'doc_3',
-            title: "NDA External Vendor",
-            workspaceId: 'company_a',
-            status: 'completed',
+
+        // 5. [Normal Chat] Design Sync
+        'thread_5': {
+            id: 'thread_5',
+            type: 'discussion',
+            title: "Design Handoff",
+            workspaceId: 'company_b',
+            status: 'active',
             participants: [
-                { userId: 'frans', role: 'viewer' },
-                { userId: 'sarah', role: 'signer', status: 'completed' }
+                { userId: 'frans', role: 'member' },
+                { userId: 'eve', role: 'member' }
             ],
             events: [
-                { type: 'message', userId: 'sarah', text: "I've reviewed the terms, they look standard.", time: "3 days ago" },
-                { type: 'message', userId: 'frans', text: "Thanks Sarah!", time: "3 days ago" },
-                { type: 'system', text: "Sarah Jenkins offboarded from workspace", time: "Yesterday" },
-                { type: 'system', text: "Access revoked for Sarah Jenkins", time: "Yesterday" }
+                { type: 'message', userId: 'eve', text: "I've uploaded the new assets.", time: "2 hours ago" }
             ],
-            messages: []
+            messages: [],
+            lastActivity: "2 hours ago"
+        },
+
+        // --- PERSONAL THREADS ---
+
+        // 6. [Normal Chat] Family Group
+        'thread_6': {
+            id: 'thread_6',
+            type: 'discussion',
+            title: "Family Group",
+            workspaceId: 'personal',
+            status: 'active',
+            participants: [
+                { userId: 'frans', role: 'member' },
+                { userId: 'mom', role: 'member' }
+            ],
+            events: [
+                { type: 'message', userId: 'mom', text: "Don't forget dinner tonight!", time: "9:00 AM" }
+            ],
+            messages: [],
+            lastActivity: "9:00 AM"
+        },
+
+        // 7. [Doc Chat] Old Rental
+        'thread_7': {
+            id: 'thread_7',
+            docId: 'doc_5',
+            type: 'document',
+            title: "House Rental Agreement",
+            workspaceId: 'personal',
+            status: 'completed',
+            participants: [
+                { userId: 'frans', role: 'signer', status: 'completed' },
+                { userId: 'mom', role: 'viewer', status: 'completed' }
+            ],
+            events: [
+                { type: 'system', text: "Document signed successfully", time: "2 weeks ago" }
+            ],
+            messages: [],
+            lastActivity: "2 weeks ago"
         }
     },
 

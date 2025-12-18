@@ -19,7 +19,7 @@ window.App.SendSuccess = () => {
 
             <div className="w-full space-y-3">
                 <button
-                    onClick={() => navigate('/document-thread', { state: { threadId } })}
+                    onClick={() => navigate('/document-thread', { state: { threadId, from: 'success' } })}
                     className="w-full bg-primary text-white font-bold py-3.5 rounded-xl shadow-lg shadow-primary/30"
                 >
                     View Thread
