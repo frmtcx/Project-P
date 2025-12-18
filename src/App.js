@@ -76,6 +76,9 @@ const App = () => {
     const ProfilePreview = get('ProfilePreview');
     const ShareGuardrail = get('ShareGuardrail');
     const ScanQR = get('ScanQR');
+    const ProfilePreview = get('ProfilePreview');
+    const ShareGuardrail = get('ShareGuardrail');
+    const ScanQR = get('ScanQR');
     const NewMessage = get('NewMessage');
     const Notifications = get('Notifications');
 
