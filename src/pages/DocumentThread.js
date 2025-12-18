@@ -164,48 +164,56 @@ window.App.DocumentThread = () => {
                         // EMBEDDED SIGNING CARD (Consistent Design)
                         if (event.type === 'signing_request') {
                             const isMyRequest = event.signers.includes(currentUser);
+                            // Use 'blue' as primary color for signing requests
+                            const cardColor = 'blue';
+
                             return (
                                 <div key={idx} className="flex justify-center my-6">
-                                    <div className="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 max-w-[85%] w-72">
-                                        {/* Header */}
-                                        <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100 dark:border-gray-800">
-                                            <span className="material-icons-round text-blue-500 text-sm">edit_document</span>
-                                            <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">Signing Request</span>
-                                            <span className="text-[10px] text-gray-400 ml-auto">{event.time}</span>
+                                    <div className={`bg-surface-light dark:bg-surface-dark rounded-2xl shadow-sm border border-${cardColor}-100 dark:border-${cardColor}-900/50 w-80 overflow-hidden`}>
+
+                                        {/* Colored Header Strip */}
+                                        <div className={`bg-${cardColor}-50 dark:bg-${cardColor}-900/20 px-4 py-2 border-b border-${cardColor}-100 dark:border-${cardColor}-900/50 flex justify-between items-center`}>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className={`material-icons-round text-${cardColor}-500 text-sm`}>edit_document</span>
+                                                <span className={`text-xs font-bold text-${cardColor}-700 dark:text-${cardColor}-400 uppercase tracking-wide`}>
+                                                    Signing Request
+                                                </span>
+                                            </div>
+                                            <span className={`text-[10px] text-${cardColor}-400 dark:text-${cardColor}-500 font-medium`}>{event.time}</span>
                                         </div>
 
-                                        {/* Content */}
-                                        <div className="flex items-start gap-3 mb-4">
-                                            <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500 shrink-0">
-                                                <span className="material-icons-round">description</span>
+                                        {/* Content Body */}
+                                        <div className="p-4">
+                                            <div className="flex items-start gap-3 mb-4">
+                                                <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500 shrink-0">
+                                                    <span className="material-icons-round">description</span>
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-bold text-sm text-gray-900 dark:text-white leading-tight mb-1">{event.docName}</h4>
+                                                    <p className="text-xs text-gray-500">
+                                                        Requested for {event.signers.length} people
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h4 className="font-bold text-sm text-gray-900 dark:text-white leading-tight mb-1">{event.docName}</h4>
-                                                <p className="text-xs text-gray-500">
-                                                    Requested for {event.signers.length} people
-                                                </p>
-                                            </div>
-                                        </div>
 
-                                        {/* Action */}
-                                        <button
-                                            onClick={() => {
-                                                // Ideally this would open the document or signing flow.
-                                                // For prototype, we'll just log or maybe navigate if we had the logic.
-                                                alert("Opening document for signing...");
-                                            }}
-                                            className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition
-                                                ${isMyRequest
-                                                    ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-sm'
-                                                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300'
-                                                }`}
-                                        >
-                                            {isMyRequest ? (
-                                                <><span className="material-icons-round text-sm">edit</span> Sign Document</>
-                                            ) : (
-                                                'View Document'
-                                            )}
-                                        </button>
+                                            {/* Action Button */}
+                                            <button
+                                                onClick={() => {
+                                                    alert(isMyRequest ? "Opening signing flow..." : "Opening document viewer...");
+                                                }}
+                                                className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition
+                                                    ${isMyRequest
+                                                        ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-sm'
+                                                        : 'bg-gray-50 text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300'
+                                                    }`}
+                                            >
+                                                {isMyRequest ? (
+                                                    <><span className="material-icons-round text-sm">edit</span> Sign Document</>
+                                                ) : (
+                                                    'View Document'
+                                                )}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             );
