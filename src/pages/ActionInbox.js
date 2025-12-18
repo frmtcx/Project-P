@@ -29,7 +29,7 @@ window.App.ActionInbox = () => {
     };
 
     return (
-        <div className="pb-24 bg-gray-50 min-h-screen font-sans pt-12">
+        <div className="pb-24 bg-gray-50 min-h-screen font-sans">
 
             {/* Header */}
             <header className="bg-white px-5 pt-14 pb-2 sticky top-0 z-10 border-b border-gray-100">
