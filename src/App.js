@@ -22,7 +22,7 @@ const MainApp = () => {
                 'WorkspaceHome', 'DocumentsList', 'ActionInbox',
                 'RequestSigStep1', 'RequestSigStep2', 'RequestSigStep3', 'SendSuccess',
                 'DocumentThread', 'AdminMembers', 'OffboardUser', 'AccessReview',
-                'WorkspaceSwitcher'
+                'WorkspaceSwitcher', 'ReassignPicker', 'OffboardingSuccess'
             ];
             const missing = required.filter(c => !window.App[c]);
 
@@ -59,9 +59,20 @@ const MainApp = () => {
     // However, to maintain the safe retrieval logic if desired, we could wrap them.
     // But for now, let's trust the top-level destructuring and the loading check.
 
-    return (
-        <HashRouter>
-            <div className="max-w-md mx-auto bg-white min-h-screen shadow-2xl overflow-hidden relative">
+    // Splash Screen State
+    const [showSplash, setShowSplash] = useState(true);
+
+    if (showSplash) {
+        return <window.App.SplashScreen onFinish={() => setShowSplash(false)} />;
+    }
+
+    const AppContent = () => {
+        const location = useLocation();
+        const isLightStatusBar = ['/scan-qr', '/offboarding-success'].includes(location.pathname);
+
+        return (
+            <div className="max-w-md mx-auto bg-white min-h-screen shadow-2xl overflow-hidden relative font-sans">
+                <window.App.StatusBar theme={isLightStatusBar ? 'light' : 'dark'} />
                 <Routes>
                     <Route path="/" element={<WorkspaceHome />} />
                     <Route path="/documents-list" element={<DocumentsList />} />
@@ -80,6 +91,8 @@ const MainApp = () => {
                     <Route path="/admin-members" element={<AdminMembers />} />
                     <Route path="/offboard-user" element={<OffboardUser />} />
                     <Route path="/access-review" element={<AccessReview />} />
+                    <Route path="/reassign-picker" element={window.App.ReassignPicker ? <window.App.ReassignPicker /> : <div>ReassignPicker Loading...</div>} />
+                    <Route path="/offboarding-success" element={window.App.OffboardingSuccess ? <window.App.OffboardingSuccess /> : <div>Success Loading...</div>} />
 
                     {/* Utilities */}
                     <Route path="/workspace-switcher" element={<WorkspaceSwitcher />} />
@@ -88,6 +101,12 @@ const MainApp = () => {
                     <Route path="/notifications" element={Notifications ? <Notifications /> : <div>Notifications Placeholder</div>} />
                 </Routes>
             </div>
+        );
+    };
+
+    return (
+        <HashRouter>
+            <AppContent />
         </HashRouter>
     );
 };

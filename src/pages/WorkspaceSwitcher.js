@@ -7,20 +7,22 @@ window.App.WorkspaceSwitcher = () => {
     const { StatusBar } = window.App;
     const { useState, useEffect } = React;
 
+    const location = ReactRouterDOM.useLocation();
     const navigate = useNavigate();
     const [current, setCurrent] = useState(window.App.state.currentWorkspace);
+    const returnPath = location.state?.returnPath || '/';
 
     const switchWorkspace = (wsId) => {
         window.App.state.setWorkspace(wsId);
-        navigate('/'); // Go back home after switch
+        navigate(returnPath);
     };
 
     const workspaces = Object.values(window.App.state.workspaces);
 
     return (
         <div className="bg-background-light dark:bg-background-dark min-h-screen relative flex flex-col">
-            <StatusBar />
-            <div className="fixed inset-0 z-50 flex flex-col">
+
+            <div className="absolute inset-0 z-50 flex flex-col">
                 <div aria-hidden="true" className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => navigate(-1)}></div>
                 <div className="relative w-full bg-surface-light dark:bg-surface-dark rounded-b-2xl shadow-xl flex flex-col max-h-[85vh] overflow-hidden animate-slide-down">
                     <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800">

@@ -4,8 +4,8 @@ const { StatusBar, Header, BottomNav } = window.App;
 window.App.AdminOverview = () => {
     const navigate = useNavigate();
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen pb-24">
-            <StatusBar />
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen pb-24 pt-12">
+
             <Header title="Company A" subtitle="Workspace" />
             <nav className="flex gap-6 overflow-x-auto no-scrollbar pb-1 px-4 border-b border-border-light dark:border-border-dark">
                 <button onClick={() => navigate('/')} className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Chat</button>

@@ -18,11 +18,11 @@ try {
         }, []);
 
         return (
-            <div className="pb-24 bg-gray-50 min-h-screen font-sans">
+            <div className="pb-24 bg-background-light min-h-screen font-sans">
                 {/* Header Section */}
-                <header className="px-5 pt-6 pb-4 bg-gray-50 sticky top-0 z-10">
+                <header className="px-5 pt-14 pb-4 bg-background-light sticky top-0 z-10">
                     <div className="flex justify-between items-start">
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 cursor-pointer" onClick={() => navigate('/workspace-switcher')}>
                             <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border border-gray-300">
                                 <img src={currentUser.avatar} alt="Profile" className="w-full h-full object-cover" />
                             </div>
@@ -85,6 +85,20 @@ try {
                             <span className="material-icons-round text-sm">info</span>
                             <span>Expired: January 15, 2026</span>
                         </div>
+                    </div>
+
+                    {/* Admin Tools (Visible to Admin) */}
+                    <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition mb-2" onClick={() => navigate('/access-review')}>
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+                                <span className="material-icons-round">security</span>
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-sm text-gray-900">Access Review</h3>
+                                <p className="text-xs text-gray-500">Manage user access & offboarding</p>
+                            </div>
+                        </div>
+                        <span className="material-icons-round text-gray-400">chevron_right</span>
                     </div>
 
                     {/* Feature Grid */}

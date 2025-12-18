@@ -4,8 +4,8 @@ const { StatusBar } = window.App;
 window.App.DocumentThreadCompleted = () => {
     const navigate = useNavigate();
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col">
-            <StatusBar />
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col pt-12">
+
             <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 border-b border-border-light flex items-center justify-between shrink-0 shadow-top-bar z-40">
                 <div className="flex items-center gap-3">
                     <button onClick={() => navigate('/action-inbox')} className="text-text-secondary-light hover:text-primary transition"><span className="material-icons-round">arrow_back</span></button>

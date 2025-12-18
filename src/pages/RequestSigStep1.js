@@ -8,10 +8,20 @@ window.App.RequestSigStep1 = () => {
     const location = useLocation();
 
     // Default to first doc if none selected (for direct access)
-    const docId = location.state?.docId || 'doc_1';
-    const doc = window.App.state.documents.find(d => d.id === docId);
+    // Robustness: redirect if no docId found even after fallback check
+    const docId = location.state?.docId;
 
-    if (!doc) return <div>Document not found</div>;
+    React.useEffect(() => {
+        if (!docId && !window.App.state.documents.find(d => d.id === 'doc_1')) {
+            navigate('/documents-list');
+        }
+    }, [docId, navigate]);
+
+    // Fallback for prototype testing if accessed directly
+    const effectiveDocId = docId || 'doc_1';
+    const doc = window.App.state.documents.find(d => d.id === effectiveDocId);
+
+    if (!doc) return <div>Document not found. Redirecting...</div>;
 
     return (
         <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col">

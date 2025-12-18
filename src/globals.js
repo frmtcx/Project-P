@@ -13,7 +13,7 @@ window.App.state = {
             id: 'frans',
             name: "Frans",
             avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Frans",
-            company_a: { title: "Product Designer", label: "Company A", role: "admin" },
+            company_a: { title: "Product Manager", label: "Company A", role: "admin" },
             company_b: { title: "Consultant", label: "Company B", role: "member" },
             personal: { title: null, label: "Privy User", role: "owner" }
         },
@@ -22,6 +22,7 @@ window.App.state = {
             name: "Alice Richardson",
             avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alice",
             company_a: { title: "Engineering Manager", label: "Company A", role: "member" },
+            company_b: { title: null, label: "Company B", role: "none" },
             personal: { title: null, label: "Privy User", role: "owner" }
         },
         bob: {
@@ -42,40 +43,80 @@ window.App.state = {
             id: 'sarah',
             name: "Sarah Jenkins",
             avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
-            company_a: { title: "Product Manager", label: "Company A", role: "member" },
+            company_a: { title: "Former Member", label: "Deactivated Account", role: "none", status: 'deactivated' }, // Deactivated
             personal: { title: null, label: "Privy User", role: "owner" }
         }
     },
 
     workspaces: {
-        company_a: { id: 'company_a', name: "Company A", type: "business", members: ['frans', 'alice', 'bob', 'charlie', 'sarah'] },
+        company_a: { id: 'company_a', name: "Company A", type: "business", members: ['frans', 'alice', 'bob', 'charlie'] }, // Sarah removed
         company_b: { id: 'company_b', name: "Company B", type: "business", members: ['frans'] },
         personal: { id: 'personal', name: "Personal", type: "personal", members: ['frans'] }
     },
 
     documents: [
-        { id: 'doc_1', name: "Employment Contract v3.pdf", updated: "2h ago", type: "pdf" },
-        { id: 'doc_2', name: "Q4 Financial Report.docx", updated: "Yesterday", type: "docx" },
-        { id: 'doc_3', name: "NDA_External_Vendor.pdf", updated: "3 days ago", type: "pdf" }
+        { id: 'doc_1', name: "Employment Contract v3.pdf", updated: "2h ago", type: "pdf", workspaceId: 'company_a' },
+        { id: 'doc_2', name: "Q4 Financial Report.docx", updated: "Yesterday", type: "docx", workspaceId: 'company_a' },
+        { id: 'doc_3', name: "NDA_External_Vendor.pdf", updated: "3 days ago", type: "pdf", workspaceId: 'company_a' },
+        { id: 'doc_4', name: "Personal_Tax_2024.pdf", updated: "1 week ago", type: "pdf", workspaceId: 'personal' },
+        { id: 'doc_5', name: "House_Rental_Agreement.pdf", updated: "2 weeks ago", type: "pdf", workspaceId: 'personal' },
+        { id: 'doc_6', name: "Consulting_Invoice_Dec.pdf", updated: "5 days ago", type: "pdf", workspaceId: 'company_b' },
+        { id: 'doc_7', name: "Project_Proposal_Draft.docx", updated: "1 day ago", type: "docx", workspaceId: 'company_b' }
     ],
 
     // Threads: The core of the chat + workflow
     threads: {
-        // Example pre-populated thread
+        // Company A: Active Thread
         'thread_1': {
             id: 'thread_1',
             docId: 'doc_1',
             title: "Employment Contract v3",
             workspaceId: 'company_a',
-            status: 'in_review', // draft, in_review, in_signing, completed, cancelled
+            status: 'in_review',
             participants: [
-                { userId: 'frans', role: 'viewer' }, // Requester
+                { userId: 'frans', role: 'viewer' },
                 { userId: 'bob', role: 'reviewer', status: 'pending' },
                 { userId: 'alice', role: 'signer', status: 'waiting' }
             ],
             events: [
                 { type: 'system', text: "Signing request created by Frans", time: "10:00 AM" },
-                { type: 'system', text: "Participants added: Alice (Signer), Bob (Reviewer)", time: "10:00 AM" }
+                { type: 'system', text: "Participants added: Alice (Signer), Bob (Reviewer)", time: "10:00 AM" },
+                { type: 'message', userId: 'frans', text: "Hi Bob, can you please review the indemnity clause?", time: "10:05 AM", reactions: { '👍': 1 } },
+                { type: 'message', userId: 'bob', text: "Sure Frans, taking a look now.", time: "10:15 AM", replyTo: "Hi Bob, can you please review the indemnity clause?" }
+            ],
+            messages: []
+        },
+        // Personal: Old Thread
+        'thread_3': {
+            id: 'thread_3',
+            docId: 'doc_5',
+            title: "House Rental Agreement",
+            workspaceId: 'personal',
+            status: 'completed',
+            participants: [
+                { userId: 'frans', role: 'signer', status: 'completed' }
+            ],
+            events: [
+                { type: 'system', text: "Document signed successfully", time: "2 weeks ago" }
+            ],
+            messages: []
+        },
+        // Company A: Deactivated User History
+        'thread_2': {
+            id: 'thread_2',
+            docId: 'doc_3',
+            title: "NDA External Vendor",
+            workspaceId: 'company_a',
+            status: 'completed',
+            participants: [
+                { userId: 'frans', role: 'viewer' },
+                { userId: 'sarah', role: 'signer', status: 'completed' }
+            ],
+            events: [
+                { type: 'message', userId: 'sarah', text: "I've reviewed the terms, they look standard.", time: "3 days ago" },
+                { type: 'message', userId: 'frans', text: "Thanks Sarah!", time: "3 days ago" },
+                { type: 'system', text: "Sarah Jenkins offboarded from workspace", time: "Yesterday" },
+                { type: 'system', text: "Access revoked for Sarah Jenkins", time: "Yesterday" }
             ],
             messages: []
         }
@@ -102,7 +143,7 @@ window.App.state = {
     },
 
     // Flow 1: Create Request
-    createSigningRequest(docId, participants) {
+    createSigningRequest(docId, participants, enableChat = true) {
         const threadId = 'thread_' + Date.now();
         const doc = this.documents.find(d => d.id === docId);
 
@@ -112,6 +153,7 @@ window.App.state = {
             title: doc.name.replace('.pdf', '').replace('.docx', ''),
             workspaceId: this.currentWorkspace,
             status: 'in_review',
+            enableChat: enableChat,
             participants: [
                 { userId: this.currentUser, role: 'viewer' },
                 ...participants
@@ -237,6 +279,21 @@ window.App.state = {
         const newName = this.users[newUserId].name;
         thread.events.push({ type: 'system', text: `${oldName} offboarded by Admin`, time: "Just now" });
         thread.events.push({ type: 'system', text: `Task reassigned to ${newName}`, time: "Just now" });
+
+        this.notify();
+    },
+
+    nudge(threadId, targetUserId) {
+        const thread = this.threads[threadId];
+        const target = this.users[targetUserId];
+        const sender = this.users[this.currentUser];
+        if (!thread || !target) return;
+
+        thread.events.push({
+            type: 'system',
+            text: `${target.name} was nudged by ${sender.name}`,
+            time: "Just now"
+        });
 
         this.notify();
     }

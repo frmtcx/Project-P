@@ -4,8 +4,8 @@ const { StatusBar } = window.App;
 window.App.SignerView = () => {
     const navigate = useNavigate();
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col">
-            <StatusBar />
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col pt-12">
+
             <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 border-b border-border-light flex items-center gap-3 shrink-0 sticky top-0 z-40 shadow-sm">
                 <button onClick={() => navigate(-1)} className="text-text-secondary-light hover:text-primary transition p-1 -ml-1"><span className="material-icons-round text-2xl">arrow_back</span></button>
                 <div className="flex-1 min-w-0 flex flex-col justify-center">

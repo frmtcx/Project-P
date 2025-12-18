@@ -3,13 +3,28 @@ window.App.DocumentsList = () => {
     const { StatusBar, BottomNav } = window.App;
     const navigate = useNavigate();
 
-    const documents = window.App.state.documents;
+    const [documents, setDocuments] = React.useState(
+        window.App.state.documents.filter(d => d.workspaceId === window.App.state.currentWorkspace)
+    );
+
+    React.useEffect(() => {
+        return window.App.state.subscribe(() => {
+            setDocuments(
+                window.App.state.documents.filter(d => d.workspaceId === window.App.state.currentWorkspace)
+            );
+        });
+    }, []);
 
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen pb-24">
-            <StatusBar />
-            <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 sticky top-8 z-40 border-b border-border-light dark:border-border-dark flex items-center justify-between">
-                <h1 className="font-bold text-lg">Documents</h1>
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen pb-24 pt-12">
+
+            <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 sticky top-0 z-40 border-b border-border-light dark:border-border-dark flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <h1 className="font-bold text-lg">Documents</h1>
+                    <button onClick={() => navigate('/workspace-switcher', { state: { returnPath: '/documents-list' } })} className="p-1.5 rounded-lg bg-gray-50 text-text-secondary-light hover:bg-gray-100">
+                        <span className="material-icons-round text-lg">swap_horiz</span>
+                    </button>
+                </div>
                 <button className="text-primary font-medium text-sm">Upload</button>
             </header>
             <main className="px-4 py-4 space-y-4">

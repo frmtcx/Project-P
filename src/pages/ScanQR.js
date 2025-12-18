@@ -2,9 +2,9 @@ window.App.ScanQR = () => {
     const { useNavigate } = ReactRouterDOM;
 
     return (
-        <div className="fixed inset-0 bg-black text-white z-50 flex flex-col">
+        <div className="absolute inset-0 bg-black text-white z-50 flex flex-col">
             {/* Header */}
-            <div className="flex justify-between items-center px-4 py-4 bg-black/50 backdrop-blur-sm absolute top-0 left-0 right-0 z-10">
+            <div className="flex justify-between items-center px-4 pt-12 pb-4 bg-black/50 backdrop-blur-sm absolute top-0 left-0 right-0 z-10">
                 <button onClick={() => window.history.back()} className="p-2">
                     <span className="material-icons-round text-2xl">close</span>
                 </button>

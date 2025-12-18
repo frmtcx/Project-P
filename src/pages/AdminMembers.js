@@ -13,6 +13,9 @@ window.App.AdminMembers = () => {
     const members = workspace.members.map(id => window.App.state.users[id]);
 
     return (
+        <div className="bg-background-light dark:bg-background-dark min-h-screen pt-12 pb-24 text-text-primary-light dark:text-text-primary-dark">
+            <Header title="Team Members" showBack onBack={() => navigate('/')} />
+            <nav className="flex items-center gap-6 px-6 border-b border-border-light dark:border-border-dark overflow-x-auto no-scrollbar">
                 <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Chat</button>
                 <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Action Inbox</button>
                 <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Documents</button>

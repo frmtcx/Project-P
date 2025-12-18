@@ -4,9 +4,9 @@ const { StatusBar } = window.App;
 window.App.PeoplePicker = () => {
     const navigate = useNavigate();
     return (
-        <div className="bg-surface-light dark:bg-surface-dark min-h-screen pb-24 text-text-primary-light dark:text-text-primary-dark">
-            <StatusBar />
-            <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 sticky top-8 z-40 border-b border-border-light dark:border-border-dark flex justify-between items-center">
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen flex flex-col pt-12">
+
+            <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 border-b border-border-light flex items-center gap-3">
                 <button onClick={() => navigate(-1)} className="p-1 -ml-1 rounded-full"><span className="material-icons-round text-2xl">close</span></button>
                 <h1 className="text-lg font-bold">Add Members</h1>
                 <button onClick={() => navigate(-1)} className="text-primary font-semibold text-base px-2 py-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition">Add (2)</button>

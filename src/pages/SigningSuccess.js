@@ -4,8 +4,8 @@ const { StatusBar } = window.App;
 window.App.SigningSuccess = () => {
     const navigate = useNavigate();
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col">
-            <StatusBar />
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col pt-12">
+
             <main className="flex-1 flex flex-col items-center justify-center px-6 w-full max-w-md mx-auto relative pb-12">
                 <div className="mb-8 relative">
                     <div className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center"><span className="material-icons-round text-6xl text-green-600">check</span></div>

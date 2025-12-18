@@ -4,9 +4,9 @@ const { StatusBar } = window.App;
 window.App.SignDocument = () => {
     const navigate = useNavigate();
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark flex flex-col h-screen">
-            <StatusBar time="16:52" />
-            <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 sticky top-8 z-40 border-b border-border-light flex items-center justify-between">
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark flex flex-col h-screen pt-12">
+
+            <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 sticky top-0 z-40 border-b border-border-light flex items-center justify-between">
                 <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-gray-100"><span className="material-icons-round">arrow_back</span></button>
                 <h1 className="text-lg font-bold">Sign document</h1>
                 <div className="w-10"></div>

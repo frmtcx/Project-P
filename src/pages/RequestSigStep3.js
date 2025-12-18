@@ -9,9 +9,12 @@ window.App.RequestSigStep3 = () => {
 
     const doc = window.App.state.documents.find(d => d.id === docId);
 
+    const { useState } = React;
+    const [enableChat, setEnableChat] = useState(true);
+
     const handleSubmit = () => {
         // Create the request in global state
-        const threadId = window.App.state.createSigningRequest(docId, participants);
+        const threadId = window.App.state.createSigningRequest(docId, participants, enableChat);
 
         // Navigate to success, passing threadId to link to it
         navigate('/send-success', { state: { threadId } });
@@ -61,6 +64,16 @@ window.App.RequestSigStep3 = () => {
                             );
                         })}
                     </div>
+                </div>
+                <div className="bg-white dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                    <div>
+                        <h3 className="text-sm font-bold text-gray-900">Enable Comments</h3>
+                        <p className="text-xs text-gray-500">Allow participants to chat in the thread</p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" checked={enableChat} onChange={e => setEnableChat(e.target.checked)} className="sr-only peer" />
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    </label>
                 </div>
             </div>
 

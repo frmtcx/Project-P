@@ -5,7 +5,7 @@ window.App.OffboardingSuccess = () => {
     const navigate = useNavigate();
     return (
         <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen flex flex-col">
-            <StatusBar time="16:52" />
+
             <main className="flex-1 flex flex-col px-6 w-full max-w-md mx-auto pt-10 pb-8">
                 <div className="flex flex-col items-center mb-8">
                     <div className="relative mb-6">

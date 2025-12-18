@@ -61,8 +61,8 @@ window.App.AccessReview = () => {
                     </div>
                 </div>
             </main>
-            <div className="fixed bottom-24 left-4 right-4 z-50 animate-bounce-in">
-                <button onClick={() => navigate('/offboard-user')} className="w-full bg-primary text-white rounded-xl shadow-floating py-4 flex items-center justify-center gap-2 hover:bg-red-700 transition active:scale-95 group">
+            <div className="absolute bottom-24 left-4 right-4 z-50 animate-bounce-in">
+                <button onClick={() => navigate('/offboard-user', { state: { userId: 'alice' } })} className="w-full bg-primary text-white rounded-xl shadow-floating py-4 flex items-center justify-center gap-2 hover:bg-red-700 transition active:scale-95 group">
                     <span className="font-semibold">Review and remove (2)</span>
                     <span className="material-icons-round group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </button>

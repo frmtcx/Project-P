@@ -4,8 +4,8 @@ const { StatusBar } = window.App;
 window.App.ReassignPicker = () => {
     const navigate = useNavigate();
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen flex flex-col">
-            <StatusBar />
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen flex flex-col pt-12">
+
             <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 border-b border-border-light flex items-center gap-3">
                 <button onClick={() => navigate(-1)} className="text-text-primary-light hover:bg-gray-100 rounded-full p-1 transition"><span className="material-icons-round text-2xl">arrow_back</span></button>
                 <h1 className="text-lg font-bold flex-1 text-center pr-8">Reassign signer</h1>

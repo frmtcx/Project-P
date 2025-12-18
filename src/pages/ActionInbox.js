@@ -29,10 +29,10 @@ window.App.ActionInbox = () => {
     };
 
     return (
-        <div className="pb-24 bg-gray-50 min-h-screen font-sans">
-            <StatusBar />
+        <div className="pb-24 bg-gray-50 min-h-screen font-sans pt-12">
+
             {/* Header */}
-            <header className="bg-white px-5 pt-6 pb-2 sticky top-0 z-10">
+            <header className="bg-white px-5 pt-4 pb-2 sticky top-0 z-10">
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-lg font-bold text-gray-900">Action Inbox</h1>
                     <span className="material-icons-round text-gray-600">filter_list</span>
@@ -48,8 +48,8 @@ window.App.ActionInbox = () => {
                                 key={type}
                                 onClick={() => setActiveTab(type)}
                                 className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap flex items-center gap-2 transition-colors ${isActive
-                                        ? 'bg-gray-900 text-white'
-                                        : 'bg-white border border-gray-200 text-gray-600'
+                                    ? 'bg-gray-900 text-white'
+                                    : 'bg-white border border-gray-200 text-gray-600'
                                     }`}
                             >
                                 {label}

@@ -7,8 +7,8 @@ window.App.SendSuccess = () => {
     const { threadId } = location.state || {};
 
     return (
-        <div className="bg-white dark:bg-surface-dark min-h-screen flex flex-col items-center justify-center p-8 text-center">
-            <StatusBar />
+        <div className="bg-white dark:bg-surface-dark min-h-screen flex flex-col items-center justify-center p-8 text-center pt-12">
+
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6 animate-bounce-small">
                 <span className="material-icons-round text-4xl text-green-600">check</span>
             </div>
@@ -22,7 +22,7 @@ window.App.SendSuccess = () => {
                     onClick={() => navigate('/document-thread', { state: { threadId } })}
                     className="w-full bg-primary text-white font-bold py-3.5 rounded-xl shadow-lg shadow-primary/30"
                 >
-                    View in Chat
+                    View Thread
                 </button>
                 <button
                     onClick={() => navigate('/')}

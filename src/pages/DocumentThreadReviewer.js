@@ -8,8 +8,8 @@ window.App.DocumentThreadReviewer = () => {
     const [showChangesModal, setShowChangesModal] = useState(false);
 
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col relative">
-            <StatusBar />
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col relative pt-12">
+
             <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 border-b border-border-light dark:border-border-dark shrink-0 z-40 flex items-center justify-between shadow-sm">
                 <button onClick={() => navigate(-1)} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 -ml-2"><span className="material-icons-round">arrow_back</span></button>
                 <div className="flex flex-col items-center"><h1 className="font-bold text-sm">Q4 Financial Report</h1><div className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500"></span><span className="text-[10px] text-text-secondary-light font-medium">Online</span></div></div>
@@ -33,7 +33,7 @@ window.App.DocumentThreadReviewer = () => {
 
             {/* Approve Modal */}
             {showApproveModal && (
-                <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+                <div className="absolute inset-0 z-50 flex items-end sm:items-center justify-center">
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowApproveModal(false)}></div>
                     <div className="bg-surface-light dark:bg-surface-dark w-full max-w-sm mx-4 mb-4 sm:mb-0 rounded-2xl p-6 relative z-10 animate-slide-up">
                         <h3 className="text-lg font-bold mb-2">Mark as Reviewed?</h3>
@@ -48,7 +48,7 @@ window.App.DocumentThreadReviewer = () => {
 
             {/* Request Changes Modal */}
             {showChangesModal && (
-                <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+                <div className="absolute inset-0 z-50 flex items-end sm:items-center justify-center">
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowChangesModal(false)}></div>
                     <div className="bg-surface-light dark:bg-surface-dark w-full max-w-sm mx-4 mb-4 sm:mb-0 rounded-2xl p-6 relative z-10 animate-slide-up">
                         <h3 className="text-lg font-bold mb-4">Request Changes</h3>

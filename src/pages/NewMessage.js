@@ -60,7 +60,7 @@ window.App.NewMessage = () => {
                 </div>
 
                 {/* Index Sidebar */}
-                <div className="fixed right-1 top-32 bottom-10 flex flex-col justify-center gap-0.5 z-20">
+                <div className="absolute right-1 top-32 bottom-10 flex flex-col justify-center gap-0.5 z-20">
                     {sections.map(letter => (
                         <a key={letter} href={`#section-${letter}`} className="text-[10px] font-bold text-blue-500 text-center w-6 py-0.5 hover:bg-gray-100 rounded">
                             {letter}
