@@ -18,14 +18,9 @@ window.App.AccessReview = () => {
     };
 
     return (
-        <div className="bg-background-light dark:bg-background-dark min-h-screen text-text-primary-light dark:text-text-primary-dark pb-24">
+        <div className="bg-background-light dark:bg-background-dark min-h-screen text-text-primary-light dark:text-text-primary-dark pb-32">
             <Header title="Access Review" showBack onBack={() => navigate('/')} />
-            <nav className="flex items-center gap-6 px-6 border-b border-border-light dark:border-border-dark overflow-x-auto no-scrollbar">
-                <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Chat</button>
-                <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Action Inbox</button>
-                <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Documents</button>
-                <button className="whitespace-nowrap pb-2 border-b-2 border-primary text-primary font-semibold text-sm">Admin</button>
-            </nav >
+
             <main className="px-4 py-6 space-y-6">
                 <div className="flex justify-between items-end">
                     <div><h1 className="text-xl font-bold">Access Review</h1><p className="text-sm text-text-secondary-light mt-0.5">Stale access prevention</p></div>
@@ -61,7 +56,7 @@ window.App.AccessReview = () => {
                     </div>
                 </div>
             </main>
-            <div className="absolute bottom-24 left-4 right-4 z-50 animate-bounce-in">
+            <div className="fixed bottom-24 left-4 right-4 z-30 animate-bounce-in">
                 <button onClick={() => navigate('/offboard-user', { state: { userId: 'alice' } })} className="w-full bg-primary text-white rounded-xl shadow-floating py-4 flex items-center justify-center gap-2 hover:bg-red-700 transition active:scale-95 group">
                     <span className="font-semibold">Review and remove (2)</span>
                     <span className="material-icons-round group-hover:translate-x-1 transition-transform">arrow_forward</span>
