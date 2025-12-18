@@ -22,6 +22,13 @@ window.App.OffboardUser = () => {
     const [pendingTasks, setPendingTasks] = useState([]);
     const [selectedAssignee, setSelectedAssignée] = useState('');
 
+    useEffect(() => {
+        if (userId) {
+            const tasks = window.App.state.inbox.filter(t => t.userId === userId && t.status === 'pending');
+            setPendingTasks(tasks);
+        }
+    }, [userId]);
+
     // Get other members for reassignment
     const currentWorkspaceId = window.App.state.currentWorkspace;
     const workspace = window.App.state.workspaces[currentWorkspaceId];
