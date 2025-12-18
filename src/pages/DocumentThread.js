@@ -261,6 +261,20 @@ window.App.DocumentThread = () => {
                 </div>
             </main>
 
+            {/* Action Menu (WhatsApp Style) */}
+            {showActions && (
+                <div className="absolute bottom-20 left-4 bg-white dark:bg-surface-dark rounded-xl shadow-2xl border border-gray-100 dark:border-gray-800 p-2 animate-scale-up origin-bottom-left flex flex-col gap-2 w-48 z-40">
+                    <button onClick={() => setActionStep('select_doc')} className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-left text-gray-700 dark:text-gray-200 transition">
+                        <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><span className="material-icons-round">description</span></div>
+                        <span className="text-sm font-bold">Request Signature</span>
+                    </button>
+                    <button className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-left text-gray-700 dark:text-gray-200 transition">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"><span className="material-icons-round">image</span></div>
+                        <span className="text-sm font-bold">Photo & Video</span>
+                    </button>
+                </div>
+            )}
+
             {/* Footer Input - Only show if chat enabled */}
             <footer className="bg-white dark:bg-surface-dark p-3 pb-8 border-t border-gray-100 dark:border-gray-800 sticky bottom-0 z-10 w-full max-w-md mx-auto">
                 {!thread.enableChat ? (
