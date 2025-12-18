@@ -33,17 +33,22 @@ window.App.ActionInbox = () => {
     // Filter Inbox specifically for "Actions" tab (To Sign / To Review / FYI)
     // We only show pending items here
     // Filter Inbox specifically for "Actions" tab (To Sign / To Review ONLY)
-    // We only show pending items here
-    const actionItems = inbox.filter(item =>
-        item.userId === currentUser &&
-        ['to_sign', 'to_review'].includes(item.type) &&
-        item.status === 'pending'
-    );
-    // Mentions are now their own distinct category
-    const mentions = inbox.filter(item =>
-        item.userId === currentUser &&
-        item.type === 'mention'
-    );
+    // We only show pending items here AND belonging to current workspace
+    const actionItems = inbox.filter(item => {
+        const thread = window.App.state.threads[item.threadId];
+        return item.userId === currentUser &&
+            ['to_sign', 'to_review'].includes(item.type) &&
+            item.status === 'pending' &&
+            thread && thread.workspaceId === currentWorkspace;
+    });
+
+    // Mentions are now their own distinct category, filtered by workspace
+    const mentions = inbox.filter(item => {
+        const thread = window.App.state.threads[item.threadId];
+        return item.userId === currentUser &&
+            item.type === 'mention' &&
+            thread && thread.workspaceId === currentWorkspace;
+    });
 
     // Helper: Check if a thread has a pending action for ME
     const getThreadAction = (threadId) => {
