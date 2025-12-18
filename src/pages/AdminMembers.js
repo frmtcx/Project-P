@@ -13,7 +13,7 @@ window.App.AdminMembers = () => {
     const members = workspace.members.map(id => window.App.state.users[id]);
 
     return (
-        <div className="bg-background-light dark:bg-background-dark min-h-screen pt-12 pb-24 text-text-primary-light dark:text-text-primary-dark">
+        <div className="bg-background-light dark:bg-background-dark min-h-screen pt-14 pb-24 text-text-primary-light dark:text-text-primary-dark">
             <Header title="Team Members" showBack onBack={() => navigate('/')} />
 
             <main className="px-4 py-4 space-y-5">

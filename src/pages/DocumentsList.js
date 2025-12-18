@@ -16,7 +16,7 @@ window.App.DocumentsList = () => {
     }, []);
 
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen pb-24 pt-12">
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen pb-24 pt-14">
 
             <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 sticky top-0 z-40 border-b border-border-light dark:border-border-dark flex items-center justify-between">
                 <div className="flex items-center gap-3">
