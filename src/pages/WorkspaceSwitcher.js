@@ -22,7 +22,7 @@ window.App.WorkspaceSwitcher = () => {
     return (
         <div className="bg-background-light dark:bg-background-dark min-h-screen relative flex flex-col">
 
-            <div className="absolute inset-0 z-50 flex flex-col">
+            <div className="absolute inset-0 z-50 flex flex-col pt-14">
                 <div aria-hidden="true" className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => navigate(-1)}></div>
                 <div className="relative w-full bg-surface-light dark:bg-surface-dark rounded-b-2xl shadow-xl flex flex-col max-h-[85vh] overflow-hidden animate-slide-down">
                     <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800">

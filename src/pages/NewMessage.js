@@ -17,7 +17,7 @@ window.App.NewMessage = () => {
     return (
         <div className="pb-24 bg-white min-h-screen font-sans">
             {/* Header */}
-            <header className="bg-white px-5 py-4 flex items-center gap-3 sticky top-0 z-10">
+            <header className="bg-white px-5 pt-14 pb-4 flex items-center gap-3 sticky top-0 z-10">
                 <button onClick={() => navigate(-1)} className="text-gray-600">
                     <span className="material-icons-round">arrow_back_ios</span>
                 </button>
