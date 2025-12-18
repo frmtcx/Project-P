@@ -348,7 +348,8 @@ window.App.DocumentThread = () => {
                 <div className="absolute inset-0 z-50 flex justify-end">
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowInfo(false)}></div>
                     <div className="w-80 bg-white dark:bg-surface-dark h-full shadow-2xl relative flex flex-col animate-slide-in-right">
-                        <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+                        {/* Header with Safe Area Top Padding */}
+                        <div className="pt-14 pb-4 px-5 border-b border-gray-100 flex items-center justify-between">
                             <h2 className="font-bold text-lg">Thread Details</h2>
                             <button onClick={() => setShowInfo(false)} className="p-1 rounded-full hover:bg-gray-100"><span className="material-icons-round">close</span></button>
                         </div>
