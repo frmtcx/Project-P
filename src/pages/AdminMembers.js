@@ -15,12 +15,7 @@ window.App.AdminMembers = () => {
     return (
         <div className="bg-background-light dark:bg-background-dark min-h-screen pt-12 pb-24 text-text-primary-light dark:text-text-primary-dark">
             <Header title="Team Members" showBack onBack={() => navigate('/')} />
-            <nav className="flex items-center gap-6 px-6 border-b border-border-light dark:border-border-dark overflow-x-auto no-scrollbar">
-                <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Chat</button>
-                <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Action Inbox</button>
-                <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Documents</button>
-                <button className="whitespace-nowrap pb-2 border-b-2 border-primary text-primary font-semibold text-sm">Admin</button>
-            </nav >
+
             <main className="px-4 py-4 space-y-5">
                 <div className="relative"><span className="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary-light">search</span><input className="w-full bg-gray-100 border-none rounded-xl py-3 pl-10 pr-4 text-sm" placeholder="Search members" type="text" /></div>
                 <section>
