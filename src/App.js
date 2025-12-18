@@ -23,7 +23,7 @@ const App = () => {
                 if (retryCount < 150) { // 15 seconds timeout
                     if (retryCount % 10 === 0) {
                         console.log(`Waiting for components... (Attempt ${retryCount}/150)`);
-                        console.log("Available components:", Object.keys(window.App));
+                        console.log("Available components:", Object.keys(window.App), "App ID:", window.App?._id);
                     }
                     setTimeout(() => setRetryCount(c => c + 1), 100);
                 } else {

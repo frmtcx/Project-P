@@ -1,7 +1,8 @@
 console.log("Loading globals.js");
 // Initialize global namespace
 window.App = window.App || {};
-console.log("window.App initialized:", window.App);
+window.App._id = Math.random().toString(36).substring(7);
+console.log("window.App initialized:", window.App, "ID:", window.App._id);
 
 // Simple state management
 window.App.state = {

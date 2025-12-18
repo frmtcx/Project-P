@@ -1,6 +1,7 @@
 console.log("Loading WorkspaceHome.js");
 
 try {
+    console.log("Loading WorkspaceHome.js. App ID:", window.App?._id);
     window.App.WorkspaceHome = () => {
         const { useState, useEffect } = React;
         const { useNavigate } = ReactRouterDOM;
@@ -143,7 +144,7 @@ try {
             </div>
         );
     };
-    console.log("WorkspaceHome.js loaded successfully");
+    console.log("WorkspaceHome.js loaded successfully. App Keys:", Object.keys(window.App));
 } catch (error) {
     console.error("Error loading WorkspaceHome.js:", error);
     window.App.WorkspaceHome = () => (
