@@ -126,10 +126,11 @@ window.App.state = {
                 { userId: 'charlie', role: 'member' }
             ],
             events: [
-                { type: 'message', userId: 'charlie', text: "Are we going to that taco place?", time: "11:30 AM" }
+                { type: 'message', userId: 'charlie', text: "Are we going to that taco place?", time: "11:30 AM" },
+                { type: 'message', userId: 'frans', text: "Yes, leaving in 5!", time: "11:32 AM" }
             ],
             messages: [],
-            lastActivity: "11:30 AM"
+            lastActivity: "11:32 AM"
         },
 
         // 3. [Doc Chat] Completed with Deactivated User
@@ -150,6 +151,26 @@ window.App.state = {
             ],
             messages: [],
             lastActivity: "Yesterday"
+        },
+
+        // NEW: [Normal Chat] Company A Announcement
+        'thread_a_general': {
+            id: 'thread_a_general',
+            type: 'discussion',
+            title: "General Announcements",
+            workspaceId: 'company_a',
+            status: 'active',
+            participants: [
+                { userId: 'frans', role: 'member' },
+                { userId: 'alice', role: 'member' },
+                { userId: 'bob', role: 'member' },
+                { userId: 'charlie', role: 'member' }
+            ],
+            events: [
+                { type: 'message', userId: 'alice', text: "Welcome to the team everyone!", time: "Last Week" }
+            ],
+            messages: [],
+            lastActivity: "Last Week"
         },
 
         // --- COMPANY B THREADS ---
@@ -189,6 +210,25 @@ window.App.state = {
             ],
             messages: [],
             lastActivity: "2 hours ago"
+        },
+
+        // NEW: [Normal Chat] Company B Coffee
+        'thread_b_coffee': {
+            id: 'thread_b_coffee',
+            type: 'discussion',
+            title: "Coffee Break ☕️",
+            workspaceId: 'company_b',
+            status: 'active',
+            participants: [
+                { userId: 'frans', role: 'member' },
+                { userId: 'dave', role: 'member' },
+                { userId: 'eve', role: 'member' }
+            ],
+            events: [
+                { type: 'message', userId: 'dave', text: "Anyone up for a latte?", time: "10:00 AM" }
+            ],
+            messages: [],
+            lastActivity: "10:00 AM"
         },
 
         // --- PERSONAL THREADS ---
