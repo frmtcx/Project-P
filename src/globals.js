@@ -394,6 +394,7 @@ window.App.state = {
             title: title || 'New Chat',
             workspaceId: this.currentWorkspace,
             status: 'active',
+            enableChat: true, // Default to true for new discussion threads
             participants: allUserIds.map(id => ({ userId: id, role: 'member' })),
             events: [
                 { type: 'system', text: 'Group chat created', time: "Just now" }

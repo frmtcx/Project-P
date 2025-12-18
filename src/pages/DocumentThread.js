@@ -261,266 +261,177 @@ window.App.DocumentThread = () => {
                 </div>
             </main>
 
-            {/* Chat Input Area with Action Button */}
-            <footer className="absolute bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-border-light dark:border-border-dark p-3 z-30">
-                {/* Action Menu (WhatsApp Style) */}
-                {showActions && (
-                    <div className="absolute bottom-16 left-4 bg-white dark:bg-surface-dark rounded-xl shadow-2xl border border-gray-100 dark:border-gray-800 p-2 animate-scale-up origin-bottom-left flex flex-col gap-2 w-48 z-40">
-                        <button onClick={() => setActionStep('select_doc')} className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-left text-gray-700 dark:text-gray-200 transition">
-                            <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><span className="material-icons-round">description</span></div>
-                            <span className="text-sm font-bold">Request Signature</span>
+            {/* Footer Input - Only show if chat enabled */}
+            <footer className="bg-white dark:bg-surface-dark p-3 border-t border-gray-100 dark:border-gray-800 sticky bottom-0 z-10 w-full max-w-md mx-auto">
+                {!thread.enableChat ? (
+                    <div className="flex items-center justify-center py-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-dashed border-gray-200 dark:border-gray-700">
+                        <span className="material-icons-round text-gray-400 text-sm mr-2">lock</span>
+                        <span className="text-sm text-gray-400 font-medium">Comments are turned off</span>
+                    </div>
+                ) : (
+                    <div className="flex items-end gap-2">
+                        <button
+                            onClick={() => setShowActions(!showActions)}
+                            className={`p-2 rounded-full transition ${showActions ? 'bg-gray-200 text-gray-800' : 'text-text-secondary-light hover:bg-gray-100'}`}
+                        >
+                            <span className={`material-icons-round transition-transform ${showActions ? 'rotate-45' : ''}`}>add_circle_outline</span>
                         </button>
-                        <button className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-left text-gray-700 dark:text-gray-200 transition">
-                            <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"><span className="material-icons-round">image</span></div>
-                            <span className="text-sm font-bold">Photo & Video</span>
-                        </button>
+                        <div className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center px-4 py-2 min-h-[44px]">
+                            <input className="bg-transparent border-none focus:ring-0 w-full text-sm p-0" placeholder="Message..." type="text" />
+                        </div>
+                        <button className="p-2 text-primary hover:bg-red-50 rounded-full"><span className="material-icons-round">send</span></button>
                     </div>
                 )}
+            </footer>
 
-                {/* Embedded Signing Flow Modals */}
-                {actionStep === 'select_doc' && (
-                    <div className="absolute inset-0 bg-white dark:bg-surface-dark z-50 flex flex-col animate-slide-up">
-                        <header className="px-4 pt-4 pb-2 border-b border-gray-100 flex items-center gap-3">
-                            <button onClick={() => setActionStep(null)}><span className="material-icons-round">close</span></button>
-                            <h2 className="font-bold">Select Document</h2>
-                        </header>
-                        <div className="flex-1 overflow-y-auto p-4 space-y-3">
-// ... (inside map)
-                            })}
-
-                            {/* Empty State for Docs */}
-                            {window.App.state.documents.filter(d => d.workspaceId === thread.workspaceId).length === 0 && (
-                                <div className="text-center py-8 text-gray-400">
-                                    <span className="material-icons-round text-3xl mb-2">folder_off</span>
-                                    <p className="text-sm">No documents found in this workspace.</p>
-                                </div>
-                            )}
+            {/* Member Info Side Panel (Simplified Modal for Prototype) */}
+            {showInfo && (
+                <div className="absolute inset-0 z-50 flex justify-end">
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowInfo(false)}></div>
+                    <div className="w-80 bg-white dark:bg-surface-dark h-full shadow-2xl relative flex flex-col animate-slide-in-right">
+                        {/* Header with Safe Area Top Padding */}
+                        <div className="pt-14 pb-4 px-5 border-b border-gray-100 flex items-center justify-between">
+                            <h2 className="font-bold text-lg">Thread Details</h2>
+                            <button onClick={() => setShowInfo(false)} className="p-1 rounded-full hover:bg-gray-100"><span className="material-icons-round">close</span></button>
                         </div>
-                    </div>
-                )}
+                        <div className="p-4 overflow-y-auto flex-1">
+                            <h3 className="text-xs font-bold text-gray-500 uppercase mb-3">Members ({thread.participants.length})</h3>
+                            <div className="space-y-4">
+                                {thread.participants.map(p => {
+                                    const userDisplay = window.App.utils.getUserDisplay(p.userId);
+                                    // Check if actually deactivated based on display title logic from global
+                                    const isDeactivated = userDisplay.subtitle?.includes('Former') || p.status === 'deactivated';
 
-                {actionStep === 'select_signers' && (
-                    <div className="absolute inset-0 bg-white dark:bg-surface-dark z-50 flex flex-col animate-slide-up">
-                        <header className="px-4 pt-4 pb-2 border-b border-gray-100 flex items-center gap-3">
-                            <button onClick={() => setActionStep('select_doc')}><span className="material-icons-round">arrow_back</span></button>
-                            <h2 className="font-bold">Who needs to sign?</h2>
-                        </header>
-                        <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                            {thread.participants.filter(p => p.userId !== currentUser).map(p => {
-                                // ... existing map logic ...
-                                const user = window.App.utils.getUserDisplay(p.userId);
-                                const isSelected = selectedSigners.includes(p.userId);
-                                return (
-                                    <div key={p.userId} onClick={() => {
-                                        if (isSelected) setSelectedSigners(prev => prev.filter(id => id !== p.userId));
-                                        else setSelectedSigners(prev => [...prev, p.userId]);
-                                    }} className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer ${isSelected ? 'border-primary bg-red-50' : 'border-gray-100'}`}>
-                                        <div className={`w-5 h-5 rounded border flex items-center justify-center ${isSelected ? 'bg-primary border-primary text-white' : 'border-gray-300'}`}>
-                                            {isSelected && <span className="material-icons text-xs">check</span>}
-                                        </div>
-                                        <img src={user.avatar} className="w-8 h-8 rounded-full" />
-                                        <span className="text-sm font-bold">{user.name}</span>
-                                    </div>
-                                )
-                            })}
-
-                            {/* Empty State for Signers */}
-                            {thread.participants.filter(p => p.userId !== currentUser).length === 0 && (
-                                <div className="text-center py-8 text-gray-400">
-                                    <span className="material-icons-round text-3xl mb-2">person_off</span>
-                                    <p className="text-sm">No other members in this chat.</p>
-                                </div>
-                            )}
-                        </div>
-                        <div className="p-4 border-t border-gray-100">
-                            <button
-                                disabled={selectedSigners.length === 0}
-                                onClick={() => {
-                                    window.App.state.createEmbeddedSigningRequest(threadId, selectedDoc.id, selectedSigners);
-                                    setActionStep(null);
-                                    setShowActions(false);
-                                    setSelectedSigners([]);
-                                    setSelectedDoc(null);
-                                }}
-                                className="w-full bg-primary text-white py-3 rounded-xl font-bold disabled:opacity-50">
-                                Send Request
-                            </button>
-                        </div>
-                    </div>
-                )}
-
-
-                {/* Footer Input - Only show if chat enabled */}
-                <footer className="bg-white dark:bg-surface-dark p-3 border-t border-gray-100 dark:border-gray-800 sticky bottom-0 z-10 w-full max-w-md mx-auto">
-                    {!thread.enableChat ? (
-                        <div className="flex items-center justify-center py-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-dashed border-gray-200 dark:border-gray-700">
-                            <span className="material-icons-round text-gray-400 text-sm mr-2">lock</span>
-                            <span className="text-sm text-gray-400 font-medium">Comments are turned off</span>
-                        </div>
-                    ) : (
-                        <div className="flex items-end gap-2">
-                            <button
-                                onClick={() => setShowActions(!showActions)}
-                                className={`p-2 rounded-full transition ${showActions ? 'bg-gray-200 text-gray-800' : 'text-text-secondary-light hover:bg-gray-100'}`}
-                            >
-                                <span className={`material-icons-round transition-transform ${showActions ? 'rotate-45' : ''}`}>add_circle_outline</span>
-                            </button>
-                            <div className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center px-4 py-2 min-h-[44px]">
-                                <input className="bg-transparent border-none focus:ring-0 w-full text-sm p-0" placeholder="Message..." type="text" />
-                            </div>
-                            <button className="p-2 text-primary hover:bg-red-50 rounded-full"><span className="material-icons-round">send</span></button>
-                        </div>
-                    )}
-                </footer>
-
-                {/* Member Info Side Panel (Simplified Modal for Prototype) */}
-                {showInfo && (
-                    <div className="absolute inset-0 z-50 flex justify-end">
-                        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowInfo(false)}></div>
-                        <div className="w-80 bg-white dark:bg-surface-dark h-full shadow-2xl relative flex flex-col animate-slide-in-right">
-                            {/* Header with Safe Area Top Padding */}
-                            <div className="pt-14 pb-4 px-5 border-b border-gray-100 flex items-center justify-between">
-                                <h2 className="font-bold text-lg">Thread Details</h2>
-                                <button onClick={() => setShowInfo(false)} className="p-1 rounded-full hover:bg-gray-100"><span className="material-icons-round">close</span></button>
-                            </div>
-                            <div className="p-4 overflow-y-auto flex-1">
-                                <h3 className="text-xs font-bold text-gray-500 uppercase mb-3">Members ({thread.participants.length})</h3>
-                                <div className="space-y-4">
-                                    {thread.participants.map(p => {
-                                        const userDisplay = window.App.utils.getUserDisplay(p.userId);
-                                        // Check if actually deactivated based on display title logic from global
-                                        const isDeactivated = userDisplay.subtitle?.includes('Former') || p.status === 'deactivated';
-
-                                        return (
-                                            <div key={p.userId} className="flex items-center gap-3">
-                                                <div className="relative">
-                                                    <img src={userDisplay.avatar} className={`w-10 h-10 rounded-full bg-gray-100 ${isDeactivated ? 'grayscale opacity-70' : ''}`} />
-                                                    {isDeactivated && (
-                                                        <span className="absolute -bottom-1 -right-1 bg-red-500 text-white rounded-full p-0.5 border-2 border-white">
-                                                            <span className="material-icons text-[10px]">block</span>
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <div>
-                                                    <p className={`text-sm font-bold ${isDeactivated ? 'text-gray-400 line-through' : 'text-gray-900'}`}>{userDisplay.name}</p>
-                                                    <p className={`text-xs ${isDeactivated ? 'text-red-500 font-bold' : 'text-gray-500'}`}>{userDisplay.subtitle}</p>
-                                                </div>
+                                    return (
+                                        <div key={p.userId} className="flex items-center gap-3">
+                                            <div className="relative">
+                                                <img src={userDisplay.avatar} className={`w-10 h-10 rounded-full bg-gray-100 ${isDeactivated ? 'grayscale opacity-70' : ''}`} />
+                                                {isDeactivated && (
+                                                    <span className="absolute -bottom-1 -right-1 bg-red-500 text-white rounded-full p-0.5 border-2 border-white">
+                                                        <span className="material-icons text-[10px]">block</span>
+                                                    </span>
+                                                )}
                                             </div>
-                                        );
-                                    })}
-                                </div>
-
-                                <div className="mt-8 pt-8 border-t border-gray-100">
-                                    <h3 className="text-xs font-bold text-gray-500 uppercase mb-3">Settings</h3>
-
-                                    {/* Allow Chat Toggle (Only for Creator/Signers - simplified check) */}
-                                    <div className="flex items-center justify-between py-3 mb-2">
-                                        <div>
-                                            <p className="text-sm font-bold text-gray-900">Allow Comments</p>
-                                            <p className="text-xs text-gray-500">Let participants post messages</p>
+                                            <div>
+                                                <p className={`text-sm font-bold ${isDeactivated ? 'text-gray-400 line-through' : 'text-gray-900'}`}>{userDisplay.name}</p>
+                                                <p className={`text-xs ${isDeactivated ? 'text-red-500 font-bold' : 'text-gray-500'}`}>{userDisplay.subtitle}</p>
+                                            </div>
                                         </div>
-                                        <button
-                                            onClick={() => window.App.state.toggleChat(thread.id, !thread.enableChat)}
-                                            className={`w-11 h-6 rounded-full relative transition-colors ${thread.enableChat ? 'bg-green-500' : 'bg-gray-200'}`}
-                                        >
-                                            <div className={`w-5 h-5 bg-white rounded-full shadow-sm absolute top-0.5 transition-transform ${thread.enableChat ? 'left-[22px]' : 'left-0.5'}`}></div>
-                                        </button>
-                                    </div>
+                                    );
+                                })}
+                            </div>
 
-                                    <h3 className="text-xs font-bold text-gray-500 uppercase mb-3 mt-6">Actions</h3>
+                            <div className="mt-8 pt-8 border-t border-gray-100">
+                                <h3 className="text-xs font-bold text-gray-500 uppercase mb-3">Settings</h3>
+
+                                {/* Allow Chat Toggle (Only for Creator/Signers - simplified check) */}
+                                <div className="flex items-center justify-between py-3 mb-2">
+                                    <div>
+                                        <p className="text-sm font-bold text-gray-900">Allow Comments</p>
+                                        <p className="text-xs text-gray-500">Let participants post messages</p>
+                                    </div>
                                     <button
-                                        onClick={() => {
-                                            if (confirm('Are you sure you want to leave this thread?')) {
-                                                window.App.state.leaveThread(threadId, currentUser);
-                                                navigate('/chats-list');
-                                            }
-                                        }}
-                                        className="w-full text-left py-3 px-4 rounded-xl hover:bg-red-50 text-red-600 font-medium text-sm flex items-center gap-3">
-                                        <span className="material-icons-round">exit_to_app</span> Leave Thread
+                                        onClick={() => window.App.state.toggleChat(thread.id, !thread.enableChat)}
+                                        className={`w-11 h-6 rounded-full relative transition-colors ${thread.enableChat ? 'bg-green-500' : 'bg-gray-200'}`}
+                                    >
+                                        <div className={`w-5 h-5 bg-white rounded-full shadow-sm absolute top-0.5 transition-transform ${thread.enableChat ? 'left-[22px]' : 'left-0.5'}`}></div>
                                     </button>
                                 </div>
+
+                                <h3 className="text-xs font-bold text-gray-500 uppercase mb-3 mt-6">Actions</h3>
+                                <button
+                                    onClick={() => {
+                                        if (confirm('Are you sure you want to leave this thread?')) {
+                                            window.App.state.leaveThread(threadId, currentUser);
+                                            navigate('/chats-list');
+                                        }
+                                    }}
+                                    className="w-full text-left py-3 px-4 rounded-xl hover:bg-red-50 text-red-600 font-medium text-sm flex items-center gap-3">
+                                    <span className="material-icons-round">exit_to_app</span> Leave Thread
+                                </button>
                             </div>
                         </div>
                     </div>
-                )}
+                </div>
+            )}
 
-                {/* FIX: Embedded Signing Flow Modals Moved OUTSIDE Footer for correct stacking context */}
-                {actionStep === 'select_doc' && (
-                    <div className="absolute inset-0 bg-white dark:bg-surface-dark z-50 flex flex-col animate-slide-up">
-                        <header className="px-4 pt-14 pb-2 border-b border-gray-100 flex items-center gap-3">
-                            <button onClick={() => setActionStep(null)}><span className="material-icons-round">close</span></button>
-                            <h2 className="font-bold">Select Document</h2>
-                        </header>
-                        <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                            {window.App.state.documents.filter(d => d.workspaceId === thread.workspaceId).map(doc => (
-                                <div key={doc.id} onClick={() => { setSelectedDoc(doc); setActionStep('select_signers'); }} className="flex items-center gap-3 p-3 border rounded-xl hover:bg-gray-50 cursor-pointer">
-                                    <span className="material-icons-round text-red-500">picture_as_pdf</span>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-bold">{doc.name}</p>
-                                        <p className="text-xs text-gray-500">{doc.updated}</p>
-                                    </div>
+            {/* FIX: Embedded Signing Flow Modals Moved OUTSIDE Footer for correct stacking context */}
+            {actionStep === 'select_doc' && (
+                <div className="absolute inset-0 bg-white dark:bg-surface-dark z-50 flex flex-col animate-slide-up">
+                    <header className="px-4 pt-14 pb-2 border-b border-gray-100 flex items-center gap-3">
+                        <button onClick={() => setActionStep(null)}><span className="material-icons-round">close</span></button>
+                        <h2 className="font-bold">Select Document</h2>
+                    </header>
+                    <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                        {window.App.state.documents.filter(d => d.workspaceId === thread.workspaceId).map(doc => (
+                            <div key={doc.id} onClick={() => { setSelectedDoc(doc); setActionStep('select_signers'); }} className="flex items-center gap-3 p-3 border rounded-xl hover:bg-gray-50 cursor-pointer">
+                                <span className="material-icons-round text-red-500">picture_as_pdf</span>
+                                <div className="flex-1">
+                                    <p className="text-sm font-bold">{doc.name}</p>
+                                    <p className="text-xs text-gray-500">{doc.updated}</p>
                                 </div>
-                            ))}
+                            </div>
+                        ))}
 
-                            {/* Empty State for Docs */}
-                            {window.App.state.documents.filter(d => d.workspaceId === thread.workspaceId).length === 0 && (
-                                <div className="text-center py-8 text-gray-400">
-                                    <span className="material-icons-round text-3xl mb-2">folder_off</span>
-                                    <p className="text-sm">No documents found in this workspace.</p>
-                                </div>
-                            )}
-                        </div>
+                        {/* Empty State for Docs */}
+                        {window.App.state.documents.filter(d => d.workspaceId === thread.workspaceId).length === 0 && (
+                            <div className="text-center py-8 text-gray-400">
+                                <span className="material-icons-round text-3xl mb-2">folder_off</span>
+                                <p className="text-sm">No documents found in this workspace.</p>
+                            </div>
+                        )}
                     </div>
-                )}
+                </div>
+            )}
 
-                {actionStep === 'select_signers' && (
-                    <div className="absolute inset-0 bg-white dark:bg-surface-dark z-50 flex flex-col animate-slide-up">
-                        <header className="px-4 pt-14 pb-2 border-b border-gray-100 flex items-center gap-3">
-                            <button onClick={() => setActionStep('select_doc')}><span className="material-icons-round">arrow_back</span></button>
-                            <h2 className="font-bold">Who needs to sign?</h2>
-                        </header>
-                        <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                            {thread.participants.filter(p => p.userId !== currentUser).map(p => {
-                                const user = window.App.utils.getUserDisplay(p.userId);
-                                const isSelected = selectedSigners.includes(p.userId);
-                                return (
-                                    <div key={p.userId} onClick={() => {
-                                        if (isSelected) setSelectedSigners(prev => prev.filter(id => id !== p.userId));
-                                        else setSelectedSigners(prev => [...prev, p.userId]);
-                                    }} className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer ${isSelected ? 'border-primary bg-red-50' : 'border-gray-100'}`}>
-                                        <div className={`w-5 h-5 rounded border flex items-center justify-center ${isSelected ? 'bg-primary border-primary text-white' : 'border-gray-300'}`}>
-                                            {isSelected && <span className="material-icons text-xs">check</span>}
-                                        </div>
-                                        <img src={user.avatar} className="w-8 h-8 rounded-full" />
-                                        <span className="text-sm font-bold">{user.name}</span>
+            {actionStep === 'select_signers' && (
+                <div className="absolute inset-0 bg-white dark:bg-surface-dark z-50 flex flex-col animate-slide-up">
+                    <header className="px-4 pt-14 pb-2 border-b border-gray-100 flex items-center gap-3">
+                        <button onClick={() => setActionStep('select_doc')}><span className="material-icons-round">arrow_back</span></button>
+                        <h2 className="font-bold">Who needs to sign?</h2>
+                    </header>
+                    <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                        {thread.participants.filter(p => p.userId !== currentUser).map(p => {
+                            const user = window.App.utils.getUserDisplay(p.userId);
+                            const isSelected = selectedSigners.includes(p.userId);
+                            return (
+                                <div key={p.userId} onClick={() => {
+                                    if (isSelected) setSelectedSigners(prev => prev.filter(id => id !== p.userId));
+                                    else setSelectedSigners(prev => [...prev, p.userId]);
+                                }} className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer ${isSelected ? 'border-primary bg-red-50' : 'border-gray-100'}`}>
+                                    <div className={`w-5 h-5 rounded border flex items-center justify-center ${isSelected ? 'bg-primary border-primary text-white' : 'border-gray-300'}`}>
+                                        {isSelected && <span className="material-icons text-xs">check</span>}
                                     </div>
-                                )
-                            })}
-
-                            {/* Empty State for Signers */}
-                            {thread.participants.filter(p => p.userId !== currentUser).length === 0 && (
-                                <div className="text-center py-8 text-gray-400">
-                                    <span className="material-icons-round text-3xl mb-2">person_off</span>
-                                    <p className="text-sm">No other members in this chat.</p>
+                                    <img src={user.avatar} className="w-8 h-8 rounded-full" />
+                                    <span className="text-sm font-bold">{user.name}</span>
                                 </div>
-                            )}
-                        </div>
-                        <div className="p-4 border-t border-gray-100">
-                            <button
-                                disabled={selectedSigners.length === 0}
-                                onClick={() => {
-                                    window.App.state.createEmbeddedSigningRequest(threadId, selectedDoc.id, selectedSigners);
-                                    setActionStep(null);
-                                    setShowActions(false);
-                                    setSelectedSigners([]);
-                                    setSelectedDoc(null);
-                                }}
-                                className="w-full bg-primary text-white py-3 rounded-xl font-bold disabled:opacity-50">
-                                Send Request
-                            </button>
-                        </div>
+                            )
+                        })}
+
+                        {/* Empty State for Signers */}
+                        {thread.participants.filter(p => p.userId !== currentUser).length === 0 && (
+                            <div className="text-center py-8 text-gray-400">
+                                <span className="material-icons-round text-3xl mb-2">person_off</span>
+                                <p className="text-sm">No other members in this chat.</p>
+                            </div>
+                        )}
                     </div>
-                )}
+                    <div className="p-4 border-t border-gray-100">
+                        <button
+                            disabled={selectedSigners.length === 0}
+                            onClick={() => {
+                                window.App.state.createEmbeddedSigningRequest(threadId, selectedDoc.id, selectedSigners);
+                                setActionStep(null);
+                                setShowActions(false);
+                                setSelectedSigners([]);
+                                setSelectedDoc(null);
+                            }}
+                            className="w-full bg-primary text-white py-3 rounded-xl font-bold disabled:opacity-50">
+                            Send Request
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
