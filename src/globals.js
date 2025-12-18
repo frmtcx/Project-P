@@ -17,11 +17,12 @@ window.App.state = {
             company_b: { title: "Consultant", label: "Company B", role: "member" },
             personal: { title: null, label: "Privy User", role: "owner" }
         },
+        // Company A Users
         alice: {
             id: 'alice',
             name: "Alice Richardson",
             avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alice",
-            company_a: { title: "Engineering Manager", label: "Company A", role: "member" },
+            company_a: { title: "Engineering Manager", label: "Company A", role: "member", accessRisk: 'inactive' },
             company_b: { title: null, label: "Company B", role: "none" },
             personal: { title: null, label: "Privy User", role: "owner" }
         },
@@ -29,29 +30,51 @@ window.App.state = {
             id: 'bob',
             name: "Bob Smith",
             avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Bob",
-            company_a: { title: "Legal Counsel", label: "Company A", role: "member" },
-            personal: { title: null, label: "Privy User", role: "owner" }
+            company_a: { title: "Legal Counsel", label: "Company A", role: "member", accessRisk: 'identity_changed' },
+            personal: { title: null, label: "Privy User", role: "none" }
         },
         charlie: {
             id: 'charlie',
             name: "Charlie Workman",
             avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie",
             company_a: { title: "Senior Engineer", label: "Company A", role: "member" },
-            personal: { title: null, label: "Privy User", role: "owner" }
+            personal: { title: null, label: "Privy User", role: "none" }
         },
         sarah: {
             id: 'sarah',
             name: "Sarah Jenkins",
             avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
             company_a: { title: "Former Member", label: "Deactivated Account", role: "none", status: 'deactivated' }, // Deactivated
-            personal: { title: null, label: "Privy User", role: "owner" }
+            personal: { title: null, label: "Privy User", role: "none" }
+        },
+        // Company B Users
+        dave: {
+            id: 'dave',
+            name: "Dave Miller",
+            avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dave",
+            company_b: { title: "Project Lead", label: "Company B", role: "admin" },
+            personal: { title: null, label: "Privy User", role: "none" }
+        },
+        eve: {
+            id: 'eve',
+            name: "Eve Adams",
+            avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Eve",
+            company_b: { title: "Designer", label: "Company B", role: "member" },
+            personal: { title: null, label: "Privy User", role: "none" }
+        },
+        // Personal Users users
+        mom: {
+            id: 'mom',
+            name: "Mom",
+            avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mom",
+            personal: { title: "Family", label: "Personal", role: "member" }
         }
     },
 
     workspaces: {
-        company_a: { id: 'company_a', name: "Company A", type: "business", members: ['frans', 'alice', 'bob', 'charlie'] }, // Sarah removed
-        company_b: { id: 'company_b', name: "Company B", type: "business", members: ['frans'] },
-        personal: { id: 'personal', name: "Personal", type: "personal", members: ['frans'] }
+        company_a: { id: 'company_a', name: "Company A", type: "business", members: ['frans', 'alice', 'bob', 'charlie'] },
+        company_b: { id: 'company_b', name: "Company B", type: "business", members: ['frans', 'dave', 'eve'] },
+        personal: { id: 'personal', name: "Personal", type: "personal", members: ['frans', 'mom'] }
     },
 
     documents: [
@@ -76,7 +99,7 @@ window.App.state = {
             participants: [
                 { userId: 'frans', role: 'viewer' },
                 { userId: 'bob', role: 'reviewer', status: 'pending' },
-                { userId: 'alice', role: 'signer', status: 'waiting' }
+                { userId: 'alice', role: 'signer', status: 'pending' } // Alice needs to sign
             ],
             events: [
                 { type: 'system', text: "Signing request created by Frans", time: "10:00 AM" },
@@ -94,10 +117,27 @@ window.App.state = {
             workspaceId: 'personal',
             status: 'completed',
             participants: [
-                { userId: 'frans', role: 'signer', status: 'completed' }
+                { userId: 'frans', role: 'signer', status: 'completed' },
+                { userId: 'mom', role: 'viewer', status: 'completed' }
             ],
             events: [
                 { type: 'system', text: "Document signed successfully", time: "2 weeks ago" }
+            ],
+            messages: []
+        },
+        // Company B: Active Thread
+        'thread_4': {
+            id: 'thread_4',
+            docId: 'doc_7',
+            title: "Project Proposal Draft",
+            workspaceId: 'company_b',
+            status: 'draft',
+            participants: [
+                { userId: 'frans', role: 'viewer' },
+                { userId: 'dave', role: 'signer', status: 'pending' }
+            ],
+            events: [
+                { type: 'system', text: "Draft created", time: "1 day ago" }
             ],
             messages: []
         },
@@ -124,7 +164,9 @@ window.App.state = {
 
     // Inbox: Derived from threads, but stored for easy access in prototype
     inbox: [
-        { id: 'task_1', threadId: 'thread_1', userId: 'bob', type: 'to_review', status: 'pending', title: "Review: Employment Contract v3", time: "10:00 AM" }
+        { id: 'task_1', threadId: 'thread_1', userId: 'bob', type: 'to_review', status: 'pending', title: "Review: Employment Contract v3", time: "10:00 AM" },
+        { id: 'task_2', threadId: 'thread_1', userId: 'alice', type: 'to_sign', status: 'pending', title: "Sign: Employment Contract v3", time: "10:00 AM" },
+        { id: 'task_3', threadId: 'thread_4', userId: 'dave', type: 'to_sign', status: 'pending', title: "Sign: Project Proposal", time: "1 day ago" }
     ],
 
     // 3. Methods
@@ -248,6 +290,7 @@ window.App.state = {
         if (this.users[userId][workspaceId]) {
             this.users[userId][workspaceId].label = `Former Member (${this.users[userId].name})`;
             this.users[userId][workspaceId].title = "Former Member";
+            this.users[userId][workspaceId].role = "none";
         }
 
         // 3. Find pending tasks
@@ -275,7 +318,8 @@ window.App.state = {
         }
 
         // Add System Event
-        const oldName = this.users[oldUserId].name;
+        // Check if user still exists in our mock data map to avoid crash if totally removed (unlikely in this flow)
+        const oldName = this.users[oldUserId] ? this.users[oldUserId].name : 'Former User';
         const newName = this.users[newUserId].name;
         thread.events.push({ type: 'system', text: `${oldName} offboarded by Admin`, time: "Just now" });
         thread.events.push({ type: 'system', text: `Task reassigned to ${newName}`, time: "Just now" });
@@ -310,8 +354,16 @@ window.App.utils = {
             state.currentWorkspace === 'company_b' ? user.company_b :
                 user.personal;
 
-        // If viewing in a workspace where the user is NOT a member (and it's not personal), show neutral
-        // But for this prototype, we assume if you can see them, you see their context-appropriate label
+        // Fallback if user doesn't have data for this workspace context
+        if (!context) {
+            return {
+                name: user.name,
+                subtitle: 'External User',
+                avatar: user.avatar,
+                isCompany: state.currentWorkspace !== 'personal'
+            };
+        }
+
         return {
             name: user.name,
             subtitle: context.title || context.label,
