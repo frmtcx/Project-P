@@ -21,10 +21,10 @@ window.App.RequestSigStep3 = () => {
     };
 
     return (
-        <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col">
+        <div className="bg-background-light dark:bg-background-dark h-screen flex flex-col overflow-hidden">
             <Header title="Review Request" showBack onBack={() => navigate(-1)} />
 
-            <div className="flex-1 p-5">
+            <div className="flex-1 p-5 overflow-y-auto">
                 <div className="mb-6">
                     <span className="text-xs font-bold text-primary uppercase tracking-wider">Step 3 of 3</span>
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-1">Ready to send?</h2>
