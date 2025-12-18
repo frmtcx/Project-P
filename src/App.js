@@ -20,7 +20,7 @@ const App = () => {
             if (missing.length === 0) {
                 setIsReady(true);
             } else {
-                if (retryCount < 50) { // 5 seconds timeout
+                if (retryCount < 150) { // 15 seconds timeout
                     setTimeout(() => setRetryCount(c => c + 1), 100);
                 } else {
                     console.error("Timeout waiting for components:", missing);
