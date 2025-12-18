@@ -5,7 +5,7 @@ window.App.BottomNav = () => {
     const navigate = useNavigate();
 
     // Hide on specific pages if needed
-    if (['/sign-document', '/create-menu'].includes(location.pathname)) return null;
+    if (['/sign-document', '/create-menu', '/new-message', '/scan-qr'].includes(location.pathname)) return null;
 
     const isActive = (path) => location.pathname === path;
 
@@ -21,16 +21,16 @@ window.App.BottomNav = () => {
 
             {/* Central Scan Button */}
             <div className="relative -top-3">
-                <button className="w-14 h-14 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-200 active:scale-95 transition-transform">
+                <button onClick={() => navigate('/scan-qr')} className="w-14 h-14 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-200 active:scale-95 transition-transform">
                     <span className="material-icons-round text-2xl">center_focus_strong</span>
                 </button>
             </div>
 
-            <button onClick={() => navigate('/action-inbox')} className={`flex flex-col items-center gap-1 ${isActive('/action-inbox') ? 'text-red-600' : 'text-gray-400'}`}>
-                <span className="material-icons-round text-2xl">receipt_long</span>
+            <button onClick={() => navigate('/chats')} className={`flex flex-col items-center gap-1 ${isActive('/chats') ? 'text-red-600' : 'text-gray-400'}`}>
+                <span className="material-icons-round text-2xl">chat_bubble_outline</span>
             </button>
 
-            <button onClick={() => navigate('/profile-preview')} className={`flex flex-col items-center gap-1 ${isActive('/profile-preview') ? 'text-red-600' : 'text-gray-400'}`}>
+            <button onClick={() => navigate('/notifications')} className={`flex flex-col items-center gap-1 ${isActive('/notifications') ? 'text-red-600' : 'text-gray-400'}`}>
                 <span className="material-icons-round text-2xl">notifications</span>
             </button>
         </nav>

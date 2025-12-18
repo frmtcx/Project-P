@@ -75,6 +75,9 @@ const App = () => {
     const DocumentsList = get('DocumentsList');
     const ProfilePreview = get('ProfilePreview');
     const ShareGuardrail = get('ShareGuardrail');
+    const ScanQR = get('ScanQR');
+    const NewMessage = get('NewMessage');
+    const Notifications = get('Notifications');
 
     return (
         <MemoryRouter>
@@ -86,6 +89,9 @@ const App = () => {
                 <Route path="/documents-list" element={<DocumentsList />} />
                 <Route path="/profile-preview" element={<ProfilePreview />} />
                 <Route path="/share-guardrail" element={<ShareGuardrail />} />
+                <Route path="/scan-qr" element={<ScanQR />} />
+                <Route path="/new-message" element={<NewMessage />} />
+                <Route path="/notifications" element={<Notifications />} />
 
                 {/* Request Flow */}
                 <Route path="/request-signature-1" element={<RequestSigStep1 />} />
