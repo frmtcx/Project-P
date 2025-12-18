@@ -161,21 +161,51 @@ window.App.DocumentThread = () => {
                             );
                         }
 
-                        // EMBEDDED SIGNING CARD (WhatsApp Style)
+                        // EMBEDDED SIGNING CARD (Consistent Design)
                         if (event.type === 'signing_request') {
+                            const isMyRequest = event.signers.includes(currentUser);
                             return (
-                                <div key={idx} className="flex justify-center my-4">
-                                    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-orange-100 dark:border-gray-700 p-3 max-w-[80%] w-64">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <span className="material-icons-round text-orange-500 bg-orange-50 rounded-full p-1 text-sm">edit_document</span>
-                                            <span className="text-xs font-bold text-orange-600 uppercase">Signing Request</span>
+                                <div key={idx} className="flex justify-center my-6">
+                                    <div className="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 max-w-[85%] w-72">
+                                        {/* Header */}
+                                        <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100 dark:border-gray-800">
+                                            <span className="material-icons-round text-blue-500 text-sm">edit_document</span>
+                                            <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">Signing Request</span>
+                                            <span className="text-[10px] text-gray-400 ml-auto">{event.time}</span>
                                         </div>
-                                        <h4 className="font-bold text-sm mb-1">{event.docName}</h4>
-                                        <p className="text-xs text-gray-500 mb-3">Requested for {event.signers.length} people</p>
-                                        <button className="w-full bg-orange-50 text-orange-600 font-bold text-xs py-2 rounded-lg hover:bg-orange-100 transition">
-                                            View Document
+
+                                        {/* Content */}
+                                        <div className="flex items-start gap-3 mb-4">
+                                            <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500 shrink-0">
+                                                <span className="material-icons-round">description</span>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-sm text-gray-900 dark:text-white leading-tight mb-1">{event.docName}</h4>
+                                                <p className="text-xs text-gray-500">
+                                                    Requested for {event.signers.length} people
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {/* Action */}
+                                        <button
+                                            onClick={() => {
+                                                // Ideally this would open the document or signing flow.
+                                                // For prototype, we'll just log or maybe navigate if we had the logic.
+                                                alert("Opening document for signing...");
+                                            }}
+                                            className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition
+                                                ${isMyRequest
+                                                    ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-sm'
+                                                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300'
+                                                }`}
+                                        >
+                                            {isMyRequest ? (
+                                                <><span className="material-icons-round text-sm">edit</span> Sign Document</>
+                                            ) : (
+                                                'View Document'
+                                            )}
                                         </button>
-                                        <div className="text-[10px] text-gray-300 text-right mt-1">{event.time}</div>
                                     </div>
                                 </div>
                             );
