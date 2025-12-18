@@ -1,8 +1,6 @@
 const { useNavigate } = ReactRouterDOM;
-const { StatusBar, Header, BottomNav } = window.App;
-const { useState } = React;
-
 window.App.ActionInbox = () => {
+    const { StatusBar, Header, BottomNav } = window.App;
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('to-sign'); // 'to-sign' | 'to-review' | 'fyi'
 

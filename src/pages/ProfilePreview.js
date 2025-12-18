@@ -1,8 +1,6 @@
 const { useNavigate } = ReactRouterDOM;
-const { StatusBar } = window.App;
-const { useState, useEffect } = React;
-
 window.App.ProfilePreview = () => {
+    const { StatusBar } = window.App;
     const navigate = useNavigate();
     const [workspace, setWorkspace] = useState(window.App.state.currentWorkspace);
 

@@ -1,42 +1,75 @@
 const { createRoot } = ReactDOM;
 const { MemoryRouter, Routes, Route } = ReactRouterDOM;
-
-// Safe component retrieval
-const getComponent = (name) => {
-    const component = window.App[name];
-    if (!component) {
-        console.error(`Component ${name} is missing from window.App`);
-        return () => <div className="p-4 text-red-500">Error: Component {name} not found. Check console.</div>;
-    }
-    return component;
-};
+const { useState, useEffect } = React;
 
 const App = () => {
-    const WorkspaceHome = getComponent('WorkspaceHome');
-    const WorkspaceSwitcher = getComponent('WorkspaceSwitcher');
-    const ChatsList = getComponent('ChatsList');
-    const CreateMenu = getComponent('CreateMenu');
-    const RequestSigStep1 = getComponent('RequestSigStep1');
-    const RequestSigStep2 = getComponent('RequestSigStep2');
-    const RequestSigStep3 = getComponent('RequestSigStep3');
-    const PeoplePicker = getComponent('PeoplePicker');
-    const SendSuccess = getComponent('SendSuccess');
-    const DocumentThread = getComponent('DocumentThread');
-    const DocumentThreadReviewer = getComponent('DocumentThreadReviewer');
-    const ActionInbox = getComponent('ActionInbox');
-    const SignerView = getComponent('SignerView');
-    const SignDocument = getComponent('SignDocument');
-    const SigningSuccess = getComponent('SigningSuccess');
-    const DocumentThreadCompleted = getComponent('DocumentThreadCompleted');
-    const AdminOverview = getComponent('AdminOverview');
-    const AdminMembers = getComponent('AdminMembers');
-    const OffboardUser = getComponent('OffboardUser');
-    const ReassignPicker = getComponent('ReassignPicker');
-    const OffboardingSuccess = getComponent('OffboardingSuccess');
-    const AccessReview = getComponent('AccessReview');
-    const DocumentsList = getComponent('DocumentsList');
-    const ProfilePreview = getComponent('ProfilePreview');
-    const ShareGuardrail = getComponent('ShareGuardrail');
+    const [isReady, setIsReady] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
+
+    useEffect(() => {
+        const checkComponents = () => {
+            // Check for a few key components to ensure loading is complete
+            const required = ['WorkspaceHome', 'DocumentThread', 'ActionInbox'];
+            const missing = required.filter(name => !window.App[name]);
+
+            if (missing.length === 0) {
+                setIsReady(true);
+            } else {
+                if (retryCount < 50) { // 5 seconds timeout
+                    setTimeout(() => setRetryCount(c => c + 1), 100);
+                } else {
+                    console.error("Timeout waiting for components:", missing);
+                    // Force render to show error via getComponent
+                    setIsReady(true);
+                }
+            }
+        };
+        checkComponents();
+    }, [retryCount]);
+
+    if (!isReady) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-50 dark:bg-gray-900">
+                <div className="flex flex-col items-center">
+                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p className="text-gray-500 font-sans">Loading PrivyChat...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Safe component retrieval
+    const get = (name) => {
+        const Comp = window.App[name];
+        if (!Comp) return () => <div className="p-4 text-red-500 font-mono text-sm">Error: {name} failed to load.</div>;
+        return Comp;
+    };
+
+    const WorkspaceHome = get('WorkspaceHome');
+    const WorkspaceSwitcher = get('WorkspaceSwitcher');
+    const ChatsList = get('ChatsList');
+    const CreateMenu = get('CreateMenu');
+    const RequestSigStep1 = get('RequestSigStep1');
+    const RequestSigStep2 = get('RequestSigStep2');
+    const RequestSigStep3 = get('RequestSigStep3');
+    const PeoplePicker = get('PeoplePicker');
+    const SendSuccess = get('SendSuccess');
+    const DocumentThread = get('DocumentThread');
+    const DocumentThreadReviewer = get('DocumentThreadReviewer');
+    const ActionInbox = get('ActionInbox');
+    const SignerView = get('SignerView');
+    const SignDocument = get('SignDocument');
+    const SigningSuccess = get('SigningSuccess');
+    const DocumentThreadCompleted = get('DocumentThreadCompleted');
+    const AdminOverview = get('AdminOverview');
+    const AdminMembers = get('AdminMembers');
+    const OffboardUser = get('OffboardUser');
+    const ReassignPicker = get('ReassignPicker');
+    const OffboardingSuccess = get('OffboardingSuccess');
+    const AccessReview = get('AccessReview');
+    const DocumentsList = get('DocumentsList');
+    const ProfilePreview = get('ProfilePreview');
+    const ShareGuardrail = get('ShareGuardrail');
 
     return (
         <MemoryRouter>

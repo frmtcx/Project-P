@@ -1,8 +1,6 @@
 const { useNavigate } = ReactRouterDOM;
-const { StatusBar } = window.App;
-const { useState } = React;
-
 window.App.DocumentThreadReviewer = () => {
+    const { StatusBar } = window.App;
     const navigate = useNavigate();
     const [showApproveModal, setShowApproveModal] = useState(false);
     const [showChangesModal, setShowChangesModal] = useState(false);

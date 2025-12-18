@@ -1,7 +1,6 @@
 const { useNavigate } = ReactRouterDOM;
-const { StatusBar } = window.App;
-
 window.App.DocumentThread = () => {
+    const { StatusBar } = window.App;
     const navigate = useNavigate();
     return (
         <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col">

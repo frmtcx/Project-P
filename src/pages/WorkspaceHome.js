@@ -1,8 +1,6 @@
 const { useNavigate } = ReactRouterDOM;
-const { StatusBar, BottomNav } = window.App;
-const { useState, useEffect } = React;
-
 window.App.WorkspaceHome = () => {
+    const { StatusBar, BottomNav } = window.App;
     const navigate = useNavigate();
     const [workspace, setWorkspace] = useState(window.App.state.currentWorkspace);
 

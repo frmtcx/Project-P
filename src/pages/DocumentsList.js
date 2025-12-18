@@ -1,7 +1,6 @@
 const { useNavigate } = ReactRouterDOM;
-const { StatusBar, BottomNav } = window.App;
-
 window.App.DocumentsList = () => {
+    const { StatusBar, BottomNav } = window.App;
     const navigate = useNavigate();
     return (
         <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen pb-24">

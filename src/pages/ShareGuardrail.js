@@ -1,7 +1,6 @@
 const { useNavigate } = ReactRouterDOM;
-const { StatusBar } = window.App;
-
 window.App.ShareGuardrail = () => {
+    const { StatusBar } = window.App;
     const navigate = useNavigate();
     return (
         <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col">
