@@ -8,6 +8,9 @@ window.App.state = {
     currentUser: 'frans', // The logged-in user
 
     // 2. Data Models
+    ui: {
+        activeChatTab: 'all' // 'all' | 'actions' | 'mentions'
+    },
     users: {
         frans: {
             id: 'frans',
@@ -364,6 +367,13 @@ window.App.state = {
     },
     notify() {
         this.listeners.forEach(l => l());
+    },
+
+    updateUI(key, value) {
+        if (this.ui[key] !== undefined) {
+            this.ui[key] = value;
+            this.notify();
+        }
     },
 
     setWorkspace(ws) {
