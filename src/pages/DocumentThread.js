@@ -179,11 +179,13 @@ window.App.DocumentThread = () => {
                                                     Signing Request
                                                 </span>
                                             </div>
-                                            <span className={`text-[10px] text-${cardColor}-400 dark:text-${cardColor}-500 font-medium`}>{event.time}</span>
+                                            {/* Time moved to footer/body for cleaner header? actually WhatsApp puts it in bubble. For card, maybe top right is okay, or bottom right. User said "include time for card". Let's put it inside body bottom right to match bubble style if possible, or keep in header if it looks "system-y". 
+                                                Actually, WhatsApp cards (like location) put time at bottom right of the container. Let's try that.
+                                            */}
                                         </div>
 
                                         {/* Content Body */}
-                                        <div className="p-4">
+                                        <div className="p-4 relative">
                                             <div className="flex items-start gap-3 mb-4">
                                                 <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500 shrink-0">
                                                     <span className="material-icons-round">description</span>
@@ -201,7 +203,7 @@ window.App.DocumentThread = () => {
                                                 onClick={() => {
                                                     alert(isMyRequest ? "Opening signing flow..." : "Opening document viewer...");
                                                 }}
-                                                className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition
+                                                className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition mb-1
                                                     ${isMyRequest
                                                         ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-sm'
                                                         : 'bg-gray-50 text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300'
@@ -213,26 +215,45 @@ window.App.DocumentThread = () => {
                                                     'View Document'
                                                 )}
                                             </button>
+
+                                            {/* Timestamp inside card (bottom right) */}
+                                            <div className={`text-[10px] text-right mt-1 font-medium text-${cardColor}-300 dark:text-${cardColor}-700`}>
+                                                {event.time}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             );
                         }
 
-                        // Message Bubble
+                        // Message Bubble (WhatsApp Style)
                         const userDisplay = window.App.utils.getUserDisplay(event.userId);
                         return (
-                            <div key={idx} className={`flex gap-3 ${isMe ? 'flex-row-reverse' : ''}`}>
-                                <img src={userDisplay.avatar} className="w-8 h-8 rounded-full bg-gray-100 self-end" />
+                            <div key={idx} className={`flex gap-3 mb-1 ${isMe ? 'flex-row-reverse' : ''}`}>
+                                {/* Avatar (Hide if consecutive? For prototype keep it simple) */}
+                                <img src={userDisplay.avatar} className="w-8 h-8 rounded-full bg-gray-100 self-end mb-1" />
                                 <div className={`flex flex-col max-w-[75%] ${isMe ? 'items-end' : 'items-start'}`}>
                                     {!isMe && <span className="text-xs text-gray-500 ml-1 mb-1">{userDisplay.name}</span>}
-                                    <div className={`px-4 py-2.5 rounded-2xl text-sm ${isMe
-                                        ? 'bg-primary text-white rounded-br-none'
-                                        : 'bg-gray-100 dark:bg-surface-dark text-gray-900 dark:text-white rounded-bl-none'
+
+                                    {/* Bubble Container */}
+                                    <div className={`px-3 py-2 rounded-2xl text-sm relative shadow-sm ${isMe
+                                        ? 'bg-primary text-white rounded-br-sm'
+                                        : 'bg-white dark:bg-surface-dark text-gray-900 dark:text-white rounded-bl-sm border border-gray-100 dark:border-gray-700'
                                         }`}>
-                                        {event.text}
+
+                                        <div className="flex flex-wrap items-end gap-x-2">
+                                            <span className="leading-snug">
+                                                {event.text}
+                                            </span>
+
+                                            {/* Timestamp INSIDE bubble */}
+                                            <span className={`text-[10px] whitespace-nowrap ml-auto -mb-1 select-none ${isMe ? 'text-white/70' : 'text-gray-400'}`}>
+                                                {event.time}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <span className="text-[10px] text-gray-400 mt-1 mx-1">{event.time}</span>
+
+                                    {/* Removed external timestamp */}
                                 </div>
                             </div>
                         );
