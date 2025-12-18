@@ -1,7 +1,7 @@
 window.App.WorkspaceHome = () => {
     const { useState, useEffect } = React;
     const { useNavigate } = ReactRouterDOM;
-    const { StatusBar, BottomNav } = window.App;
+    // const { StatusBar, BottomNav } = window.App; // Destructuring here might be risky if they are not yet defined
 
     const navigate = useNavigate();
     const [workspace, setWorkspace] = useState(window.App.state.currentWorkspace);
@@ -12,7 +12,6 @@ window.App.WorkspaceHome = () => {
         });
     }, []);
 
-    const isCompany = workspace === 'company_a';
     return (
         <div className="pb-24 bg-gray-50 min-h-screen font-sans">
             {/* Header Section */}
@@ -135,6 +134,7 @@ window.App.WorkspaceHome = () => {
                     </div>
                 </div>
             </main>
+            <window.App.BottomNav />
         </div>
     );
 };
