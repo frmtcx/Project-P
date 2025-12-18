@@ -1,10 +1,14 @@
 const { useNavigate } = ReactRouterDOM;
 const { StatusBar } = window.App;
+const { useState } = React;
 
 window.App.DocumentThreadReviewer = () => {
     const navigate = useNavigate();
+    const [showApproveModal, setShowApproveModal] = useState(false);
+    const [showChangesModal, setShowChangesModal] = useState(false);
+
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col">
+        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark h-screen flex flex-col relative">
             <StatusBar />
             <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 border-b border-border-light dark:border-border-dark shrink-0 z-40 flex items-center justify-between shadow-sm">
                 <button onClick={() => navigate(-1)} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 -ml-2"><span className="material-icons-round">arrow_back</span></button>
@@ -21,11 +25,41 @@ window.App.DocumentThreadReviewer = () => {
                         <div className="bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wide border border-orange-200 dark:border-orange-800 shadow-sm">You are pending</div>
                     </div>
                     <div className="flex gap-3 mt-4">
-                        <button onClick={() => navigate('/signer-view')} className="flex-1 bg-primary text-white py-3 rounded-xl font-semibold text-sm shadow-sm hover:bg-red-700 transition flex items-center justify-center gap-2 group"><span className="material-icons-round text-lg">rate_review</span>Review</button>
-                        <button className="flex-1 bg-transparent border border-border-light dark:border-border-dark text-text-primary-light py-3 rounded-xl font-medium text-sm hover:bg-gray-50 transition">Request changes</button>
+                        <button onClick={() => setShowApproveModal(true)} className="flex-1 bg-primary text-white py-3 rounded-xl font-semibold text-sm shadow-sm hover:bg-red-700 transition flex items-center justify-center gap-2 group"><span className="material-icons-round text-lg">check_circle</span>Approve</button>
+                        <button onClick={() => setShowChangesModal(true)} className="flex-1 bg-transparent border border-border-light dark:border-border-dark text-text-primary-light py-3 rounded-xl font-medium text-sm hover:bg-gray-50 transition">Request changes</button>
                     </div>
                 </div>
             </main>
+
+            {/* Approve Modal */}
+            {showApproveModal && (
+                <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowApproveModal(false)}></div>
+                    <div className="bg-surface-light dark:bg-surface-dark w-full max-w-sm mx-4 mb-4 sm:mb-0 rounded-2xl p-6 relative z-10 animate-slide-up">
+                        <h3 className="text-lg font-bold mb-2">Mark as Reviewed?</h3>
+                        <p className="text-sm text-text-secondary-light mb-6">This will move the document to the <strong>Signing</strong> stage. Alice will be notified.</p>
+                        <div className="flex gap-3">
+                            <button onClick={() => setShowApproveModal(false)} className="flex-1 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl font-medium">Cancel</button>
+                            <button onClick={() => navigate('/document-thread')} className="flex-1 py-3 bg-primary text-white rounded-xl font-bold shadow-lg">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Request Changes Modal */}
+            {showChangesModal && (
+                <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowChangesModal(false)}></div>
+                    <div className="bg-surface-light dark:bg-surface-dark w-full max-w-sm mx-4 mb-4 sm:mb-0 rounded-2xl p-6 relative z-10 animate-slide-up">
+                        <h3 className="text-lg font-bold mb-4">Request Changes</h3>
+                        <textarea className="w-full bg-gray-50 dark:bg-gray-800 border-border-light rounded-xl p-3 text-sm mb-4 focus:ring-primary" rows="4" placeholder="Describe the changes needed..."></textarea>
+                        <div className="flex gap-3">
+                            <button onClick={() => setShowChangesModal(false)} className="flex-1 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl font-medium">Cancel</button>
+                            <button onClick={() => navigate('/document-thread')} className="flex-1 py-3 bg-red-600 text-white rounded-xl font-bold shadow-lg">Send Request</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
