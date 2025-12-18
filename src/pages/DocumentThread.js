@@ -11,6 +11,12 @@ window.App.DocumentThread = () => {
     const [currentUser, setCurrentUser] = useState(window.App.state.currentUser);
     const [showInfo, setShowInfo] = useState(false); // Toggle for Info Sidebar
 
+    // Action Menu State
+    const [showActions, setShowActions] = useState(false);
+    const [actionStep, setActionStep] = useState(null); // 'select_doc' | 'select_signers' 
+    const [selectedDoc, setSelectedDoc] = useState(null);
+    const [selectedSigners, setSelectedSigners] = useState([]);
+
     useEffect(() => {
         return window.App.state.subscribe(() => {
             const updated = window.App.state.threads[threadId];
@@ -149,6 +155,26 @@ window.App.DocumentThread = () => {
                             );
                         }
 
+                        // EMBEDDED SIGNING CARD (WhatsApp Style)
+                        if (event.type === 'signing_request') {
+                            return (
+                                <div key={idx} className="flex justify-center my-4">
+                                    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-orange-100 dark:border-gray-700 p-3 max-w-[80%] w-64">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="material-icons-round text-orange-500 bg-orange-50 rounded-full p-1 text-sm">edit_document</span>
+                                            <span className="text-xs font-bold text-orange-600 uppercase">Signing Request</span>
+                                        </div>
+                                        <h4 className="font-bold text-sm mb-1">{event.docName}</h4>
+                                        <p className="text-xs text-gray-500 mb-3">Requested for {event.signers.length} people</p>
+                                        <button className="w-full bg-orange-50 text-orange-600 font-bold text-xs py-2 rounded-lg hover:bg-orange-100 transition">
+                                            View Document
+                                        </button>
+                                        <div className="text-[10px] text-gray-300 text-right mt-1">{event.time}</div>
+                                    </div>
+                                </div>
+                            );
+                        }
+
                         // Message Bubble
                         const userDisplay = window.App.utils.getUserDisplay(event.userId);
                         return (
@@ -170,11 +196,95 @@ window.App.DocumentThread = () => {
                 </div>
             </main>
 
-            {/* Chat Input */}
+            {/* Chat Input Area with Action Button */}
             <footer className="absolute bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-border-light dark:border-border-dark p-3 z-30">
+                {/* Action Menu (WhatsApp Style) */}
+                {showActions && (
+                    <div className="absolute bottom-16 left-4 bg-white dark:bg-surface-dark rounded-xl shadow-2xl border border-gray-100 dark:border-gray-800 p-2 animate-scale-up origin-bottom-left flex flex-col gap-2 w-48 z-40">
+                        <button onClick={() => setActionStep('select_doc')} className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-left text-gray-700 dark:text-gray-200 transition">
+                            <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><span className="material-icons-round">description</span></div>
+                            <span className="text-sm font-bold">Request Signature</span>
+                        </button>
+                        <button className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-left text-gray-700 dark:text-gray-200 transition">
+                            <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"><span className="material-icons-round">image</span></div>
+                            <span className="text-sm font-bold">Photo & Video</span>
+                        </button>
+                    </div>
+                )}
+
+                {/* Embedded Signing Flow Modals */}
+                {actionStep === 'select_doc' && (
+                    <div className="absolute inset-0 bg-white dark:bg-surface-dark z-50 flex flex-col animate-slide-up">
+                        <header className="px-4 pt-4 pb-2 border-b border-gray-100 flex items-center gap-3">
+                            <button onClick={() => setActionStep(null)}><span className="material-icons-round">close</span></button>
+                            <h2 className="font-bold">Select Document</h2>
+                        </header>
+                        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                            {window.App.state.documents.filter(d => d.workspaceId === thread.workspaceId).map(doc => (
+                                <div key={doc.id} onClick={() => { setSelectedDoc(doc); setActionStep('select_signers'); }} className="flex items-center gap-3 p-3 border rounded-xl hover:bg-gray-50 cursor-pointer">
+                                    <span className="material-icons-round text-red-500">picture_as_pdf</span>
+                                    <div className="flex-1">
+                                        <p className="text-sm font-bold">{doc.name}</p>
+                                        <p className="text-xs text-gray-500">{doc.updated}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {actionStep === 'select_signers' && (
+                    <div className="absolute inset-0 bg-white dark:bg-surface-dark z-50 flex flex-col animate-slide-up">
+                        <header className="px-4 pt-4 pb-2 border-b border-gray-100 flex items-center gap-3">
+                            <button onClick={() => setActionStep('select_doc')}><span className="material-icons-round">arrow_back</span></button>
+                            <h2 className="font-bold">Who needs to sign?</h2>
+                        </header>
+                        <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                            {thread.participants.filter(p => p.userId !== currentUser).map(p => {
+                                const user = window.App.utils.getUserDisplay(p.userId);
+                                const isSelected = selectedSigners.includes(p.userId);
+                                return (
+                                    <div key={p.userId} onClick={() => {
+                                        if (isSelected) setSelectedSigners(prev => prev.filter(id => id !== p.userId));
+                                        else setSelectedSigners(prev => [...prev, p.userId]);
+                                    }} className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer ${isSelected ? 'border-primary bg-red-50' : 'border-gray-100'}`}>
+                                        <div className={`w-5 h-5 rounded border flex items-center justify-center ${isSelected ? 'bg-primary border-primary text-white' : 'border-gray-300'}`}>
+                                            {isSelected && <span className="material-icons text-xs">check</span>}
+                                        </div>
+                                        <img src={user.avatar} className="w-8 h-8 rounded-full" />
+                                        <span className="text-sm font-bold">{user.name}</span>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className="p-4 border-t border-gray-100">
+                            <button
+                                disabled={selectedSigners.length === 0}
+                                onClick={() => {
+                                    window.App.state.createEmbeddedSigningRequest(threadId, selectedDoc.id, selectedSigners);
+                                    setActionStep(null);
+                                    setShowActions(false);
+                                    setSelectedSigners([]);
+                                    setSelectedDoc(null);
+                                }}
+                                className="w-full bg-primary text-white py-3 rounded-xl font-bold disabled:opacity-50">
+                                Send Request
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+
                 <div className="flex items-end gap-2">
-                    <button className="p-2 text-text-secondary-light hover:bg-gray-100 rounded-full"><span className="material-icons-round">add_circle_outline</span></button>
-                    <div className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center px-4 py-2 min-h-[44px]"><input className="bg-transparent border-none focus:ring-0 w-full text-sm p-0" placeholder="Message..." type="text" /></div>
+                    <button
+                        onClick={() => setShowActions(!showActions)}
+                        className={`p-2 rounded-full transition ${showActions ? 'bg-gray-200 text-gray-800' : 'text-text-secondary-light hover:bg-gray-100'}`}
+                    >
+                        <span className={`material-icons-round transition-transform ${showActions ? 'rotate-45' : ''}`}>add_circle_outline</span>
+                    </button>
+                    <div className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center px-4 py-2 min-h-[44px]">
+                        <input className="bg-transparent border-none focus:ring-0 w-full text-sm p-0" placeholder="Message..." type="text" />
+                    </div>
                     <button className="p-2 text-primary hover:bg-red-50 rounded-full"><span className="material-icons-round">send</span></button>
                 </div>
             </footer>

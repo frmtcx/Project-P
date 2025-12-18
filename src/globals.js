@@ -449,6 +449,76 @@ window.App.state = {
         return threadId;
     },
 
+    // Flow 1b: Create Discussion (Group Chat)
+    createDiscussion(participantIds, title = null) {
+        const threadId = 'thread_' + Date.now();
+
+        // Add current user if not in list
+        const allUserIds = [...new Set([this.currentUser, ...participantIds])];
+
+        // Default title if none provided: Comma separated names
+        if (!title) {
+            title = allUserIds
+                .filter(id => id !== this.currentUser)
+                .map(id => this.users[id]?.name || id)
+                .join(', ');
+            if (title.length > 30) title = title.substring(0, 30) + '...';
+        }
+
+        const newThread = {
+            id: threadId,
+            type: 'discussion',
+            title: title || 'New Chat',
+            workspaceId: this.currentWorkspace,
+            status: 'active',
+            participants: allUserIds.map(id => ({ userId: id, role: 'member' })),
+            events: [
+                { type: 'system', text: 'Group chat created', time: "Just now" }
+            ],
+            messages: [],
+            lastActivity: "Just now"
+        };
+
+        this.threads[threadId] = newThread;
+        this.notify();
+        return threadId;
+    },
+
+    // Flow 1c: Embedded Signing Request (In-Thread)
+    createEmbeddedSigningRequest(threadId, docId, signerIds) {
+        const thread = this.threads[threadId];
+        const doc = this.documents.find(d => d.id === docId);
+        if (!thread || !doc) return;
+
+        // Add 'signing_request' event to the chat stream
+        thread.events.push({
+            type: 'signing_request',
+            docId: docId,
+            docName: doc.name,
+            signers: signerIds,
+            status: 'pending',
+            time: "Just now"
+        });
+
+        thread.lastActivity = "Just now";
+
+        // Create Inbox Items for Signers
+        signerIds.forEach(userId => {
+            this.inbox.push({
+                id: 'task_' + Date.now() + '_' + userId,
+                threadId: threadId,
+                userId: userId,
+                type: 'to_sign',
+                status: 'pending',
+                title: `Sign: ${doc.name} (in ${thread.title})`,
+                time: "Just now",
+                context: 'embedded' // marker for different UI handling if needed
+            });
+        });
+
+        this.notify();
+    },
+
     // Flow 2 & 3: Workflow Actions
     updateThreadStatus(threadId, action, userId, payload) {
         const thread = this.threads[threadId];
