@@ -316,6 +316,7 @@ window.App.state = {
             docId: docId,
             title: doc.name.replace('.pdf', '').replace('.docx', ''),
             workspaceId: this.currentWorkspace,
+            type: 'document', // Explicitly set type to ensure card renders
             status: 'in_review',
             enableChat: enableChat,
             participants: [
