@@ -9,7 +9,7 @@ window.App.BottomNav = () => {
     const isActive = (path) => location.pathname === path;
 
     return (
-        <nav className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 pb-6 pt-3 z-50 flex justify-between items-end shadow-[0_-5px_20px_rgba(0,0,0,0.02)]">
+        <nav className="fixed bottom-0 w-full max-w-md mx-auto bg-white border-t border-gray-100 px-6 pb-8 pt-3 z-50 flex justify-between items-end shadow-[0_-5px_20px_rgba(0,0,0,0.02)] left-0 right-0 md:left-auto md:right-auto">
             <button onClick={() => navigate('/')} className={`flex flex-col items-center gap-1 p-2 rounded-xl transition ${isActive('/') ? 'text-primary bg-red-50' : 'text-gray-400 hover:text-gray-600'}`}>
                 <span className="material-icons-round text-[26px]">home</span>
             </button>

@@ -5,18 +5,18 @@ window.App.ActionInbox = () => {
 
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('to_sign'); // 'to_sign' | 'to_review' | 'fyi'
-    const [inbox, setInbox] = useState(window.App.state.inbox);
+    const [inbox, setInbox] = useState(window.App.state.inbox || []);
     const [currentUser, setCurrentUser] = useState(window.App.state.currentUser);
 
     useEffect(() => {
         return window.App.state.subscribe(() => {
-            setInbox([...window.App.state.inbox]);
+            setInbox([...(window.App.state.inbox || [])]);
             setCurrentUser(window.App.state.currentUser);
         });
     }, []);
 
     // Filter items for current user and active tab
-    const filteredItems = inbox.filter(item =>
+    const filteredItems = (inbox || []).filter(item =>
         item.userId === currentUser &&
         item.type === activeTab &&
         item.status === 'pending'

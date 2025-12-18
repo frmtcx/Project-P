@@ -15,7 +15,7 @@ const AppContent = () => {
     const isLightStatusBar = ['/scan-qr', '/offboarding-success'].includes(location.pathname);
 
     return (
-        <div className="max-w-md mx-auto bg-white min-h-screen shadow-2xl overflow-hidden relative font-sans">
+        <div className="max-w-md mx-auto bg-white min-h-[100dvh] shadow-2xl overflow-hidden relative font-sans">
             <window.App.StatusBar theme={isLightStatusBar ? 'light' : 'dark'} />
             <Routes>
                 <Route path="/" element={<WorkspaceHome />} />

@@ -15,15 +15,14 @@ window.App.SplashScreen = ({ onFinish }) => {
             <window.App.StatusBar theme="light" />
 
             <div className="flex items-center gap-3 animate-fade-in-up">
-                {/* Logo Icon */}
+                {/* Logo Icon - Approximation of Privy Heart */}
                 <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white drop-shadow-md">
-                    <path d="M70 20C85 20 95 30 95 45C95 65 70 90 50 90C30 90 5 65 5 45C5 30 15 20 30 20H70Z" fill="white" fillOpacity="0.2" />
-                    <path d="M50 90C30 90 5 65 5 45C5 30 15 20 30 20H45L80 55C90 65 85 80 70 85L50 90Z" fill="white" />
-                    <path d="M50 90C70 90 95 65 95 45C95 30 85 20 70 20H55L20 55C10 65 15 80 30 85L50 90Z" fill="white" fillOpacity="0.9" />
+                    {/* Left Teardrop (Darker) */}
+                    <path d="M50 85 C20 85 5 55 5 35 C5 15 20 5 35 5 C50 5 50 25 50 35 C50 25 50 5 65 5 C80 5 95 15 95 35 C95 55 80 85 50 85 Z" fill="white" />
                 </svg>
 
                 {/* Text Logo */}
-                <h1 className="text-5xl font-bold text-white tracking-tight drop-shadow-md" style={{ fontFamily: 'Inter, sans-serif' }}>privy</h1>
+                <h1 className="text-5xl font-bold text-white tracking-tight drop-shadow-md pb-2" style={{ fontFamily: 'Inter, sans-serif' }}>privy</h1>
             </div>
         </div>
     );
