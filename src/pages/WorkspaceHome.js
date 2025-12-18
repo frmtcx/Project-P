@@ -143,7 +143,9 @@ try {
                     <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100" onClick={() => navigate('/action-inbox')}>
                         <div className="flex justify-between items-center mb-1">
                             <div className="flex items-center gap-3">
-                                <span className="text-2xl font-bold text-blue-600">4</span>
+                                <span className="text-2xl font-bold text-blue-600">
+                                    {window.App.state.inbox.filter(i => i.userId === window.App.state.currentUser && i.status === 'pending').length}
+                                </span>
                                 <div>
                                     <h3 className="font-bold text-gray-900 text-sm">Action Required</h3>
                                     <p className="text-xs text-gray-400">Updated today • 18:20</p>

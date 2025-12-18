@@ -238,6 +238,19 @@ window.App.state = {
         { id: 'task_3', threadId: 'thread_4', userId: 'dave', type: 'to_sign', status: 'pending', title: "Sign: Project Proposal", time: "1 day ago" }
     ],
 
+    // System Notifications
+    notifications: [
+        // Company A
+        { id: 'notif_1', workspaceId: 'company_a', type: 'document', title: "Document Signed", text: "Alice has signed Employment Contract v3", time: "10 min ago", read: false },
+        { id: 'notif_2', workspaceId: 'company_a', type: 'security', title: "New Login", text: "New login detected from Mac OS X", time: "1 hour ago", read: true },
+
+        // Company B
+        { id: 'notif_3', workspaceId: 'company_b', type: 'mention', title: "New Mention", text: "Eve mentioned you in Design Handoff", time: "2 hours ago", read: false },
+
+        // Personal
+        { id: 'notif_4', workspaceId: 'personal', type: 'promo', title: "Storage Full", text: "You are running low on storage space.", time: "Yesterday", read: true }
+    ],
+
     // 3. Methods
     listeners: [],
     subscribe(listener) {
