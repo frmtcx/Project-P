@@ -3,19 +3,28 @@ const { MemoryRouter, Routes, Route } = ReactRouterDOM;
 const { useState, useEffect } = React;
 
 const MainApp = () => {
+    const { HashRouter, Routes, Route, useNavigate, useLocation } = ReactRouterDOM;
+    const {
+        WorkspaceHome, DocumentsList, ActionInbox,
+        RequestSigStep1, RequestSigStep2, RequestSigStep3, SendSuccess,
+        DocumentThread, AdminMembers, OffboardUser, AccessReview,
+        WorkspaceSwitcher, ScanQR, NewMessage, Notifications
+    } = window.App;
+    const { useState, useEffect } = React;
+
+    // Component loading check
     const [isReady, setIsReady] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
 
     useEffect(() => {
         const checkComponents = () => {
-            if (!window.App) {
-                console.warn("window.App is not defined yet");
-                if (retryCount < 50) setTimeout(() => setRetryCount(c => c + 1), 100);
-                return;
-            }
-            // Check for a few key components to ensure loading is complete
-            const required = ['WorkspaceHome', 'DocumentThread', 'ActionInbox'];
-            const missing = required.filter(name => !window.App[name]);
+            const required = [
+                'WorkspaceHome', 'DocumentsList', 'ActionInbox',
+                'RequestSigStep1', 'RequestSigStep2', 'RequestSigStep3', 'SendSuccess',
+                'DocumentThread', 'AdminMembers', 'OffboardUser', 'AccessReview',
+                'WorkspaceSwitcher'
+            ];
+            const missing = required.filter(c => !window.App[c]);
 
             if (missing.length === 0) {
                 setIsReady(true);
@@ -24,8 +33,7 @@ const MainApp = () => {
                     setTimeout(() => setRetryCount(c => c + 1), 100);
                 } else {
                     console.error("Timeout waiting for components:", missing);
-                    // Force render to show error via getComponent
-                    setIsReady(true);
+                    setIsReady(true); // Try to render anyway
                 }
             }
         };
@@ -34,29 +42,12 @@ const MainApp = () => {
 
     if (!isReady) {
         return (
-            <div className="flex items-center justify-center h-screen bg-gray-50 dark:bg-gray-900">
-                <div className="flex flex-col items-center">
-                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-                    <p className="text-gray-500 font-sans">Loading PrivyChat...</p>
-                </div>
+            <div className="flex items-center justify-center h-screen bg-gray-50">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
             </div>
         );
     }
 
-    // Safe component retrieval
-    const get = (name) => {
-        const Comp = window.App[name];
-        if (!Comp) return () => <div className="p-4 text-red-500 font-mono text-sm">Error: {name} failed to load.</div>;
-        return Comp;
-    };
-
-    const WorkspaceHome = get('WorkspaceHome');
-    const WorkspaceSwitcher = get('WorkspaceSwitcher');
-    const ChatsList = get('ChatsList');
-    const CreateMenu = get('CreateMenu');
-    const RequestSigStep1 = get('RequestSigStep1');
-    const RequestSigStep2 = get('RequestSigStep2');
-    const RequestSigStep3 = get('RequestSigStep3');
     const PeoplePicker = get('PeoplePicker');
     const SendSuccess = get('SendSuccess');
     const DocumentThread = get('DocumentThread');
