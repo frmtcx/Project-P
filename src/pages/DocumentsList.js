@@ -1,5 +1,5 @@
-const { useNavigate } = ReactRouterDOM;
 window.App.DocumentsList = () => {
+    const { useNavigate } = ReactRouterDOM;
     const { StatusBar, BottomNav } = window.App;
     const navigate = useNavigate();
     return (

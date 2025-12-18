@@ -1,8 +1,8 @@
-const { useNavigate } = ReactRouterDOM;
-const { useState, useEffect } = React;
-
 window.App.ChatsList = () => {
+    const { useState, useEffect } = React;
+    const { useNavigate } = ReactRouterDOM;
     const { StatusBar, BottomNav } = window.App;
+
     const navigate = useNavigate();
     const [workspace, setWorkspace] = useState(window.App.state.currentWorkspace);
 

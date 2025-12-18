@@ -1,5 +1,5 @@
-const { useNavigate } = ReactRouterDOM;
 window.App.DocumentThread = () => {
+    const { useNavigate } = ReactRouterDOM;
     const { StatusBar } = window.App;
     const navigate = useNavigate();
     return (
