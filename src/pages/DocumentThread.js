@@ -30,7 +30,12 @@ window.App.DocumentThread = () => {
     if (!thread) return <div className="p-5">Thread not found</div>;
 
     // Determine user's role and status in this thread
-    const myParticipant = thread.participants.find(p => p.userId === currentUser);
+    // FIX: Prioritize 'signer' or 'reviewer' over 'viewer' if user has multiple roles (e.g. Creator who is also Signer)
+    const myParticipants = thread.participants.filter(p => p.userId === currentUser);
+    const myParticipant = myParticipants.find(p => p.role === 'signer') ||
+        myParticipants.find(p => p.role === 'reviewer') ||
+        myParticipants[0];
+
     const myRole = myParticipant?.role;
     const myStatus = myParticipant?.status;
 
@@ -127,7 +132,8 @@ window.App.DocumentThread = () => {
                                 </div>
                             )}
 
-                            {myRole === 'signer' && myStatus === 'pending' && thread.status === 'in_signing' && (
+                            {/* FIX: Relaxed check: Allow signing if thread is in_signing OR in_review, to prevent getting stuck */}
+                            {myRole === 'signer' && myStatus === 'pending' && ['in_signing', 'in_review'].includes(thread.status) && (
                                 <button onClick={() => handleAction('sign')} className="w-full py-2.5 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition text-sm font-bold flex items-center justify-center gap-2">
                                     <span className="material-icons-round text-lg">edit</span> Sign Document
                                 </button>
