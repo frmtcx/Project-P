@@ -50,7 +50,7 @@ window.App.WorkspaceHome = () => {
                 </div>
 
                 {isCompany ? (
-                    <>
+                    <React.Fragment>
                         <section>
                             <div className="flex justify-between items-center mb-3">
                                 <h2 className="text-xs font-bold text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">Pinned</h2>
@@ -80,7 +80,7 @@ window.App.WorkspaceHome = () => {
                                 </div>
                             </div>
                         </section>
-                    </>
+                    </React.Fragment>
                 ) : (
                     <div className="flex flex-col items-center justify-center py-10 opacity-50">
                         <span className="material-icons-round text-4xl mb-2 text-gray-400">lock</span>
