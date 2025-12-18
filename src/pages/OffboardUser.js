@@ -95,8 +95,10 @@ window.App.OffboardUser = () => {
                                     </div>
                                     <div className="relative">
                                         <label className="block text-xs font-medium text-text-secondary-light mb-1.5 uppercase tracking-wide">Action Required</label>
-                                        <div className="relative" onClick={() => navigate('/reassign-picker')}>
-                                            <div className="w-full bg-gray-50 border border-border-light rounded-lg py-2.5 pl-3 pr-10 text-sm text-text-primary-light cursor-pointer">Reassign to...</div>
+                                        <div className="relative" onClick={() => navigate('/reassign-picker', { state: { offboardUserId: userId, pendingTasks } })}>
+                                            <div className="w-full bg-gray-50 border border-border-light rounded-lg py-2.5 pl-3 pr-10 text-sm text-text-primary-light cursor-pointer">
+                                                {selectedAssignee ? window.App.state.users[selectedAssignee]?.name || 'Reassign to...' : 'Reassign to...'}
+                                            </div>
                                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-secondary-light"><span className="material-icons-round text-xl">expand_more</span></div>
                                         </div>
                                     </div>
