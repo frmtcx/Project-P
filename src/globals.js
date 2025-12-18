@@ -173,6 +173,28 @@ window.App.state = {
             lastActivity: "Last Week"
         },
 
+        // NEW: [Reassigned Task] Legacy Audit
+        'thread_reassigned': {
+            id: 'thread_reassigned',
+            docId: 'doc_2',
+            type: 'document',
+            title: "Q4 Financial Report",
+            workspaceId: 'company_a',
+            status: 'in_review',
+            participants: [
+                { userId: 'frans', role: 'reviewer', status: 'pending' },
+                { userId: 'alice', role: 'viewer' }
+            ],
+            events: [
+                { type: 'system', text: "Signing request created by Alice", time: "2 weeks ago" },
+                { type: 'system', text: "Sarah Jenkins added as reviewer", time: "2 weeks ago" },
+                { type: 'system', text: "Sarah Jenkins offboarded from workspace", time: "Yesterday" },
+                { type: 'system', text: "Task reassigned to Frans", time: "Yesterday" }
+            ],
+            messages: [],
+            lastActivity: "Yesterday"
+        },
+
         // --- COMPANY B THREADS ---
 
         // 4. [Doc Chat] Active
@@ -231,6 +253,25 @@ window.App.state = {
             lastActivity: "10:00 AM"
         },
 
+        // NEW: [Doc Chat] Company B Review
+        'thread_b_review': {
+            id: 'thread_b_review',
+            docId: 'doc_6',
+            type: 'document',
+            title: "Consulting Invoice Dec",
+            workspaceId: 'company_b',
+            status: 'in_review',
+            participants: [
+                { userId: 'frans', role: 'reviewer', status: 'pending' },
+                { userId: 'dave', role: 'viewer' }
+            ],
+            events: [
+                { type: 'message', userId: 'dave', text: "Please review the hours for December.", time: "5 hours ago" }
+            ],
+            messages: [],
+            lastActivity: "5 hours ago"
+        },
+
         // --- PERSONAL THREADS ---
 
         // 6. [Normal Chat] Family Group
@@ -268,6 +309,25 @@ window.App.state = {
             ],
             messages: [],
             lastActivity: "2 weeks ago"
+        },
+
+        // NEW: [Doc Chat] Personal Lease Renewal
+        'thread_personal_sign': {
+            id: 'thread_personal_sign',
+            docId: 'doc_5', // Reusing doc just for demo
+            type: 'document',
+            title: "Lease Renewal 2025",
+            workspaceId: 'personal',
+            status: 'in_signing',
+            participants: [
+                { userId: 'frans', role: 'signer', status: 'pending' },
+                { userId: 'mom', role: 'viewer' }
+            ],
+            events: [
+                { type: 'message', userId: 'mom', text: "Landlord sent this over.", time: "1 hour ago" }
+            ],
+            messages: [],
+            lastActivity: "1 hour ago"
         }
     },
 
@@ -275,7 +335,12 @@ window.App.state = {
     inbox: [
         { id: 'task_1', threadId: 'thread_1', userId: 'bob', type: 'to_review', status: 'pending', title: "Review: Employment Contract v3", time: "10:00 AM" },
         { id: 'task_2', threadId: 'thread_1', userId: 'alice', type: 'to_sign', status: 'pending', title: "Sign: Employment Contract v3", time: "10:00 AM" },
-        { id: 'task_3', threadId: 'thread_4', userId: 'dave', type: 'to_sign', status: 'pending', title: "Sign: Project Proposal", time: "1 day ago" }
+        { id: 'task_3', threadId: 'thread_4', userId: 'dave', type: 'to_sign', status: 'pending', title: "Sign: Project Proposal", time: "1 day ago" },
+        // NEW Inbox Items
+        { id: 'task_reassigned', threadId: 'thread_reassigned', userId: 'frans', type: 'to_review', status: 'pending', title: "Review: Q4 Financial Report", time: "Yesterday" },
+        { id: 'task_b_review', threadId: 'thread_b_review', userId: 'frans', type: 'to_review', status: 'pending', title: "Review: Consulting Invoice Dec", time: "5 hours ago" },
+        { id: 'task_personal_sign', threadId: 'thread_personal_sign', userId: 'frans', type: 'to_sign', status: 'pending', title: "Sign: Lease Renewal 2025", time: "1 hour ago" },
+        { id: 'task_mention_1', threadId: 'thread_5', userId: 'frans', type: 'mention', status: 'pending', title: "Mentioned in Design Handoff", time: "2 hours ago" }
     ],
 
     // System Notifications

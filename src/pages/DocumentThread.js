@@ -45,6 +45,15 @@ window.App.DocumentThread = () => {
 
     const statusColor = getStatusColor(thread.status);
 
+    const handleCardClick = () => {
+        // Smart Action based on state
+        if (myRole === 'signer' && myStatus === 'pending' && thread.status === 'in_signing') {
+            handleAction('sign');
+        } else if (myRole === 'reviewer' && myStatus === 'pending' && thread.status === 'in_review') {
+            handleAction('review_approve');
+        }
+    };
+
     const handleBack = () => {
         // If we have history state returnPath, use it, otherwise standard back
         if (location.state?.from === 'success') {
@@ -78,7 +87,10 @@ window.App.DocumentThread = () => {
             <main className="flex-1 overflow-y-auto p-4 space-y-6 bg-background-light dark:bg-background-dark pb-24">
                 {/* Document Status Card (Only if Document Type) */}
                 {thread.type === 'document' && (
-                    <div className={`bg-surface-light dark:bg-surface-dark rounded-2xl shadow-card border border-${statusColor}-200 dark:border-${statusColor}-900 overflow-hidden`}>
+                    <div
+                        className={`bg-surface-light dark:bg-surface-dark rounded-2xl shadow-card border border-${statusColor}-200 dark:border-${statusColor}-900 overflow-hidden cursor-pointer transition active:scale-[0.99]`}
+                        onClick={handleCardClick}
+                    >
                         <div className={`bg-${statusColor}-50 dark:bg-${statusColor}-900/20 px-4 py-2 border-b border-${statusColor}-100 dark:border-${statusColor}-900/50 flex justify-between items-center`}>
                             <div className="flex items-center gap-1.5">
                                 <span className={`material-icons-round text-${statusColor}-500 text-sm`}>
@@ -145,8 +157,8 @@ window.App.DocumentThread = () => {
                                 <div className={`flex flex-col max-w-[75%] ${isMe ? 'items-end' : 'items-start'}`}>
                                     {!isMe && <span className="text-xs text-gray-500 ml-1 mb-1">{userDisplay.name}</span>}
                                     <div className={`px-4 py-2.5 rounded-2xl text-sm ${isMe
-                                            ? 'bg-primary text-white rounded-br-none'
-                                            : 'bg-gray-100 dark:bg-surface-dark text-gray-900 dark:text-white rounded-bl-none'
+                                        ? 'bg-primary text-white rounded-br-none'
+                                        : 'bg-gray-100 dark:bg-surface-dark text-gray-900 dark:text-white rounded-bl-none'
                                         }`}>
                                         {event.text}
                                     </div>
