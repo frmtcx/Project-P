@@ -1,95 +1,113 @@
 window.App.ActionInbox = () => {
-    const { useState } = React;
+    const { useState, useEffect } = React;
     const { useNavigate } = ReactRouterDOM;
-    const { StatusBar, Header, BottomNav } = window.App;
+    const { StatusBar, BottomNav } = window.App;
 
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState('to-sign'); // 'to-sign' | 'to-review' | 'fyi'
+    const [activeTab, setActiveTab] = useState('to_sign'); // 'to_sign' | 'to_review' | 'fyi'
+    const [inbox, setInbox] = useState(window.App.state.inbox);
+    const [currentUser, setCurrentUser] = useState(window.App.state.currentUser);
+
+    useEffect(() => {
+        return window.App.state.subscribe(() => {
+            setInbox([...window.App.state.inbox]);
+            setCurrentUser(window.App.state.currentUser);
+        });
+    }, []);
+
+    // Filter items for current user and active tab
+    const filteredItems = inbox.filter(item =>
+        item.userId === currentUser &&
+        item.type === activeTab &&
+        item.status === 'pending'
+    );
+
+    const getTabLabel = (type) => {
+        const count = inbox.filter(i => i.userId === currentUser && i.type === type && i.status === 'pending').length;
+        const label = type === 'to_sign' ? 'To Sign' : type === 'to_review' ? 'To Review' : 'FYI';
+        return { label, count };
+    };
 
     return (
         <div className="pb-24 bg-gray-50 min-h-screen font-sans">
+            <StatusBar />
             {/* Header */}
             <header className="bg-white px-5 pt-6 pb-2 sticky top-0 z-10">
                 <div className="flex justify-between items-center mb-4">
-                    <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Frans" className="w-6 h-6 rounded-full" />
-                        </div>
-                        <span className="material-icons-round text-gray-400 text-sm">expand_more</span>
-                    </div>
-                    <h1 className="text-lg font-bold text-gray-900">Actions required</h1>
-                    <span className="material-icons-round text-gray-600">note_add</span>
+                    <h1 className="text-lg font-bold text-gray-900">Action Inbox</h1>
+                    <span className="material-icons-round text-gray-600">filter_list</span>
                 </div>
 
-                {/* Search */}
-                <div className="relative mb-4">
-                    <span className="material-icons-round absolute left-3 top-2.5 text-gray-400 text-xl">search</span>
-                    <input type="text" placeholder="Search" className="w-full bg-gray-100 border-none rounded-lg py-2.5 pl-10 pr-4 text-sm focus:ring-1 focus:ring-red-500" />
-                </div>
-
-                {/* Filters */}
+                {/* Tabs */}
                 <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-                    <button className="px-3 py-1.5 rounded-full border border-gray-200 bg-white text-xs font-medium whitespace-nowrap flex items-center gap-1">
-                        All actions <span className="bg-gray-100 px-1.5 rounded text-[10px]">4</span> <span className="material-icons-round text-sm">expand_more</span>
-                    </button>
-                    <button className="px-3 py-1.5 rounded-full border border-gray-200 bg-white text-xs font-medium whitespace-nowrap flex items-center gap-1">
-                        Last 6 months <span className="material-icons-round text-sm">expand_more</span>
-                    </button>
-                    <button className="px-3 py-1.5 rounded-full border border-gray-200 bg-white text-xs font-medium whitespace-nowrap">
-                        Sort by
-                    </button>
+                    {['to_sign', 'to_review', 'fyi'].map(type => {
+                        const { label, count } = getTabLabel(type);
+                        const isActive = activeTab === type;
+                        return (
+                            <button
+                                key={type}
+                                onClick={() => setActiveTab(type)}
+                                className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap flex items-center gap-2 transition-colors ${isActive
+                                        ? 'bg-gray-900 text-white'
+                                        : 'bg-white border border-gray-200 text-gray-600'
+                                    }`}
+                            >
+                                {label}
+                                {count > 0 && (
+                                    <span className={`px-1.5 py-0.5 rounded text-[10px] ${isActive ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600'
+                                        }`}>
+                                        {count}
+                                    </span>
+                                )}
+                            </button>
+                        );
+                    })}
                 </div>
             </header>
 
-            <main className="px-5 pt-2">
-                <div className="mb-6">
-                    <h3 className="text-xs text-gray-500 font-medium mb-3">This week</h3>
-                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex gap-3 mb-3" onClick={() => navigate('/signer-view')}>
-                        <div className="relative">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Frans" className="w-10 h-10 rounded-full bg-gray-100" />
-                            <span className="material-icons-round text-green-500 text-sm absolute -bottom-1 -right-1 bg-white rounded-full">verified</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <div className="flex justify-between items-start">
-                                <h4 className="font-bold text-sm text-gray-900">FRANS</h4>
-                                <span className="text-[10px] text-gray-400">Dec 15, 2025</span>
-                            </div>
-                            <p className="text-xs text-gray-500 mt-0.5 truncate">Frans_CV_December_2025</p>
-                        </div>
+            <main className="px-5 pt-4">
+                {filteredItems.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-20 text-gray-400">
+                        <span className="material-icons-round text-4xl mb-2">inbox</span>
+                        <p className="text-sm">No pending actions</p>
                     </div>
-                </div>
+                ) : (
+                    <div className="space-y-3">
+                        {filteredItems.map(item => {
+                            // Find thread info for context
+                            const thread = window.App.state.threads[item.threadId];
+                            const requester = thread?.participants.find(p => p.role === 'viewer')?.userId;
+                            const requesterDisplay = requester ? window.App.utils.getUserDisplay(requester) : { name: 'System' };
 
-                <div>
-                    <h3 className="text-xs text-gray-500 font-medium mb-3">This year</h3>
-                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex gap-3 mb-3" onClick={() => navigate('/document-thread-reviewer')}>
-                        <div className="relative">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Yusak" className="w-10 h-10 rounded-full bg-gray-100" />
-                            <span className="material-icons-round text-green-500 text-sm absolute -bottom-1 -right-1 bg-white rounded-full">verified</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <div className="flex justify-between items-start">
-                                <h4 className="font-bold text-sm text-gray-900">YUSAK YOSEFIANUS</h4>
-                                <span className="text-[10px] text-gray-400">Jul 27, 2025</span>
-                            </div>
-                            <p className="text-xs text-gray-500 mt-0.5 truncate">Gym</p>
-                        </div>
+                            return (
+                                <div
+                                    key={item.id}
+                                    className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex gap-3 active:scale-[0.99] transition-transform"
+                                    onClick={() => navigate('/document-thread', { state: { threadId: item.threadId } })}
+                                >
+                                    <div className="relative">
+                                        <img src={requesterDisplay.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=System"} className="w-10 h-10 rounded-full bg-gray-100" />
+                                        <span className={`material-icons-round text-xs absolute -bottom-1 -right-1 w-5 h-5 flex items-center justify-center rounded-full border-2 border-white ${item.type === 'to_sign' ? 'bg-blue-500 text-white' : 'bg-orange-500 text-white'
+                                            }`}>
+                                            {item.type === 'to_sign' ? 'edit' : 'visibility'}
+                                        </span>
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex justify-between items-start">
+                                            <h4 className="font-bold text-sm text-gray-900 truncate pr-2">{item.title}</h4>
+                                            <span className="text-[10px] text-gray-400 whitespace-nowrap">{item.time}</span>
+                                        </div>
+                                        <p className="text-xs text-gray-500 mt-0.5 truncate">
+                                            Requested by {requesterDisplay.name}
+                                        </p>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
-                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex gap-3 mb-3">
-                        <div className="relative">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Yusak" className="w-10 h-10 rounded-full bg-gray-100" />
-                            <span className="material-icons-round text-green-500 text-sm absolute -bottom-1 -right-1 bg-white rounded-full">verified</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <div className="flex justify-between items-start">
-                                <h4 className="font-bold text-sm text-gray-900">YUSAK YOSEFIANUS</h4>
-                                <span className="text-[10px] text-gray-400">Jul 27, 2025</span>
-                            </div>
-                            <p className="text-xs text-gray-500 mt-0.5 truncate">Please_DocuSign_NDA_PT_HKI_dan_Yusak_Yosefia</p>
-                        </div>
-                    </div>
-                </div>
+                )}
             </main>
-            <window.App.BottomNav />
+            <BottomNav />
         </div>
     );
 };
