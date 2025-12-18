@@ -146,4 +146,10 @@ try {
     console.log("WorkspaceHome.js loaded successfully");
 } catch (error) {
     console.error("Error loading WorkspaceHome.js:", error);
+    window.App.WorkspaceHome = () => (
+        <div className="p-4 text-red-500">
+            <h2 className="font-bold">Error loading WorkspaceHome</h2>
+            <pre className="text-xs mt-2 overflow-auto">{error.toString()}</pre>
+        </div>
+    );
 }
