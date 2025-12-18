@@ -8,6 +8,11 @@ const App = () => {
 
     useEffect(() => {
         const checkComponents = () => {
+            if (!window.App) {
+                console.warn("window.App is not defined yet");
+                if (retryCount < 50) setTimeout(() => setRetryCount(c => c + 1), 100);
+                return;
+            }
             // Check for a few key components to ensure loading is complete
             const required = ['WorkspaceHome', 'DocumentThread', 'ActionInbox'];
             const missing = required.filter(name => !window.App[name]);
