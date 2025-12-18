@@ -343,7 +343,30 @@ window.App.state = {
         { id: 'task_reassigned', threadId: 'thread_reassigned', userId: 'frans', type: 'to_review', status: 'pending', title: "Review: Q4 Financial Report", time: "Yesterday" },
         { id: 'task_b_review', threadId: 'thread_b_review', userId: 'frans', type: 'to_review', status: 'pending', title: "Review: Consulting Invoice Dec", time: "5 hours ago" },
         { id: 'task_personal_sign', threadId: 'thread_personal_sign', userId: 'frans', type: 'to_sign', status: 'pending', title: "Sign: Lease Renewal 2025", time: "1 hour ago" },
-        { id: 'task_mention_1', threadId: 'thread_5', userId: 'frans', type: 'mention', status: 'pending', title: "Mentioned in Design Handoff", time: "2 hours ago" }
+        { id: 'task_b_review', threadId: 'thread_b_review', userId: 'frans', type: 'to_review', status: 'pending', title: "Review: Consulting Invoice Dec", time: "5 hours ago" },
+        { id: 'task_personal_sign', threadId: 'thread_personal_sign', userId: 'frans', type: 'to_sign', status: 'pending', title: "Sign: Lease Renewal 2025", time: "1 hour ago" },
+
+        // MENTIONS
+        {
+            id: 'mention_1',
+            threadId: 'thread_5',
+            userId: 'frans',
+            type: 'mention',
+            status: 'pending',
+            title: "Design Handoff",
+            text: "@Frans I've uploaded the new assets. Please check specifically the 'Mobile_Home_v2' artboards.",
+            time: "2 hours ago"
+        },
+        {
+            id: 'mention_2',
+            threadId: 'thread_2',
+            userId: 'frans',
+            type: 'mention',
+            status: 'pending',
+            title: "Team Lunch Planning",
+            text: "@Frans are you driving or should we order an Uber?",
+            time: "10 mins ago"
+        }
     ],
 
     // System Notifications

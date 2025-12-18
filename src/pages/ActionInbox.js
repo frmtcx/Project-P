@@ -32,12 +32,18 @@ window.App.ActionInbox = () => {
 
     // Filter Inbox specifically for "Actions" tab (To Sign / To Review / FYI)
     // We only show pending items here
+    // Filter Inbox specifically for "Actions" tab (To Sign / To Review ONLY)
+    // We only show pending items here
     const actionItems = inbox.filter(item =>
         item.userId === currentUser &&
-        ['to_sign', 'to_review', 'fyi', 'mention'].includes(item.type) &&
+        ['to_sign', 'to_review'].includes(item.type) &&
         item.status === 'pending'
     );
-    const mentions = inbox.filter(item => item.type === 'mention'); // Mentions might be a subset or separate
+    // Mentions are now their own distinct category
+    const mentions = inbox.filter(item =>
+        item.userId === currentUser &&
+        item.type === 'mention'
+    );
 
     // Helper: Check if a thread has a pending action for ME
     const getThreadAction = (threadId) => {
@@ -176,7 +182,56 @@ window.App.ActionInbox = () => {
             );
         }
 
-        return <div className="p-10 text-center text-gray-400">Mentions coming soon...</div>;
+        if (activeTab === 'mentions') {
+            // --- MENTIONS VIEW (Slack-like) ---
+            if (mentions.length === 0) {
+                return (
+                    <div className="flex flex-col items-center justify-center py-20 text-gray-400">
+                        <span className="material-icons-round text-4xl mb-2">alternate_email</span>
+                        <p className="text-sm">No new mentions</p>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="divide-y divide-gray-100">
+                    {mentions.map(item => {
+                        const thread = window.App.state.threads[item.threadId];
+                        // In a real app, we'd fetch the specific message user. For now, simulate 'Generic User' if missing
+                        const senderDisplay = window.App.utils.getUserDisplay('dave'); // Default/Placeholder
+
+                        return (
+                            <div
+                                key={item.id}
+                                className="px-5 py-4 hover:bg-gray-50 cursor-pointer transition-colors active:bg-gray-100"
+                                onClick={() => navigate('/document-thread', { state: { threadId: item.threadId } })}
+                            >
+                                <div className="flex justify-between items-baseline mb-1">
+                                    <div className="flex items-center gap-2">
+                                        <h4 className="font-bold text-sm text-gray-900">{thread?.title || "Unknown Chat"}</h4>
+                                        <span className="text-xs text-gray-400">in {thread?.workspaceId?.replace('_', ' ').toUpperCase()}</span>
+                                    </div>
+                                    <span className="text-[10px] text-gray-400 whitespace-nowrap">{item.time}</span>
+                                </div>
+
+                                <div className="flex gap-3 mt-1">
+                                    <div className="w-1 bg-gray-200 rounded-full shrink-0"></div> {/* Quote line */}
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-1 mb-0.5">
+                                            <span className="text-xs font-bold text-gray-700">Dave Miller</span> {/* Hardcoded for demo diversity, or map from item.fromUser */}
+                                            <span className="text-[10px] text-gray-400">mentioned you</span>
+                                        </div>
+                                        <p className="text-sm text-gray-600 line-clamp-2">
+                                            {item.text || "Hey @Frans, can you take a look at this when you have a moment?"}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            );
+        }
     };
 
 
