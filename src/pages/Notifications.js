@@ -4,7 +4,7 @@ window.App.Notifications = () => {
     return (
         <div className="pb-24 bg-white min-h-screen font-sans">
             {/* Header */}
-            <header className="bg-white px-5 pt-6 pb-2 sticky top-0 z-10">
+            <header className="bg-white px-5 pt-14 pb-2 sticky top-0 z-10">
                 <div className="flex justify-between items-center mb-4">
                     <div className="w-10"></div> {/* Spacer */}
                     <h1 className="text-lg font-bold text-gray-900">Notifications</h1>

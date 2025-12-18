@@ -32,9 +32,14 @@ window.App.ActionInbox = () => {
         <div className="pb-24 bg-gray-50 min-h-screen font-sans pt-12">
 
             {/* Header */}
-            <header className="bg-white px-5 pt-4 pb-2 sticky top-0 z-10">
+            <header className="bg-white px-5 pt-14 pb-2 sticky top-0 z-10 border-b border-gray-100">
                 <div className="flex justify-between items-center mb-4">
-                    <h1 className="text-lg font-bold text-gray-900">Action Inbox</h1>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-lg font-bold text-gray-900">Action Inbox</h1>
+                        <button onClick={() => navigate('/workspace-switcher', { state: { returnPath: '/action-inbox' } })} className="p-1.5 rounded-lg bg-gray-50 text-gray-500 hover:bg-gray-100">
+                            <span className="material-icons-round text-lg">swap_horiz</span>
+                        </button>
+                    </div>
                     <span className="material-icons-round text-gray-600">filter_list</span>
                 </div>
 
