@@ -11,8 +11,8 @@ window.App.SplashScreen = ({ onFinish }) => {
     }, [onFinish]);
 
     return (
-        <div className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center animate-fade-out pointer-events-none">
-            <h1 className="text-6xl font-black text-primary tracking-tighter" style={{ fontFamily: 'Inter, sans-serif' }}>Privy</h1>
+        <div className="fixed inset-0 z-[100] bg-primary flex flex-col items-center justify-center animate-fade-out pointer-events-none">
+            <h1 className="text-6xl font-black text-white tracking-tighter" style={{ fontFamily: 'Inter, sans-serif' }}>Privy</h1>
         </div>
     );
 };
