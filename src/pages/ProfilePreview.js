@@ -6,60 +6,108 @@ window.App.ProfilePreview = () => {
     const navigate = useNavigate();
     const [workspace, setWorkspace] = useState(window.App.state.currentWorkspace);
 
-    // Mock user being viewed
-    const user = {
-        name: "Sarah Jenkins",
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBMdePd5DX-qMRDtoSEk0ZyMn61vtWyg7QkKAxOCUkzwSTEKJtODOq_92-k8i7_xhxL9prFNNz7a2GpMLU7C9PfO51kK4_REPs-oY6D22t44q0_mJwTk_ryXSVrYI93c29aZZA2Bc8oLu5JE_R6QDY0bAuwuitz9lVciwk0bN4K47GZp4KHufh3Q0n9BJ7dFCGb-bGnR8aMLHYpBO-HbMfDEYEHHHp0VX3c1yXdtioA59AZ6x_2e6fUl0STElWLZOiR7xv7Q7DZpIM"
-    };
-
-    const isCompany = workspace === 'company_a';
-    const displayTitle = isCompany ? "Product Manager" : "Privy User";
-    const displayLabel = isCompany ? "Company A" : "Neutral Identity";
 
     return (
-        <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col">
-            <StatusBar />
-            <header className="px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-                <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"><span className="material-icons-round">arrow_back</span></button>
-                <span className="font-bold">Profile</span>
-                <div className="w-8"></div>
+        <div className="pb-24 bg-gray-50 min-h-screen font-sans">
+            {/* Header */}
+            <header className="bg-white px-5 py-4 flex justify-between items-center sticky top-0 z-10">
+                <button onClick={() => navigate(-1)} className="text-gray-600">
+                    <span className="material-icons-round">arrow_back_ios</span>
+                </button>
+                <h1 className="text-lg font-bold text-gray-900">My Profile</h1>
+                <button className="text-gray-600">
+                    <span className="material-icons-round">qr_code_scanner</span>
+                </button>
             </header>
-            <main className="flex-1 px-4 py-6 flex flex-col items-center">
-                <div className="w-24 h-24 rounded-full p-1 bg-surface-light shadow-card mb-4">
-                    <img src={user.avatar} className="w-full h-full rounded-full object-cover" />
-                </div>
-                <h1 className="text-2xl font-bold text-text-primary-light dark:text-text-primary-dark mb-1">{user.name}</h1>
 
-                {/* Identity Context Badge */}
-                <div className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-6 ${isCompany ? 'bg-red-100 text-primary' : 'bg-gray-100 text-gray-600'}`}>
-                    {displayLabel}
-                </div>
-
-                <div className="w-full bg-surface-light dark:bg-surface-dark rounded-2xl shadow-card divide-y divide-border-light dark:divide-border-dark">
-                    <div className="p-4 flex items-center justify-between">
-                        <span className="text-sm text-text-secondary-light">Role/Title</span>
-                        <span className="text-sm font-medium">{displayTitle}</span>
-                    </div>
-                    {isCompany && (
-                        <div className="p-4 flex items-center justify-between">
-                            <span className="text-sm text-text-secondary-light">Department</span>
-                            <span className="text-sm font-medium">Product</span>
+            <main className="px-5 pt-6">
+                {/* Profile Info */}
+                <div className="flex flex-col items-center mb-8">
+                    <div className="relative mb-3">
+                        <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden border-4 border-white shadow-sm">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Frans" className="w-full h-full object-cover" />
                         </div>
-                    )}
-                    <div className="p-4 flex items-center justify-between">
-                        <span className="text-sm text-text-secondary-light">Status</span>
-                        <span className="text-sm font-medium text-green-600">Active</span>
+                        <div className="absolute bottom-0 right-0 bg-gray-600 rounded-full p-1.5 border-2 border-white text-white">
+                            <span className="material-icons-round text-xs block">camera_alt</span>
+                        </div>
+                    </div>
+                    <h2 className="text-xl font-bold text-gray-900 mb-1">FRANS</h2>
+                    <div className="flex items-center gap-1 text-gray-500 text-sm">
+                        <span className="material-icons-round text-sm">content_copy</span>
+                        <span>FR6654</span>
+                        <span className="material-icons-round text-green-500 text-sm">verified</span>
                     </div>
                 </div>
 
-                {!isCompany && (
-                    <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex gap-3">
-                        <span className="material-icons-round text-blue-500">visibility_off</span>
-                        <p className="text-xs text-blue-800 dark:text-blue-200">
-                            You are viewing this profile from a <strong>Personal Workspace</strong>. Company details are hidden to prevent data leakage.
-                        </p>
+                {/* Contact Info */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-4">
+                    <div className="p-4 flex items-center gap-3 border-b border-gray-50">
+                        <span className="material-icons-round text-gray-400">call</span>
+                        <span className="flex-1 text-sm text-gray-900">+6281290006654</span>
+                        <span className="material-icons-round text-gray-300">chevron_right</span>
                     </div>
-                )}
+                    <div className="p-4 flex items-center gap-3">
+                        <span className="material-icons-round text-gray-400">email</span>
+                        <span className="flex-1 text-sm text-gray-900">frmtcx@gmail.com</span>
+                        <span className="material-icons-round text-gray-300">chevron_right</span>
+                    </div>
+                </div>
+
+                {/* Certificate & Identity */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-4">
+                    <div className="p-4 flex items-center gap-3 border-b border-gray-50">
+                        <div className="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-500"><span className="material-icons-round">card_membership</span></div>
+                        <div className="flex-1">
+                            <h3 className="text-sm font-medium text-gray-900">Electronic certificate</h3>
+                            <p className="text-xs text-green-600">Active <span className="text-gray-400">until December 6, 2026</span></p>
+                        </div>
+                        <span className="material-icons-round text-gray-300">chevron_right</span>
+                    </div>
+                    <div className="p-4 flex items-center gap-3 border-b border-gray-50">
+                        <div className="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-500"><span className="material-icons-round">badge</span></div>
+                        <div className="flex-1">
+                            <h3 className="text-sm font-medium text-gray-900">My identity</h3>
+                            <p className="text-xs text-gray-400">Your detailed personal information</p>
+                        </div>
+                        <span className="material-icons-round text-gray-300">chevron_right</span>
+                    </div>
+                    <div className="p-4 flex items-center gap-3">
+                        <div className="w-8 h-8 rounded bg-pink-50 flex items-center justify-center text-pink-500"><span className="material-icons-round">share</span></div>
+                        <div className="flex-1">
+                            <h3 className="text-sm font-medium text-gray-900">Shared data</h3>
+                            <p className="text-xs text-gray-400">Privy's counterpart list, and your data has been shared with them</p>
+                        </div>
+                        <span className="material-icons-round text-gray-300">chevron_right</span>
+                    </div>
+                </div>
+
+                {/* Settings */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-4">
+                    <div className="p-4 flex items-center gap-3">
+                        <span className="material-icons-round text-gray-400">settings</span>
+                        <div className="flex-1">
+                            <h3 className="text-sm font-medium text-gray-900">Settings</h3>
+                            <p className="text-xs text-gray-400">Manage your signature, notification, and account security settings</p>
+                        </div>
+                        <span className="material-icons-round text-gray-300">chevron_right</span>
+                    </div>
+                </div>
+
+                {/* Support */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+                    <div className="p-4 flex items-center gap-3 border-b border-gray-50">
+                        <span className="material-icons-round text-gray-400">star_outline</span>
+                        <span className="flex-1 text-sm font-medium text-gray-900">Rate us</span>
+                        <span className="material-icons-round text-gray-300">chevron_right</span>
+                    </div>
+                    <div className="p-4 flex items-center gap-3">
+                        <span className="material-icons-round text-gray-400">headset_mic</span>
+                        <span className="flex-1 text-sm font-medium text-gray-900">Help center</span>
+                        <span className="material-icons-round text-gray-300">chevron_right</span>
+                    </div>
+                </div>
+
+                <p className="text-center text-xs text-gray-300 mb-8">Version 4.13.0</p>
             </main>
         </div>
     );

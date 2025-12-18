@@ -13,88 +13,128 @@ window.App.WorkspaceHome = () => {
     }, []);
 
     const isCompany = workspace === 'company_a';
-
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen pb-24">
-            <StatusBar />
-            <header className="bg-surface-light dark:bg-surface-dark px-4 py-3 sticky top-8 z-40 border-b border-border-light dark:border-border-dark">
-                <div className="flex justify-between items-center mb-4">
-                    <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/workspace-switcher')}>
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${isCompany ? 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300' : 'bg-gray-100 text-gray-600'}`}>
-                            {isCompany ? 'CA' : 'P'}
+        <div className="pb-24 bg-gray-50 min-h-screen font-sans">
+            {/* Header Section */}
+            <header className="px-5 pt-6 pb-4 bg-gray-50 sticky top-0 z-10">
+                <div className="flex justify-between items-start">
+                    <div className="flex gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border border-gray-300">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Frans" alt="Profile" className="w-full h-full object-cover" />
                         </div>
-                        <div className="flex flex-col">
-                            <div className="flex items-center gap-1">
-                                <span className="font-bold text-lg">{isCompany ? 'Company A' : 'Personal'}</span>
-                                <span className="material-icons-round text-text-secondary-light dark:text-text-secondary-dark text-xl">expand_more</span>
-                            </div>
-                            <span className="text-xs text-text-secondary-light dark:text-text-secondary-dark">Workspace</span>
+                        <div>
+                            <h1 className="text-lg font-bold text-gray-900">Hello, Frans</h1>
+                            <p className="text-xs text-gray-500">How's today? Be careful on your way home.</p>
                         </div>
                     </div>
-                    <div className="flex gap-4">
-                        <button className="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary transition"><span className="material-icons-round">notifications_none</span></button>
-                        <button className="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary transition"><span className="material-icons-round">settings</span></button>
-                    </div>
+                    <button className="text-gray-400 hover:text-gray-600">
+                        <span className="material-icons-round text-2xl">help_outline</span>
+                    </button>
                 </div>
-                <nav className="flex gap-6 overflow-x-auto no-scrollbar pb-1">
-                    <button className="whitespace-nowrap pb-2 border-b-2 border-primary text-primary font-semibold text-sm">Chat</button>
-                    {isCompany && <button onClick={() => navigate('/action-inbox')} className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light dark:text-text-secondary-dark font-medium text-sm">Action Inbox</button>}
-                    <button onClick={() => navigate('/documents-list')} className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light dark:text-text-secondary-dark font-medium text-sm">Documents</button>
-                    {isCompany && <button onClick={() => navigate('/admin-overview')} className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light dark:text-text-secondary-dark font-medium text-sm">Admin</button>}
-                </nav>
             </header>
-            <main className="px-4 py-4 space-y-6">
-                <div className="relative">
-                    <span className="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary-light dark:text-text-secondary-dark">search</span>
-                    <input className="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-xl py-3 pl-10 pr-4 text-sm text-text-primary-light dark:text-text-primary-dark focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-gray-700 transition-colors" placeholder="Search people, threads, documents" type="text" />
+
+            <main className="px-5 space-y-5">
+                {/* Maintenance Notice */}
+                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex gap-3 items-start">
+                    <div className="text-blue-500 mt-0.5"><span className="material-icons-round">handyman</span></div>
+                    <div>
+                        <h3 className="text-sm font-bold text-gray-900">Maintenance notice!</h3>
+                        <p className="text-xs text-gray-500 mt-1 leading-relaxed">Maintenance will occur on Dec 20, 2025, 02:00 - 03:00 (UTC+7).</p>
+                    </div>
                 </div>
 
-                {isCompany ? (
-                    <React.Fragment>
-                        <section>
-                            <div className="flex justify-between items-center mb-3">
-                                <h2 className="text-xs font-bold text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">Pinned</h2>
-                            </div>
-                            <div className="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-card divide-y divide-border-light dark:divide-border-dark overflow-hidden">
-                                <div className="flex items-center gap-3 p-3 active:bg-gray-50 dark:active:bg-gray-800 transition" onClick={() => navigate('/profile-preview')}>
-                                    <div className="relative">
-                                        <img alt="User Avatar" className="w-12 h-12 rounded-full object-cover border border-border-light dark:border-border-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMdePd5DX-qMRDtoSEk0ZyMn61vtWyg7QkKAxOCUkzwSTEKJtODOq_92-k8i7_xhxL9prFNNz7a2GpMLU7C9PfO51kK4_REPs-oY6D22t44q0_mJwTk_ryXSVrYI93c29aZZA2Bc8oLu5JE_R6QDY0bAuwuitz9lVciwk0bN4K47GZp4KHufh3Q0n9BJ7dFCGb-bGnR8aMLHYpBO-HbMfDEYEHHHp0VX3c1yXdtioA59AZ6x_2e6fUl0STElWLZOiR7xv7Q7DZpIM" />
-                                        <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white dark:border-surface-dark"></div>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex justify-between items-baseline mb-0.5"><h3 className="font-semibold text-sm truncate">Sarah Jenkins</h3><span className="text-xs text-text-secondary-light dark:text-text-secondary-dark whitespace-nowrap">10:42 AM</span></div>
-                                        <div className="flex items-center gap-2 mb-1"><span className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-[10px] px-1.5 py-0.5 rounded font-medium">Chat</span></div>
-                                        <p className="text-xs text-text-secondary-light dark:text-text-secondary-dark truncate"><span className="font-medium text-text-primary-light dark:text-text-primary-dark">Sarah:</span> Can we review the API specs?</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 p-3 active:bg-gray-50 dark:active:bg-gray-800 transition" onClick={() => navigate('/document-thread-reviewer')}>
-                                    <div className="relative">
-                                        <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center text-purple-600 dark:text-purple-300"><span className="material-icons-round text-2xl">folder</span></div>
-                                        <span className="absolute -top-1 -right-1 flex h-4 w-4"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span><span className="relative inline-flex rounded-full h-4 w-4 bg-primary text-white text-[9px] items-center justify-center font-bold">2</span></span>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex justify-between items-baseline mb-0.5"><h3 className="font-semibold text-sm truncate">Q4 Financial Report</h3><span className="text-xs text-text-secondary-light dark:text-text-secondary-dark whitespace-nowrap">Yesterday</span></div>
-                                        <div className="flex items-center gap-2 mb-1"><span className="bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 text-[10px] px-1.5 py-0.5 rounded font-medium">Document Thread</span></div>
-                                        <p className="text-xs text-text-secondary-light dark:text-text-secondary-dark truncate">Please sign page 4 by EOD.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </React.Fragment>
-                ) : (
-                    <div className="flex flex-col items-center justify-center py-10 opacity-50">
-                        <span className="material-icons-round text-4xl mb-2 text-gray-400">lock</span>
-                        <p className="text-sm">Personal Workspace is isolated.</p>
+                {/* Personal Plan Card */}
+                <div className="bg-gradient-to-r from-[#8B1D3B] to-[#A92448] rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
+                    {/* Background Pattern Decoration */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-10 -mt-10"></div>
+
+                    <div className="flex justify-between items-center mb-6">
+                        <div className="flex items-center gap-2">
+                            <span className="material-icons-round text-red-300">verified_user</span>
+                            <span className="font-bold text-lg tracking-wide">FR6654</span>
+                            <span className="material-icons-round text-sm opacity-70">chevron_right</span>
+                        </div>
+                        <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                            <span className="material-icons-round text-xs">card_membership</span>
+                            <span className="text-xs font-semibold">Personal Plan</span>
+                        </div>
                     </div>
-                )
-                }
+
+                    <div className="flex divide-x divide-white/20">
+                        <div className="flex-1 pr-4">
+                            <p className="text-xs text-red-100 mb-1">Signing quota</p>
+                            <div className="flex justify-between items-center">
+                                <span className="text-xl font-bold text-blue-200">Unlimited</span>
+                                <span className="material-icons-round text-sm opacity-70">chevron_right</span>
+                            </div>
+                        </div>
+                        <div className="flex-1 pl-4">
+                            <p className="text-xs text-red-100 mb-1">e-Meterai</p>
+                            <div className="flex justify-between items-center">
+                                <span className="text-xl font-bold text-blue-200">1</span>
+                                <span className="material-icons-round text-sm opacity-70">add_circle_outline</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-2 text-xs text-red-100">
+                        <span className="material-icons-round text-sm">info</span>
+                        <span>Expired: January 15, 2026</span>
+                    </div>
+                </div>
+
+                {/* Feature Grid */}
+                <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 grid grid-cols-4 gap-2">
+                    <div className="flex flex-col items-center gap-2 cursor-pointer" onClick={() => navigate('/documents-list')}>
+                        <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                            <span className="material-icons-round text-2xl">description</span>
+                        </div>
+                        <span className="text-[10px] font-medium text-gray-600">Document</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 cursor-pointer">
+                        <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600">
+                            <span className="material-icons-round text-2xl">cloud_upload</span>
+                        </div>
+                        <span className="text-[10px] font-medium text-gray-600">Upload</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 cursor-pointer">
+                        <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
+                            <span className="material-icons-round text-2xl">receipt_long</span>
+                        </div>
+                        <span className="text-[10px] font-medium text-gray-600">Transactions</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 cursor-pointer">
+                        <div className="w-12 h-12 rounded-xl bg-yellow-50 flex items-center justify-center text-yellow-600">
+                            <span className="material-icons-round text-2xl">emoji_events</span>
+                        </div>
+                        <span className="text-[10px] font-medium text-gray-600">Privylege</span>
+                    </div>
+                </div>
+
+                {/* Banner */}
+                <div className="rounded-2xl overflow-hidden shadow-sm relative h-32 bg-gradient-to-r from-blue-600 to-blue-400 flex items-center px-6">
+                    <div className="w-2/3 z-10">
+                        <h3 className="text-white font-bold text-lg leading-tight mb-1">Tax Matters More Efficient</h3>
+                        <p className="text-blue-100 text-xs mb-3">Ayopajak, one platform for digital tax reporting</p>
+                        <button className="bg-blue-500 text-white text-[10px] font-bold px-3 py-1.5 rounded shadow-sm">LEARN MORE</button>
+                    </div>
+                    <div className="absolute right-0 bottom-0 h-full w-1/2 bg-white/10 transform skew-x-12"></div>
+                </div>
+
+                {/* Action Required Preview */}
+                <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100" onClick={() => navigate('/action-inbox')}>
+                    <div className="flex justify-between items-center mb-1">
+                        <div className="flex items-center gap-3">
+                            <span className="text-2xl font-bold text-blue-600">4</span>
+                            <div>
+                                <h3 className="font-bold text-gray-900 text-sm">Action Required</h3>
+                                <p className="text-xs text-gray-400">Updated today • 18:20</p>
+                            </div>
+                        </div>
+                        <span className="material-icons-round text-blue-600">arrow_forward</span>
+                    </div>
+                </div>
             </main>
-            <div className="fixed bottom-24 right-4 z-50">
-                <button onClick={() => navigate('/create-menu')} className="w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-red-700 transition active:scale-95">
-                    <span className="material-icons-round text-3xl">add</span>
-                </button>
-            </div>
-            <BottomNav />
         </div>
     );
 };

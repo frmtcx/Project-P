@@ -1,30 +1,37 @@
-const { useNavigate, useLocation } = ReactRouterDOM;
+const { useLocation, useNavigate } = ReactRouterDOM;
 
 window.App.BottomNav = () => {
-    const navigate = useNavigate();
     const location = useLocation();
+    const navigate = useNavigate();
 
-    // Helper to check active state roughly
-    const isActive = (path) => location.pathname.startsWith(path);
+    // Hide on specific pages if needed
+    if (['/sign-document', '/create-menu'].includes(location.pathname)) return null;
+
+    const isActive = (path) => location.pathname === path;
 
     return (
-        <nav className="fixed bottom-0 left-0 right-0 bg-surface-light dark:bg-surface-dark border-t border-border-light dark:border-border-dark py-2 px-6 flex justify-between items-center z-40 pb-6">
-            <button onClick={() => navigate('/')} className={`flex flex-col items-center gap-1 ${isActive('/') && location.pathname === '/' ? 'text-primary' : 'text-text-secondary-light dark:text-text-secondary-dark'}`}>
+        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 pb-6 pt-3 z-50 flex justify-between items-end">
+            <button onClick={() => navigate('/')} className={`flex flex-col items-center gap-1 ${isActive('/') ? 'text-red-600' : 'text-gray-400'}`}>
                 <span className="material-icons-round text-2xl">home</span>
             </button>
-            <button onClick={() => navigate('/docs')} className={`flex flex-col items-center gap-1 ${isActive('/docs') ? 'text-primary' : 'text-text-secondary-light dark:text-text-secondary-dark'}`}>
+
+            <button onClick={() => navigate('/documents-list')} className={`flex flex-col items-center gap-1 ${isActive('/documents-list') ? 'text-red-600' : 'text-gray-400'}`}>
                 <span className="material-icons-round text-2xl">description</span>
             </button>
-            <div className="relative -top-5">
-                <button onClick={() => navigate('/create-menu')} className="w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white shadow-lg shadow-red-200 dark:shadow-red-900 active:scale-95 transition">
-                    <span className="material-icons-round text-2xl">qr_code_scanner</span>
+
+            {/* Central Scan Button */}
+            <div className="relative -top-3">
+                <button className="w-14 h-14 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-200 active:scale-95 transition-transform">
+                    <span className="material-icons-round text-2xl">center_focus_strong</span>
                 </button>
             </div>
-            <button onClick={() => navigate('/chats')} className={`flex flex-col items-center gap-1 ${isActive('/chats') ? 'text-primary' : 'text-text-secondary-light dark:text-text-secondary-dark'}`}>
-                <span className="material-icons-round text-2xl">chat_bubble_outline</span>
+
+            <button onClick={() => navigate('/action-inbox')} className={`flex flex-col items-center gap-1 ${isActive('/action-inbox') ? 'text-red-600' : 'text-gray-400'}`}>
+                <span className="material-icons-round text-2xl">receipt_long</span>
             </button>
-            <button onClick={() => navigate('/admin-overview')} className={`flex flex-col items-center gap-1 ${isActive('/admin') ? 'text-primary' : 'text-text-secondary-light dark:text-text-secondary-dark'}`}>
-                <span className="material-icons-round text-2xl">notifications_none</span>
+
+            <button onClick={() => navigate('/profile-preview')} className={`flex flex-col items-center gap-1 ${isActive('/profile-preview') ? 'text-red-600' : 'text-gray-400'}`}>
+                <span className="material-icons-round text-2xl">notifications</span>
             </button>
         </nav>
     );
