@@ -220,15 +220,16 @@ window.App.DocumentThread = () => {
                             <h2 className="font-bold">Select Document</h2>
                         </header>
                         <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                            {window.App.state.documents.filter(d => d.workspaceId === thread.workspaceId).map(doc => (
-                                <div key={doc.id} onClick={() => { setSelectedDoc(doc); setActionStep('select_signers'); }} className="flex items-center gap-3 p-3 border rounded-xl hover:bg-gray-50 cursor-pointer">
-                                    <span className="material-icons-round text-red-500">picture_as_pdf</span>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-bold">{doc.name}</p>
-                                        <p className="text-xs text-gray-500">{doc.updated}</p>
-                                    </div>
+// ... (inside map)
+                            })}
+
+                            {/* Empty State for Docs */}
+                            {window.App.state.documents.filter(d => d.workspaceId === thread.workspaceId).length === 0 && (
+                                <div className="text-center py-8 text-gray-400">
+                                    <span className="material-icons-round text-3xl mb-2">folder_off</span>
+                                    <p className="text-sm">No documents found in this workspace.</p>
                                 </div>
-                            ))}
+                            )}
                         </div>
                     </div>
                 )}
@@ -241,6 +242,7 @@ window.App.DocumentThread = () => {
                         </header>
                         <div className="flex-1 overflow-y-auto p-4 space-y-2">
                             {thread.participants.filter(p => p.userId !== currentUser).map(p => {
+                                // ... existing map logic ...
                                 const user = window.App.utils.getUserDisplay(p.userId);
                                 const isSelected = selectedSigners.includes(p.userId);
                                 return (
@@ -256,6 +258,14 @@ window.App.DocumentThread = () => {
                                     </div>
                                 )
                             })}
+
+                            {/* Empty State for Signers */}
+                            {thread.participants.filter(p => p.userId !== currentUser).length === 0 && (
+                                <div className="text-center py-8 text-gray-400">
+                                    <span className="material-icons-round text-3xl mb-2">person_off</span>
+                                    <p className="text-sm">No other members in this chat.</p>
+                                </div>
+                            )}
                         </div>
                         <div className="p-4 border-t border-gray-100">
                             <button

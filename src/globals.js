@@ -413,16 +413,17 @@ window.App.state = {
         const doc = this.documents.find(d => d.id === docId);
         if (!thread || !doc) return;
 
-        // Add 'signing_request' event to the chat stream
-        thread.events.push({
+        // Add 'signing_request' event to the chat stream (Immutable update)
+        const newEvent = {
             type: 'signing_request',
             docId: docId,
             docName: doc.name,
             signers: signerIds,
             status: 'pending',
             time: "Just now"
-        });
+        };
 
+        thread.events = [...thread.events, newEvent];
         thread.lastActivity = "Just now";
 
         // Create Inbox Items for Signers
