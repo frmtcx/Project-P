@@ -8,10 +8,12 @@ try {
 
         const navigate = useNavigate();
         const [workspace, setWorkspace] = useState(window.App.state.currentWorkspace);
+        const [currentUser, setCurrentUser] = useState(window.App.utils.getUserDisplay(window.App.state.currentUser));
 
         useEffect(() => {
             return window.App.state.subscribe(() => {
                 setWorkspace(window.App.state.currentWorkspace);
+                setCurrentUser(window.App.utils.getUserDisplay(window.App.state.currentUser));
             });
         }, []);
 
@@ -22,11 +24,11 @@ try {
                     <div className="flex justify-between items-start">
                         <div className="flex gap-3">
                             <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border border-gray-300">
-                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Frans" alt="Profile" className="w-full h-full object-cover" />
+                                <img src={currentUser.avatar} alt="Profile" className="w-full h-full object-cover" />
                             </div>
                             <div>
-                                <h1 className="text-lg font-bold text-gray-900">Hello, Frans</h1>
-                                <p className="text-xs text-gray-500">How's today? Be careful on your way home.</p>
+                                <h1 className="text-lg font-bold text-gray-900">Hello, {currentUser.name.split(' ')[0]}</h1>
+                                <p className="text-xs text-gray-500">{currentUser.subtitle}</p>
                             </div>
                         </div>
                         <button className="text-gray-400 hover:text-gray-600">
