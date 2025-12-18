@@ -99,6 +99,17 @@ window.App.OffboardUser = () => {
                     )}
                 </section>
             </main>
+
+            <div className="p-5 pb-8 bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800 absolute bottom-0 left-0 right-0 z-10">
+                <button
+                    onClick={handleConfirm}
+                    disabled={pendingTasks.length > 0 && !selectedAssignee}
+                    className="w-full bg-red-600 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-red-600/30 active:scale-[0.98] transition-transform disabled:opacity-50 disabled:shadow-none flex items-center justify-center gap-2"
+                >
+                    <span className="material-icons-round">person_remove</span>
+                    Revoke Access
+                </button>
+            </div>
         </div >
     );
 };
