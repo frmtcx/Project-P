@@ -2,7 +2,9 @@ const { createRoot } = ReactDOM;
 const { MemoryRouter, Routes, Route } = ReactRouterDOM;
 const { useState, useEffect } = React;
 
-const App = () => {
+console.log("Loading App.js. window.App:", window.App, "ID:", window.App?._id);
+
+const MainApp = () => {
     const [isReady, setIsReady] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
 
@@ -130,4 +132,4 @@ const App = () => {
 };
 
 const root = createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(<MainApp />);
