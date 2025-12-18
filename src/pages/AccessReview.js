@@ -2,17 +2,27 @@ const { useNavigate } = ReactRouterDOM;
 const { StatusBar, Header, BottomNav } = window.App;
 
 window.App.AccessReview = () => {
+    const { useNavigate } = ReactRouterDOM;
+    const { StatusBar, Header } = window.App;
+
     const navigate = useNavigate();
+    const currentWorkspace = window.App.state.currentWorkspace;
+    const workspace = window.App.state.workspaces[currentWorkspace];
+    const members = workspace.members.map(id => window.App.state.users[id]);
+
+    // Mock activity data
+    const getActivityStatus = (userId) => {
+        if (userId === 'alice') return { status: 'inactive', label: 'Inactive > 60 days', color: 'red' };
+        if (userId === 'bob') return { status: 'changed', label: 'Email changed', color: 'orange' };
+        return { status: 'active', label: 'Active today', color: 'green' };
+    };
+
     return (
-        <div className="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark min-h-screen pb-24">
-            <StatusBar />
-            <Header title="Company A" subtitle="Workspace" />
-            <nav className="flex gap-6 overflow-x-auto no-scrollbar pb-1 px-4 border-b border-border-light">
                 <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Chat</button>
                 <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Action Inbox</button>
                 <button className="whitespace-nowrap pb-2 border-b-2 border-transparent text-text-secondary-light font-medium text-sm">Documents</button>
                 <button className="whitespace-nowrap pb-2 border-b-2 border-primary text-primary font-semibold text-sm">Admin</button>
-            </nav>
+            </nav >
             <main className="px-4 py-6 space-y-6">
                 <div className="flex justify-between items-end">
                     <div><h1 className="text-xl font-bold">Access Review</h1><p className="text-sm text-text-secondary-light mt-0.5">Stale access prevention</p></div>
@@ -55,6 +65,6 @@ window.App.AccessReview = () => {
                 </button>
             </div>
             <BottomNav />
-        </div>
+        </div >
     );
 };
