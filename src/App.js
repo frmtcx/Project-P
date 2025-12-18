@@ -43,6 +43,7 @@ const AppContent = () => {
                 <Route path="/scan-qr" element={ScanQR ? <ScanQR /> : <div>Scan QR Placeholder</div>} />
                 <Route path="/new-message" element={NewMessage ? <NewMessage /> : <div>New Message Placeholder</div>} />
                 <Route path="/notifications" element={Notifications ? <Notifications /> : <div>Notifications Placeholder</div>} />
+                <Route path="/chats-list" element={window.App.ChatsList ? <window.App.ChatsList /> : <div>ChatsList Loading...</div>} />
             </Routes>
         </div>
     );
