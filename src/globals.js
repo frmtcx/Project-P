@@ -1,5 +1,7 @@
+console.log("Loading globals.js");
 // Initialize global namespace
-window.App = {};
+window.App = window.App || {};
+console.log("window.App initialized:", window.App);
 
 // Simple state management
 window.App.state = {

@@ -21,9 +21,14 @@ const App = () => {
                 setIsReady(true);
             } else {
                 if (retryCount < 150) { // 15 seconds timeout
+                    if (retryCount % 10 === 0) {
+                        console.log(`Waiting for components... (Attempt ${retryCount}/150)`);
+                        console.log("Available components:", Object.keys(window.App));
+                    }
                     setTimeout(() => setRetryCount(c => c + 1), 100);
                 } else {
                     console.error("Timeout waiting for components:", missing);
+                    console.error("Available components:", Object.keys(window.App));
                     // Force render to show error via getComponent
                     setIsReady(true);
                 }
