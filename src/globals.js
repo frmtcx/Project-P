@@ -555,6 +555,29 @@ window.App.state = {
         });
 
         this.notify();
+    },
+
+    leaveThread(threadId, userId) {
+        const thread = this.threads[threadId];
+        if (!thread) return;
+
+        // Remove from participants
+        thread.participants = thread.participants.filter(p => p.userId !== userId);
+
+        // Add System Event
+        const user = this.users[userId];
+        thread.events.push({
+            type: 'system',
+            text: `${user?.name || userId} left the thread`,
+            time: "Just now"
+        });
+
+        // Loop through inbox tasks for this thread and user and remove them?
+        // For prototype simplicity, maybe just leave them or mark as cancelled? 
+        // Let's filter them out to be clean.
+        this.inbox = this.inbox.filter(item => !(item.threadId === threadId && item.userId === userId));
+
+        this.notify();
     }
 };
 

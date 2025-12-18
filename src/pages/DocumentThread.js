@@ -337,11 +337,96 @@ window.App.DocumentThread = () => {
 
                             <div className="mt-8 pt-8 border-t border-gray-100">
                                 <h3 className="text-xs font-bold text-gray-500 uppercase mb-3">Actions</h3>
-                                <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-red-50 text-red-600 font-medium text-sm flex items-center gap-3">
+                                <button
+                                    onClick={() => {
+                                        if (confirm('Are you sure you want to leave this thread?')) {
+                                            window.App.state.leaveThread(threadId, currentUser);
+                                            navigate('/chats-list');
+                                        }
+                                    }}
+                                    className="w-full text-left py-3 px-4 rounded-xl hover:bg-red-50 text-red-600 font-medium text-sm flex items-center gap-3">
                                     <span className="material-icons-round">exit_to_app</span> Leave Thread
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* FIX: Embedded Signing Flow Modals Moved OUTSIDE Footer for correct stacking context */}
+            {actionStep === 'select_doc' && (
+                <div className="absolute inset-0 bg-white dark:bg-surface-dark z-50 flex flex-col animate-slide-up">
+                    <header className="px-4 pt-14 pb-2 border-b border-gray-100 flex items-center gap-3">
+                        <button onClick={() => setActionStep(null)}><span className="material-icons-round">close</span></button>
+                        <h2 className="font-bold">Select Document</h2>
+                    </header>
+                    <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                        {window.App.state.documents.filter(d => d.workspaceId === thread.workspaceId).map(doc => (
+                            <div key={doc.id} onClick={() => { setSelectedDoc(doc); setActionStep('select_signers'); }} className="flex items-center gap-3 p-3 border rounded-xl hover:bg-gray-50 cursor-pointer">
+                                <span className="material-icons-round text-red-500">picture_as_pdf</span>
+                                <div className="flex-1">
+                                    <p className="text-sm font-bold">{doc.name}</p>
+                                    <p className="text-xs text-gray-500">{doc.updated}</p>
+                                </div>
+                            </div>
+                        ))}
+
+                        {/* Empty State for Docs */}
+                        {window.App.state.documents.filter(d => d.workspaceId === thread.workspaceId).length === 0 && (
+                            <div className="text-center py-8 text-gray-400">
+                                <span className="material-icons-round text-3xl mb-2">folder_off</span>
+                                <p className="text-sm">No documents found in this workspace.</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {actionStep === 'select_signers' && (
+                <div className="absolute inset-0 bg-white dark:bg-surface-dark z-50 flex flex-col animate-slide-up">
+                    <header className="px-4 pt-14 pb-2 border-b border-gray-100 flex items-center gap-3">
+                        <button onClick={() => setActionStep('select_doc')}><span className="material-icons-round">arrow_back</span></button>
+                        <h2 className="font-bold">Who needs to sign?</h2>
+                    </header>
+                    <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                        {thread.participants.filter(p => p.userId !== currentUser).map(p => {
+                            const user = window.App.utils.getUserDisplay(p.userId);
+                            const isSelected = selectedSigners.includes(p.userId);
+                            return (
+                                <div key={p.userId} onClick={() => {
+                                    if (isSelected) setSelectedSigners(prev => prev.filter(id => id !== p.userId));
+                                    else setSelectedSigners(prev => [...prev, p.userId]);
+                                }} className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer ${isSelected ? 'border-primary bg-red-50' : 'border-gray-100'}`}>
+                                    <div className={`w-5 h-5 rounded border flex items-center justify-center ${isSelected ? 'bg-primary border-primary text-white' : 'border-gray-300'}`}>
+                                        {isSelected && <span className="material-icons text-xs">check</span>}
+                                    </div>
+                                    <img src={user.avatar} className="w-8 h-8 rounded-full" />
+                                    <span className="text-sm font-bold">{user.name}</span>
+                                </div>
+                            )
+                        })}
+
+                        {/* Empty State for Signers */}
+                        {thread.participants.filter(p => p.userId !== currentUser).length === 0 && (
+                            <div className="text-center py-8 text-gray-400">
+                                <span className="material-icons-round text-3xl mb-2">person_off</span>
+                                <p className="text-sm">No other members in this chat.</p>
+                            </div>
+                        )}
+                    </div>
+                    <div className="p-4 border-t border-gray-100">
+                        <button
+                            disabled={selectedSigners.length === 0}
+                            onClick={() => {
+                                window.App.state.createEmbeddedSigningRequest(threadId, selectedDoc.id, selectedSigners);
+                                setActionStep(null);
+                                setShowActions(false);
+                                setSelectedSigners([]);
+                                setSelectedDoc(null);
+                            }}
+                            className="w-full bg-primary text-white py-3 rounded-xl font-bold disabled:opacity-50">
+                            Send Request
+                        </button>
                     </div>
                 </div>
             )}
