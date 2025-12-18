@@ -578,6 +578,20 @@ window.App.state = {
         this.inbox = this.inbox.filter(item => !(item.threadId === threadId && item.userId === userId));
 
         this.notify();
+    },
+
+    toggleChat(threadId, enabled) {
+        const thread = this.threads[threadId];
+        if (!thread) return;
+
+        thread.enableChat = enabled;
+        thread.events.push({
+            type: 'system',
+            text: `Comments turned ${enabled ? 'on' : 'off'}`,
+            time: "Just now"
+        });
+
+        this.notify();
     }
 };
 
