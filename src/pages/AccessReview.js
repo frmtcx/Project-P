@@ -93,11 +93,13 @@ window.App.AccessReview = () => {
             </main>
 
             {selectedUsers.length > 0 && (
-                <div className="fixed bottom-36 left-4 right-4 z-30 animate-bounce-in">
-                    <button onClick={() => navigate('/offboard-user', { state: { userId: selectedUsers[0] } })} className="w-full bg-primary text-white rounded-xl shadow-floating py-4 flex items-center justify-center gap-2 hover:bg-red-700 transition active:scale-95 group">
-                        <span className="font-semibold">Review and remove ({selectedUsers.length})</span>
-                        <span className="material-icons-round group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                    </button>
+                <div className="fixed bottom-36 left-0 right-0 z-30 flex justify-center pointer-events-none">
+                    <div className="w-full max-w-md px-4 pointer-events-auto animate-bounce-in">
+                        <button onClick={() => navigate('/offboard-user', { state: { userId: selectedUsers[0] } })} className="w-full bg-primary text-white rounded-xl shadow-floating py-4 flex items-center justify-center gap-2 hover:bg-red-700 transition active:scale-95 group">
+                            <span className="font-semibold">Review and remove ({selectedUsers.length})</span>
+                            <span className="material-icons-round group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </button>
+                    </div>
                 </div>
             )}
             <BottomNav />

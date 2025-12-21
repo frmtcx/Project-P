@@ -284,10 +284,14 @@ window.App.ActionInbox = () => {
             </main>
 
             {/* FAB (New Chat) */}
-            <div className="fixed bottom-24 right-5 z-20">
-                <button onClick={() => navigate('/new-message')} className="w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/40 flex items-center justify-center hover:bg-red-700 transition active:scale-95">
-                    <span className="material-icons-round text-2xl">add</span>
-                </button>
+            <div className="fixed bottom-0 left-0 right-0 z-20 flex justify-center pointer-events-none">
+                <div className="w-full max-w-md relative h-0">
+                    <div className="absolute bottom-24 right-5 pointer-events-auto">
+                        <button onClick={() => navigate('/new-message')} className="w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/40 flex items-center justify-center hover:bg-red-700 transition active:scale-95">
+                            <span className="material-icons-round text-2xl">add</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <BottomNav />
