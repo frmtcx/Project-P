@@ -247,7 +247,13 @@ window.App.ActionInbox = () => {
             <header className="bg-white px-5 pt-14 pb-0 sticky top-0 z-10 border-b border-gray-100">
                 <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center gap-3">
-                        <h1 className="text-2xl font-bold text-gray-900">Chats</h1>
+                        <div onClick={() => window.App.toggleWorkspaceSwitcher(true)} className="cursor-pointer">
+                            <h1 className="text-2xl font-bold text-gray-900">Chats</h1>
+                            <p className="text-xs text-primary font-bold uppercase tracking-wider flex items-center gap-1">
+                                <span className="w-2 h-2 rounded-full bg-primary"></span>
+                                {window.App.state.workspaces[currentWorkspace]?.name || 'Workspace'}
+                            </p>
+                        </div>
                         <button onClick={() => window.App.toggleWorkspaceSwitcher(true)} className="p-1.5 rounded-lg bg-gray-50 text-gray-500 hover:bg-gray-100">
                             <span className="material-icons-round text-lg">swap_horiz</span>
                         </button>
