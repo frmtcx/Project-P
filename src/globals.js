@@ -418,6 +418,19 @@ window.App.state = {
         return threadId;
     },
 
+    // Flow 1c: Add generic event (message, system, nudge)
+    addEvent(threadId, event) {
+        const thread = this.threads[threadId];
+        if (!thread) return;
+
+        // Ensure time is set if missing
+        if (!event.time) event.time = "Just now";
+
+        thread.events.push(event);
+        thread.lastActivity = "Just now";
+        this.notify();
+    },
+
     // Flow 1c: Embedded Signing Request (In-Thread)
     createEmbeddedSigningRequest(threadId, docId, signerIds) {
         const thread = this.threads[threadId];
