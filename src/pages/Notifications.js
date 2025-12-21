@@ -5,12 +5,13 @@ window.App.Notifications = () => {
         <div className="pb-24 bg-white min-h-screen font-sans">
             {/* Header */}
             <header className="bg-white px-5 pt-14 pb-2 sticky top-0 z-10">
-                <div className="flex justify-between items-center mb-4">
-                    <div className="w-10"></div> {/* Spacer */}
-                    <h1 className="text-lg font-bold text-gray-900">Notifications</h1>
-                    <button className="text-red-500 text-sm font-medium">Read all</button>
+                <div className="flex justify-between items-start mb-4">
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
+                        <p className="text-xs text-gray-400 mt-1">Updated today • 18:21</p>
+                    </div>
+                    <button className="text-red-500 text-sm font-medium mt-1">Read all</button>
                 </div>
-                <p className="text-center text-xs text-gray-400 -mt-3 mb-4">Updated today • 18:21</p>
 
                 {/* Tabs */}
                 <div className="flex gap-2 mb-2">
@@ -42,8 +43,8 @@ window.App.Notifications = () => {
                         <div key={notif.id} className={`px-5 py-4 border-b border-gray-100 ${notif.read ? 'bg-white' : 'bg-blue-50/50'}`}>
                             <div className="flex gap-3">
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${notif.type === 'security' ? 'bg-red-100 text-red-600' :
-                                        notif.type === 'promo' ? 'bg-yellow-100 text-yellow-600' :
-                                            'bg-blue-100 text-blue-600'
+                                    notif.type === 'promo' ? 'bg-yellow-100 text-yellow-600' :
+                                        'bg-blue-100 text-blue-600'
                                     }`}>
                                     <span className="material-icons-round text-lg">
                                         {notif.type === 'security' ? 'security' :
