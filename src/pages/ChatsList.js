@@ -54,10 +54,13 @@ window.App.ChatsList = () => {
             {/* Header */}
             <header className="bg-white px-5 pt-14 pb-2 sticky top-0 z-10 border-b border-gray-100">
                 <div className="flex justify-between items-center mb-4">
-                    <h1 className="text-2xl font-bold text-gray-900">Chats</h1>
-                    <button className="text-gray-600">
-                        <span className="material-icons-round">search</span>
-                    </button>
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-900">Chats</h1>
+                        <p className="text-xs text-primary font-bold uppercase tracking-wider flex items-center gap-1">
+                            <span className="w-2 h-2 rounded-full bg-primary"></span>
+                            {window.App.state.workspaces[workspace]?.name || 'Workspace'}
+                        </p>
+                    </div>
                 </div>
 
                 {/* Filter Tabs */}
@@ -67,8 +70,8 @@ window.App.ChatsList = () => {
                             key={filter}
                             onClick={() => setCurrentFilter(filter)}
                             className={`px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap transition-colors ${currentFilter === filter
-                                    ? 'bg-gray-900 text-white'
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                ? 'bg-gray-900 text-white'
+                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                 }`}
                         >
                             {filter.charAt(0).toUpperCase() + filter.slice(1)}s

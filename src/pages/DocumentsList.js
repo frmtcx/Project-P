@@ -20,8 +20,13 @@ window.App.DocumentsList = () => {
 
             <header className="bg-surface-light dark:bg-surface-dark px-4 pt-14 pb-3 sticky top-0 z-40 border-b border-border-light dark:border-border-dark flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <h1 className="font-bold text-lg">Documents</h1>
-                    <button onClick={() => navigate('/workspace-switcher', { state: { returnPath: '/documents-list' } })} className="p-1.5 rounded-lg bg-gray-50 text-text-secondary-light hover:bg-gray-100">
+                    <div>
+                        <h1 className="font-bold text-lg leading-tight">Documents</h1>
+                        <p className="text-[10px] text-primary font-bold uppercase tracking-wider">
+                            {window.App.state.workspaces[window.App.state.currentWorkspace]?.name}
+                        </p>
+                    </div>
+                    <button onClick={() => window.App.toggleWorkspaceSwitcher(true)} className="p-1.5 rounded-lg bg-gray-50 text-text-secondary-light hover:bg-gray-100">
                         <span className="material-icons-round text-lg">swap_horiz</span>
                     </button>
                 </div>

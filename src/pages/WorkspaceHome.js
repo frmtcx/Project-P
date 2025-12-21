@@ -22,7 +22,7 @@ try {
                 {/* Header Section */}
                 <header className="px-5 pt-14 pb-4 bg-background-light sticky top-0 z-10">
                     <div className="flex justify-between items-start">
-                        <div className="flex gap-3 cursor-pointer" onClick={() => navigate('/workspace-switcher')}>
+                        <div className="flex gap-3 cursor-pointer" onClick={() => window.App.toggleWorkspaceSwitcher(true)}>
                             <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border border-gray-300">
                                 <img src={currentUser.avatar} alt="Profile" className="w-full h-full object-cover" />
                             </div>

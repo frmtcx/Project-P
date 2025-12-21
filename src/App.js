@@ -56,7 +56,13 @@ const MainApp = () => {
     const [isReady, setIsReady] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
 
+    // Global Modal State
+    const [showWorkspaceSwitcher, setShowWorkspaceSwitcher] = useState(false);
+
     useEffect(() => {
+        // Expose global toggler
+        window.App.toggleWorkspaceSwitcher = (open) => setShowWorkspaceSwitcher(open);
+
         const checkComponents = () => {
             const required = [
                 'WorkspaceHome', 'DocumentsList', 'ActionInbox',
@@ -95,6 +101,11 @@ const MainApp = () => {
             {showSplash && <window.App.SplashScreen onFinish={() => setShowSplash(false)} />}
             <div className={showSplash ? 'hidden' : ''}>
                 <AppContent />
+
+                {/* Global Modals */}
+                {showWorkspaceSwitcher && window.App.WorkspaceSwitcher && (
+                    <window.App.WorkspaceSwitcher onClose={() => setShowWorkspaceSwitcher(false)} />
+                )}
             </div>
         </HashRouter>
     );

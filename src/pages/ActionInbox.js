@@ -248,7 +248,7 @@ window.App.ActionInbox = () => {
                 <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center gap-3">
                         <h1 className="text-2xl font-bold text-gray-900">Chats</h1>
-                        <button onClick={() => navigate('/workspace-switcher', { state: { returnPath: '/action-inbox' } })} className="p-1.5 rounded-lg bg-gray-50 text-gray-500 hover:bg-gray-100">
+                        <button onClick={() => window.App.toggleWorkspaceSwitcher(true)} className="p-1.5 rounded-lg bg-gray-50 text-gray-500 hover:bg-gray-100">
                             <span className="material-icons-round text-lg">swap_horiz</span>
                         </button>
                     </div>

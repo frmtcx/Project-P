@@ -1,27 +1,29 @@
-const { useState } = React;
-const { useNavigate } = ReactRouterDOM;
-
 window.App.RequestSigStep1 = () => {
+    const { useState, useEffect } = React;
     const { useNavigate, useLocation } = ReactRouterDOM;
     const { Header } = window.App;
+
     const navigate = useNavigate();
     const location = useLocation();
 
     // Default to first doc if none selected (for direct access)
-    // Robustness: redirect if no docId found even after fallback check
     const docId = location.state?.docId;
-
-    React.useEffect(() => {
-        if (!docId && !window.App.state.documents.find(d => d.id === 'doc_1')) {
-            navigate('/documents-list');
-        }
-    }, [docId, navigate]);
-
-    // Fallback for prototype testing if accessed directly
     const effectiveDocId = docId || 'doc_1';
+
     const doc = window.App.state.documents.find(d => d.id === effectiveDocId);
 
+    // FIX: Define state for docName (was missing previously, causing crash)
+    const [docName, setDocName] = useState(doc ? doc.name : '');
+
+    useEffect(() => {
+        if (!doc) {
+            navigate('/documents-list');
+        }
+    }, [doc, navigate]);
+
     if (!doc) return <div>Document not found. Redirecting...</div>;
+
+    const [message, setMessage] = useState(''); // Also nice to have for the textarea
 
     return (
         <div className="flex flex-col h-[100dvh] bg-white relative">
