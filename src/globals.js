@@ -421,7 +421,8 @@ window.App.state = {
             docName: doc.name,
             signers: signerIds,
             status: 'pending',
-            time: "Just now"
+            time: "Just now",
+            userId: this.currentUser // FIX: Track who created the request
         };
 
         thread.events = [...thread.events, newEvent];
