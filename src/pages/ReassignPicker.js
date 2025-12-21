@@ -94,28 +94,26 @@ window.App.ReassignPicker = () => {
 
             {/* Fixed Bottom Sheet */}
             {selectedUser && (
-                { selectedUser && (
-                    <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
-                        <div className="w-full max-w-md bg-surface-light dark:bg-surface-dark border-t border-border-light shadow-bottom-sheet p-6 pb-8 animate-slide-up pointer-events-auto">
-                            <div className="flex flex-col gap-4">
-                                <div className="flex items-center justify-between text-sm bg-gray-50 p-3 rounded-lg border border-border-light">
-                                    <span className="text-text-secondary-light">Reassign to</span>
-                                    <span className="font-bold text-text-primary-light flex items-center gap-1.5">
-                                        {selectedUser.name}
-                                        <span className="material-icons-round text-green-500 text-lg">check_circle</span>
-                                    </span>
-                                </div>
-                                <button
-                                    onClick={handleConfirm}
-                                    className="w-full bg-primary text-white font-semibold rounded-xl py-3.5 shadow-lg shadow-primary/30 active:scale-[0.98] transition-transform flex items-center justify-center gap-2"
-                                >
-                                    <span>Confirm reassignment</span>
-                                    <span className="material-icons-round text-xl">arrow_forward</span>
-                                </button>
+                <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
+                    <div className="w-full max-w-md bg-surface-light dark:bg-surface-dark border-t border-border-light shadow-bottom-sheet p-6 pb-8 animate-slide-up pointer-events-auto">
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center justify-between text-sm bg-gray-50 p-3 rounded-lg border border-border-light">
+                                <span className="text-text-secondary-light">Reassign to</span>
+                                <span className="font-bold text-text-primary-light flex items-center gap-1.5">
+                                    {selectedUser.name}
+                                    <span className="material-icons-round text-green-500 text-lg">check_circle</span>
+                                </span>
                             </div>
+                            <button
+                                onClick={handleConfirm}
+                                className="w-full bg-primary text-white font-semibold rounded-xl py-3.5 shadow-lg shadow-primary/30 active:scale-[0.98] transition-transform flex items-center justify-center gap-2"
+                            >
+                                <span>Confirm reassignment</span>
+                                <span className="material-icons-round text-xl">arrow_forward</span>
+                            </button>
                         </div>
                     </div>
-                )}
+                </div>
             )}
         </div>
     );
