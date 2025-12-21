@@ -110,7 +110,17 @@ window.App.state = {
             events: [
                 { type: 'system', text: "Signing request created by Frans", time: "10:00 AM" },
                 { type: 'message', userId: 'frans', text: "Hi Bob, can you please review the indemnity clause?", time: "10:05 AM", reactions: { '👍': 1 } },
-                { type: 'message', userId: 'bob', text: "Sure Frans, taking a look now.", time: "10:15 AM", replyTo: "Hi Bob, can you please review the indemnity clause?" }
+                { type: 'message', userId: 'bob', text: "Sure Frans, taking a look now.", time: "10:15 AM", replyTo: "Hi Bob, can you please review the indemnity clause?" },
+                // Dummy Signing Request for Prototype Demo (Nudgeable)
+                {
+                    type: 'signing_request',
+                    docId: 'doc_1',
+                    docName: "Employment Contract v3.pdf",
+                    signers: ['alice', 'bob'],
+                    status: 'pending',
+                    time: "10:20 AM",
+                    userId: 'frans' // Me (Creator) -> Can Nudge
+                }
             ],
             messages: [],
             lastActivity: "10:15 AM"
