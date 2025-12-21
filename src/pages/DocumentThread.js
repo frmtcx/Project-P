@@ -163,7 +163,8 @@ window.App.DocumentThread = () => {
 
                         // EMBEDDED SIGNING CARD (Consistent Design)
                         if (event.type === 'signing_request') {
-                            const isMyRequest = event.signers.includes(currentUser);
+                            const isSigner = event.signers.includes(currentUser);
+                            const isCreator = event.userId === currentUser;
                             // Use 'blue' as primary color for signing requests
                             const cardColor = 'blue';
 
@@ -199,22 +200,39 @@ window.App.DocumentThread = () => {
                                             </div>
 
                                             {/* Action Button */}
-                                            <button
-                                                onClick={() => {
-                                                    alert(isMyRequest ? "Opening signing flow..." : "Opening document viewer...");
-                                                }}
-                                                className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition mb-1
-                                                    ${isMyRequest
-                                                        ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-sm'
-                                                        : 'bg-gray-50 text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300'
-                                                    }`}
-                                            >
-                                                {isMyRequest ? (
-                                                    <><span className="material-icons-round text-sm">edit</span> Sign Document</>
-                                                ) : (
-                                                    'View Document'
-                                                )}
-                                            </button>
+                                            {isCreator ? (
+                                                <button
+                                                    onClick={() => {
+                                                        // Nudge Logic: Send a message tagging the pending signers
+                                                        const pendingNames = event.signers.map(id => window.App.utils.getUserDisplay(id).name.split(' ')[0]).join(', ');
+                                                        window.App.state.addEvent(threadId, {
+                                                            type: 'text',
+                                                            text: `⚡️ Nudge: Hey @${pendingNames}, please check this out!`,
+                                                            userId: currentUser
+                                                        });
+                                                    }}
+                                                    className="w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition mb-1 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 active:scale-95"
+                                                >
+                                                    <span className="material-icons-round text-primary text-sm">notifications_active</span> Nudge Signers
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    onClick={() => {
+                                                        alert(isSigner ? "Opening signing flow..." : "Opening document viewer...");
+                                                    }}
+                                                    className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition mb-1
+                                                        ${isSigner
+                                                            ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-sm'
+                                                            : 'bg-gray-50 text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300'
+                                                        }`}
+                                                >
+                                                    {isSigner ? (
+                                                        <><span className="material-icons-round text-sm">edit</span> Sign Document</>
+                                                    ) : (
+                                                        'View Document'
+                                                    )}
+                                                </button>
+                                            )}
 
                                             {/* Timestamp inside card (bottom right) */}
                                             <div className="text-[10px] text-right mt-1 font-medium text-gray-400">
