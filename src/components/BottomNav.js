@@ -25,7 +25,7 @@ window.App.BottomNav = () => {
                 </button>
             </div>
 
-            <button onClick={() => navigate('/action-inbox')} className={`flex flex-col items-center gap-1 p-2 rounded-xl transition ${isActive('/action-inbox') || isActive('/document-thread') ? 'text-primary bg-red-50' : 'text-gray-400 hover:text-gray-600'}`}>
+            <button onClick={() => navigate('/chats-list')} className={`flex flex-col items-center gap-1 p-2 rounded-xl transition ${isActive('/chats-list') || isActive('/action-inbox') || isActive('/document-thread') ? 'text-primary bg-red-50' : 'text-gray-400 hover:text-gray-600'}`}>
                 <span className="material-icons-round text-[26px]">chat_bubble_outline</span>
             </button>
 
